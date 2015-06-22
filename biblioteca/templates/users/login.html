@@ -1,0 +1,48 @@
+{% extends "users/base_users.html" %}
+{% load staticfiles %}
+
+{% block title %}login{% endblock title %}
+
+{% block content %}
+<div class="blue lighten-5">
+    <div class="container">
+        <div class="row section-login">
+
+            <div class="col s12 m5 offset-m3 l4 offset-l4 z-depth-4 card-panel">
+                <form action="" class="login-form">
+                    <div class="row">
+                        <div class="input-field col s12 center">
+                            <img src="{% static 'img/luigui.gif' %}" alt="no se puedo cargar la imagen" class="circle responsive-img">
+                            <p class="center">
+                                Introdusca Usuario y Contraseña
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="mdi-action-perm-identity prefix"></i>
+                            {{ form.username }}
+                            {{ form.username.label_tag }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="mdi-action-lock-outline prefix"></i>
+                            {{ form.password }}
+                            {{ form.password.label_tag }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light btn col s12" href="#">login</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
