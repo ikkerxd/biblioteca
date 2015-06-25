@@ -54,9 +54,18 @@ docs/_build/
 # PyBuilder
 target/
 
-eventus/apps/events/migrations/
-eventus/apps/events/migrations/*
-eventus/apps/users/migrations/
-eventus/apps/users/migrations/*
-eventus/manage.py
-eventus/eventus/wsgi.py
+biblioteca/apps/lector/migrations/
+biblioteca/apps/lector/migrations/*
+biblioteca/apps/circulacion/migrations/
+biblioteca/apps/circulacion/migrations/*
+biblioteca/apps/catalogacion/migrations/
+biblioteca/apps/catalogacion/migrations/*
+biblioteca/apps/autores/migrations/
+biblioteca/apps/autores/migrations/*
+biblioteca/apps/users/migrations/
+biblioteca/apps/users/migrations/*
+biblioteca/media/
+biblioteca/media/*
+biblioteca/eventus/wsgi.py
+
+commits.txt
