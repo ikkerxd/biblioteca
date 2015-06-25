@@ -9,13 +9,18 @@
         <div class="row section-login">
 
             <div class="col s12 m5 offset-m3 l4 offset-l4 z-depth-4 card-panel">
-                <form method="POST" class="login-form">
+                <form method="POST" class="login-form"> {% csrf_token %}
                     <div class="row">
                         <div class="input-field col s12 center">
                             <img src="{% static 'img/luigui.gif' %}" alt="no se puedo cargar la imagen" class="circle responsive-img">
                             <p class="center">
                                 Introdusca Usuario y Contraseña
                             </p>
+                            {% if form.errors %}
+                                <div class="center text-errors">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">
@@ -35,7 +40,7 @@
                     
                     <div class="row">
                         <div class="input-field col s12">
-                            <a class="waves-effect waves-light btn col s12" href="#">login</a>
+                            <button class="btn waves-effect waves-light col s12" type="submit" name="action">Login</button>
                         </div>
                     </div>
                 </form>
