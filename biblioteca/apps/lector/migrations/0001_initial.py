@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('Codigo', models.CharField(unique=True, max_length=30)),
                 ('dni', models.CharField(max_length=8)),
                 ('avatar', models.ImageField(null=True, upload_to=b'imagen_lector', blank=True)),
-                ('estado', models.BooleanField()),
+                ('estado', models.BooleanField(default=True)),
                 ('slug', models.SlugField(editable=False)),
                 ('carrera', models.ForeignKey(blank=True, to='lector.CarreraProfesional', null=True)),
             ],

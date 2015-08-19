@@ -19,20 +19,15 @@ class TipoMaterial(models.Model):
 class Material(TimeStampModel):
     titulo = models.CharField(max_length=50)
     titulo_secundario = models.CharField(max_length=70, blank=True, null=True)
-    tipo_material = models.ForeignKey(TipoMaterial)
-    isbn = models.CharField('ISBN', max_length=50)
+    tipo_material = models.ForeignKey(TipoMaterial, blank=True, null=True)
+    isbn = models.CharField('ISBN', max_length=50, blank=True, null=True)
     sigantura = models.CharField(max_length=50)
-    descripcion = models.CharField(max_length=400)
     autor = models.ManyToManyField(Autor)
-    usuario = models.FileField(settings.AUTH_USER_MODEL)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
-    
-   ## anio_de_edicion = models.CharField(max_length=20)
 
-   ## comentario2
-
-
-
+## anio_de_edicion = models.CharField(max_length=20)
+## comentario2
 
     class Meta:
         verbose_name_plural = 'Materiales'
@@ -46,14 +41,14 @@ class Material(TimeStampModel):
         return self.titulo
 
 
-class KeyWord(models.Model): 
+class Descriptor(models.Model):
     nombre = models.CharField(max_length=50)
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.nombre)
-        super(KeyWord, self).save(*args, **kwargs)
+        super(Descriptor, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.nombre
@@ -65,7 +60,15 @@ class Ejemplar(TimeStampModel):
     observacion = models.CharField(max_length=400)
     prestado = models.BooleanField(default=False)
     material = models.ForeignKey(Material)
-    keyword = models.ForeignKey(KeyWord)
+    descriptores = models.ManyToManyField(Descriptor)
+    pais = models.CharField('lugar de edicion', max_length=50)
+    editorial = models.CharField(max_length=70)
+    descripcion_fisica = models.TextField()
+    dimensiones = models.TextField()
+    notas = models.CharField(max_length=50)
+    contenido = models.TextField()
+    archivo = models.FileField(upload_to='archivos')
+
 
     class Meta:
         verbose_name_plural = 'Ejemplares'
