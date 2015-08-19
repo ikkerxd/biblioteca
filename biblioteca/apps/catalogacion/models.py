@@ -26,6 +26,10 @@ class Material(TimeStampModel):
     autor = models.ManyToManyField(Autor)
     usuario = models.FileField(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
+    
+   ## anio_de_edicion = models.CharField(max_length=20)
+
+
 
     class Meta:
         verbose_name_plural = 'Materiales'
@@ -39,7 +43,7 @@ class Material(TimeStampModel):
         return self.titulo
 
 
-class KeyWord(models.Model):
+class KeyWord(models.Model): 
     nombre = models.CharField(max_length=50)
     slug = models.SlugField()
 
