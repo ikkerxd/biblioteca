@@ -1,8 +1,16 @@
 from django.conf.urls import url
-from .views import LogIn, Index
+from .views import LogIn
 
 urlpatterns = [
-    url(r'^$', Index.as_view(), name="Index"),
-    url(r'^login/$', LogIn.as_view(), name="login"),
-    url(r'^salir/$', 'apps.users.views.LogOut', name="logout"),    
+    # url(r'^$', Index.as_view(), name="Index"),
+    url(
+        r'^login/$',
+        LogIn.as_view(),
+        name="login"
+    ),
+    url(
+        r'^salir/$',
+        'apps.users.views.LogOut',
+        name="logout"
+    ),
 ]

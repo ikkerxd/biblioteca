@@ -18,7 +18,12 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^', include('apps.autores.urls', namespace="users_app")),
+    url(r'^', include('apps.catalogacion.urls', namespace="catalogacion_app")),
+    url(r'^', include('apps.circulacion.urls', namespace="circulacion_app")),
+    url(r'^', include('apps.lector.urls', namespace="lector_app")),
     url(r'^', include('apps.users.urls', namespace="users_app")),
+
     url(r'^admin/', include(admin.site.urls)),
 ]
 
