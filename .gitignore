@@ -56,18 +56,7 @@ docs/_build/
 # PyBuilder
 target/
 
-biblioteca/apps/lector/migrations/
-biblioteca/apps/lector/migrations/*
-biblioteca/apps/circulacion/migrations/
-biblioteca/apps/circulacion/migrations/*
-biblioteca/apps/catalogacion/migrations/
-biblioteca/apps/catalogacion/migrations/*
-biblioteca/apps/autores/migrations/
-biblioteca/apps/autores/migrations/*
-biblioteca/apps/users/migrations/
-biblioteca/apps/users/migrations/*
 biblioteca/media/
 biblioteca/media/*
-biblioteca/eventus/wsgi.py
 
 commits.txt
