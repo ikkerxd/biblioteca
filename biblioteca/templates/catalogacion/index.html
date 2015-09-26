@@ -1,9 +1,84 @@
 {% extends "catalogacion/base_catalogacion.html" %}
 
+{% load staticfiles %}
+
 {% block title %}Bibloteca central y especializada unsaac{% endblock title %}
 
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
+    {% include "catalogacion/include/slider.html" %}
+
+    <section class="Releases">
+        <div class="container">
+            <h5 class="center-align light-blue-text text-accent-4 title-section">Publicaciones Recientes.</h5>
+            <div class="row">
+
+            
+                <div class="col s12 m3">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                          <img class="activator" src="http://placehold.it/200x250">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
+                          <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
+                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m3">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                          <img class="activator" src="http://placehold.it/200x250">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
+                          <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
+                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                          <img class="activator" src="http://placehold.it/200x250">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
+                          <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
+                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                          <img class="activator" src="http://placehold.it/200x250">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
+                          <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
+                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock content %}
