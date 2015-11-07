@@ -1,0 +1,46 @@
+{% extends "catalogacion/base_catalogacion.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+
+{% block content %}
+
+    {% include "catalogacion/include/header.html" %}
+
+    			<div>
+    			<img src="{{ material.portada.url }}" alt="">
+                    <dt>Título:</dt>
+                    <dd>{{ material.titulo}}</dd>
+                    <dt>Título Secundario:</dt>
+                    <dd>{{ material.titulo_secundario}}</dd>
+                    <dt>Autores:</dt>
+                    {% for material in material.autor.all%}
+                    	<dd>{{ material.autor}}</dd>
+                    {% endfor %}
+                </div>
+
+                <p>
+                	Existencia: {{ existencia }}
+                </p>
+
+                <div>
+                {% for ejemplar in  ejemplares %}
+                	<td>
+                		{{ material.tipo_material }}
+                	</td>
+                	<td>
+                		{{ material.signatura }}
+                	</td>
+                	<td>
+                	 	{% if jemplar.prestado %}
+                	 	    <p> Prestado </p>
+                	 	{%else%}
+                	 	    <p> Disponible</p>
+                	 	{% endif %}
+                	</td>
+                {% endfor %}
+                </div>
+
+
+{% endblock content %}

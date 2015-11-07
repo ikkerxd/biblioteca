@@ -14,69 +14,31 @@
             <h5 class="center-align light-blue-text text-accent-4 title-section">Publicaciones Recientes.</h5>
             <div class="row">
 
-            
+              {% for material in materiales %}
+                
                 <div class="col s12 m3">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="http://placehold.it/200x250">
+                          <img class="activator" src="{{ material.portada.url }}" >
                         </div>
                         <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
-                          <p><a href="#">This is a link</a></p>
+                          <span class="card-title activator grey-text text-darken-4">{{ material.titulo }}<i class="mdi-navigation-more-vert right"></i></span>
+                          <p><a href="{% url 'catalogacion_app:material' material.pk %}">Ver más...</a></p>
                         </div>
                         <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
-                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m3">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="http://placehold.it/200x250">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
-                          <p><a href="#">This is a link</a></p>
-                        </div>
-                        <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
-                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                          <span class="card-title grey-text text-darken-4">{{ material.titulo }}<i class="mdi-navigation-close right"></i></span>
+                             {% for autor in material.autor.all %}
+                              <p>
+                                {{ autor }}
+                          
+                              </p>
+                             {% endfor %}
+
                         </div>
                     </div>
                 </div>
 
-                <div class="col s12 m3">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="http://placehold.it/200x250">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
-                          <p><a href="#">This is a link</a></p>
-                        </div>
-                        <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
-                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col s12 m3">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="http://placehold.it/200x250">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4">Card Title<i class="mdi-navigation-more-vert right"></i></span>
-                          <p><a href="#">This is a link</a></p>
-                        </div>
-                        <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4">Card Title<i class="mdi-navigation-close right"></i></span>
-                          <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                        </div>
-                    </div>
-                </div>
+              {% endfor %}
             </div>
         </div>
     </section>

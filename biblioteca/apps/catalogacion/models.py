@@ -17,11 +17,12 @@ class TipoMaterial(models.Model):
 
 
 class Material(TimeStampModel):
+    portada = models.ImageField(upload_to='portada', blank=True, null=True)
     titulo = models.CharField(max_length=50)
     titulo_secundario = models.CharField(max_length=70, blank=True, null=True)
     tipo_material = models.ForeignKey(TipoMaterial, blank=True, null=True)
     isbn = models.CharField('ISBN', max_length=50, blank=True, null=True)
-    sigantura = models.CharField(max_length=50)
+    signatura = models.CharField(max_length=50)
     autor = models.ManyToManyField(Autor)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
@@ -53,9 +54,13 @@ class Descriptor(models.Model):
     def __unicode__(self):
         return self.nombre
 
+class ManagerEjemplar(models.Manager):
+
+    def ejemplar_material(self, material):
+        return self.filter(material=material).distinct()
+
 
 class Ejemplar(TimeStampModel):
-    portada = models.ImageField(upload_to='portada', blank=True, null=True)
     numero_ingreso = models.CharField(max_length=50)
     observacion = models.CharField(max_length=400)
     prestado = models.BooleanField(default=False)
@@ -69,6 +74,7 @@ class Ejemplar(TimeStampModel):
     contenido = models.TextField()
     archivo = models.FileField(upload_to='archivos')
 
+    objects = ManagerEjemplar()
 
     class Meta:
         verbose_name_plural = 'Ejemplares'

@@ -7,4 +7,9 @@ urlpatterns = [
         views.Index.as_view(),
         name="Index"
     ),
+    url(
+        r'^publicacion/(?P<pk>\d+)$',
+        views.MaterialView.as_view(),
+        name="material"
+    ),
 ]
