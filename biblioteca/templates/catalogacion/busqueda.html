@@ -1,0 +1,34 @@
+{% extends "catalogacion/base_catalogacion.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+
+{% block content %}
+
+    {% include "catalogacion/include/header.html" %}
+
+
+		{% for material in materiales %}
+			titulo:
+			{{material.titulo}}<br>
+            Autor:
+            {% for autor in material.autor.all %}
+            	{{ autor }}
+            	{% if not forloop.last %},{% else %}.{% endif %}
+            {% endfor %}
+            <br>
+            Signatura:
+            {{material.signatura}}
+            <br>
+            ISBN:
+            {{material.isbn}}
+            <br>
+            Fecha De Publicación:
+            {{material.created}}
+            <br>
+            <br>
+        {% empty %}
+        	<span>No se encontraron resultados</span>
+        {% endfor %}
+{% endblock content %}

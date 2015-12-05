@@ -12,10 +12,9 @@ urlpatterns = [
         views.MaterialView.as_view(),
         name="material"
     ),
-    
-    # url(
-    #     r'^busqueda/(?P<pk>\d+)$',
-    #     views.BusquedaView.as_view(),
-    #     name="busqueda"
-    # ),
+    url(
+         r'^busqueda/$',
+         views.BusquedaView.as_view(),
+         name="busqueda"
+    ),
 ]
