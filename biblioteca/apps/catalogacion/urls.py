@@ -8,14 +8,18 @@ urlpatterns = [
         name="Index"
     ),
     url(
-        r'^publicacion/(?P<pk>\d+)$',
+        r'^material/(?P<pk>\d+)$',
         views.MaterialView.as_view(),
         name="material"
     ),
-    
-    # url(
-    #     r'^busqueda/(?P<pk>\d+)$',
-    #     views.BusquedaView.as_view(),
-    #     name="busqueda"
-    # ),
+    url(
+        r'^busqueda/$',
+        views.BusquedaView.as_view(),
+        name="busqueda"
+    ),
+    url(
+        r'^detalle/ver_pdf/(?P<pk>\d+)/$', 
+        views.Materialdetail.as_view(), 
+        name='ver_pdf'
+    ),
 ]
