@@ -1,7 +1,8 @@
 from django.views.generic.edit import FormMixin
+from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, View
 from .models import Material, Ejemplar, TipoMaterial
 from django.db.models import Q
 from .forms import BusquedaForm
@@ -17,7 +18,8 @@ class Index(FormMixin, TemplateView):
         context['form'] = self.get_form()
         return context
 
-class MaterialView(DetailView):
+class MaterialView(FormMixin, DetailView):
+    form_class = BusquedaForm
     model = Material
     template_name = "catalogacion/material.html"
 
@@ -30,6 +32,7 @@ class MaterialView(DetailView):
         material = self.object
         context['ejemplares'] = Ejemplar.objects.ejemplar_material(material)
         context['existencia'] = context['ejemplares'].count
+        context['form'] = self.get_form()
         return context
 
 class BusquedaView(FormMixin, ListView):
@@ -88,3 +91,17 @@ class BusquedaView(FormMixin, ListView):
                             materiales = Material.objects.filter(Q(autor__nombres__icontains=palabra)|Q(autor__apellidos__icontains=palabra)|Q(titulo__icontains=palabra)|Q(signatura__icontains=palabra)).distinct()
                             print materiales
                         return render(request,'catalogacion/busqueda.html',{'materiales':materiales, 'form':self.get_form})
+
+class Materialdetail(SingleObjectMixin, View):
+
+    model = Ejemplar
+
+    def get(self, request, *args, **kwargs):
+        nombre = self.get_object().archivo
+        archivo = 'media/'+ str(nombre)
+        with open(archivo, 'r') as pdf:
+            response = HttpResponse(pdf.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+            return response
+        pdf.closed
+

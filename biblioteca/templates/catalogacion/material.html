@@ -33,12 +33,17 @@
                 		{{ material.signatura }}
                 	</td>
                 	<td>
-                	 	{% if jemplar.prestado %}
+                	 	{% if ejemplar.prestado %}
                 	 	    <p> Prestado </p>
                 	 	{%else%}
                 	 	    <p> Disponible</p>
                 	 	{% endif %}
                 	</td>
+                    <td>
+                        <a href="{%url 'catalogacion_app:ver_pdf' ejemplar.pk %}"> Leer PDF</a>
+                    </td>
+                    <br>
+                    <br>
                 {% endfor %}
                 </div>
 

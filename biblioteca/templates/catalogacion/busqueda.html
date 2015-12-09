@@ -27,6 +27,8 @@
             Fecha De Publicación:
             {{material.created}}
             <br>
+            <a href="{% url 'catalogacion_app:material' material.pk %}">Ver más...</a>
+            <br>
             <br>
         {% empty %}
         	<span>No se encontraron resultados</span>

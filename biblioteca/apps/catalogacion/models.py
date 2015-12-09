@@ -8,7 +8,7 @@ from apps.autores.models import Autor
 
 class TipoMaterial(models.Model):
     nombre = models.CharField(max_length=50)
-
+    
     class Meta:
         verbose_name_plural = 'Tipo de Material'
 
