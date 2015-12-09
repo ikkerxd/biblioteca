@@ -1,0 +1,131 @@
+@media screen and (min-width: 480px) {
+
+    .webdesigntuts-workshop
+    {
+		height: 100%;
+		position: absolute;
+		text-align: center;
+		width: 100%;
+	}
+}
+
+.webdesigntuts-workshop {
+	height: 100%;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	margin-top: 3%;
+}
+
+.webdesigntuts-workshop:before,
+.webdesigntuts-workshop:after {
+	content: '';
+	display: block;
+	height: 1px;
+	left: 50%;
+	margin: 0 0 0 -400px;
+	position: absolute;
+	width: 75%;
+}
+
+.webdesigntuts-workshop:before {
+	background: #fff;
+	top: 192px;
+}
+
+.webdesigntuts-workshop:after {
+	background: #fafafa;
+	top: 191px;
+}
+
+.webdesigntuts-workshop form {
+	background: #fff;
+	border: 1px solid #bdbdbd;
+	border-radius: 5px;
+	display: inline-block;
+	font-size: 0px;
+	margin: 150px auto 0;
+	padding: 20px;
+	position: relative;
+	z-index: 1;
+}
+
+.webdesigntuts-workshop input {
+	background: #fff;
+	border: 1px solid #bdbdbd;
+	border-radius: 5px 0 0 5px;
+	color: #bdbdbd;
+	display: block;
+	float: left;
+	font-family: 'Cabin', helvetica, arial, sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	height: 40px;
+	margin: 0;
+	padding: 0 10px;
+	text-shadow: 0 -1px 0 #000;
+	width: 75%;
+}
+
+.ie .webdesigntuts-workshop input {
+	line-height: 40px;
+}
+
+.webdesigntuts-workshop input:focus {
+	-webkit-animation: glow 800ms ease-out infinite alternate;
+	-moz-animation: glow 800ms ease-out infinite alternate;
+	-o-animation: glow 800ms ease-out infinite alternate;
+	-ms-animation: glow 800ms ease-out infinite alternate;
+	animation: glow 800ms ease-out infinite alternate;
+	background: #fff;
+	border-color: #bdbdbd;
+	color: #efe;
+	outline: none;
+}
+
+.webdesigntuts-workshop input:focus::-webkit-input-placeholder {
+	color: #efe;
+}
+
+.webdesigntuts-workshop input:focus:-moz-placeholder {
+	color: #efe;
+}
+
+.webdesigntuts-workshop button {
+	background: #bdbdbd;
+
+	background: #bdbdbd;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-o-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	box-sizing: content-box;
+	border: 1px solid #444;
+	border-left-color: #000;
+	border-radius: 0 5px 5px 0;
+	color: #424242;
+	display: block;
+	float: left;
+	font-family: 'Cabin', helvetica, arial, sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	height: 40px;
+	line-height: 40px;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	text-shadow: 0 -1px 0 #000;
+	width: 15%;
+}
+
+.webdesigntuts-workshop button:hover,
+.webdesigntuts-workshop button:focus {
+	background: #9e9e9e;
+	color: #000;
+	outline: none;
+}
+
+.webdesigntuts-workshop button:active {
+	background: #9e9e9e;
+	top: 1px;
+}

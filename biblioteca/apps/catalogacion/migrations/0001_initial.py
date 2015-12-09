@@ -24,7 +24,6 @@ class Migration(migrations.Migration):
             name='Ejemplar',
             fields=[
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
-                ('portada', models.ImageField(null=True, upload_to=b'portada', blank=True)),
                 ('numero_ingreso', models.CharField(max_length=50)),
                 ('observacion', models.CharField(max_length=400)),
                 ('prestado', models.BooleanField(default=False)),
@@ -45,10 +44,11 @@ class Migration(migrations.Migration):
             name='Material',
             fields=[
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
+                ('portada', models.ImageField(null=True, upload_to=b'portada', blank=True)),
                 ('titulo', models.CharField(max_length=50)),
                 ('titulo_secundario', models.CharField(max_length=70, null=True, blank=True)),
                 ('isbn', models.CharField(max_length=50, null=True, verbose_name=b'ISBN', blank=True)),
-                ('sigantura', models.CharField(max_length=50)),
+                ('signatura', models.CharField(max_length=50)),
                 ('slug', models.SlugField()),
                 ('autor', models.ManyToManyField(to='autores.Autor')),
             ],

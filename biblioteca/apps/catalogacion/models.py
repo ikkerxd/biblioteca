@@ -27,9 +27,6 @@ class Material(TimeStampModel):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
 
-## anio_de_edicion = models.CharField(max_length=20)
-## comentario2
-
     class Meta:
         verbose_name_plural = 'Materiales'
 
@@ -53,6 +50,7 @@ class Descriptor(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
 
 class ManagerEjemplar(models.Manager):
 

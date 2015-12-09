@@ -7,11 +7,12 @@ class MaterialAdmin(admin.ModelAdmin):
     ordering = ['titulo']
     search_fields = ('isbn', 'signatura', 'titulo', 'tipo_material',)
 
+
 class EjemplarAdmin(admin.ModelAdmin):
     list_display = ['numero_ingreso', 'material']
     ordering = ['material']
     search_fields = ('numero_ingreso', 'material',)
-    
+
 admin.site.register(TipoMaterial)
 admin.site.register(Material, MaterialAdmin)
 admin.site.register(Descriptor)
