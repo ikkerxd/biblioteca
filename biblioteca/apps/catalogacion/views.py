@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, View
 from .models import Material, Ejemplar, TipoMaterial
+from apps.autores.models import Autor
 from django.db.models import Q
 from .forms import BusquedaForm
+from wkhtmltopdf.views import PDFTemplateView
 
 class Index(FormMixin, TemplateView):
     form_class = BusquedaForm
@@ -105,3 +107,34 @@ class Materialdetail(SingleObjectMixin, View):
             return response
         pdf.closed
 
+class AutorView(SingleObjectMixin, TemplateView):
+    template_name = 'catalogacion/detalle_autor.html.html'
+    model = Autor
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(AutorView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(AutorView, self).get_context_data(**kwargs)
+        context['materiales'] = self.object.material_set.all().order_by('-created')[:3]
+        return context
+
+class VerReporteAutor(SingleObjectMixin, View):
+
+    model = Autor
+
+    def get(self, request, *args, **kwargs):
+        fecha = datetime.now() #fecha actual
+        formatofecha = fecha.strftime("%d/%m/%Y") 
+        autor = self.get_object()
+        materiales = Material.objects.filter(Q(autor__nombres__icontains=autor.nombres),Q(autor__apellidos__icontains=autor.apellidos)).distinct()
+        html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
+        return generar_pdf(html)
+
+class MyPDF(PDFTemplateView):
+    filename = 'my_pdf.pdf'
+    template_name = 'reporte/reporte_auto.html'
+    cmd_options = {
+        'margin-top': 3,
+    }

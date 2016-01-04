@@ -29,8 +29,7 @@
                           <span class="card-title grey-text text-darken-4">{{ material.titulo }}<i class="mdi-navigation-close right"></i></span>
                              {% for autor in material.autor.all %}
                               <p>
-                                {{ autor }}
-                          
+                                {{ autor }}{% if not forloop.last %},{% else %}.{% endif %}
                               </p>
                              {% endfor %}
 

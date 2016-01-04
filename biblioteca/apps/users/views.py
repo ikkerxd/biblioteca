@@ -11,7 +11,7 @@ from .forms import LoginForm
 class LogIn(FormView):
     form_class = LoginForm
     template_name = 'users/login.html'
-    success_url = '/'
+    success_url = '/admin'
 
     def form_valid(self, form):
         user = authenticate(

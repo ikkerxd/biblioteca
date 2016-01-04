@@ -7,44 +7,69 @@
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
-
-    			<div>
-    			<img src="{{ material.portada.url }}" alt="">
-                    <dt>Título:</dt>
-                    <dd>{{ material.titulo}}</dd>
-                    <dt>Título Secundario:</dt>
-                    <dd>{{ material.titulo_secundario}}</dd>
-                    <dt>Autores:</dt>
-                    {% for material in material.autor.all%}
-                    	<dd>{{ material.autor}}</dd>
-                    {% endfor %}
+                <div class="material row">
+                    <div class="col s12 m4 card-image waves-effect waves-block waves-light">
+                        <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}" >
+                        <img class="imagen-mat" src="{{ material.portada.url }}" alt=""></a>
+                    </div>
+                    <div class="col s12 m8">
+                        <p >
+                            <b>TÍTULO: </b>{{ material.titulo}}
+                        </p>
+                        {%if  material.titulo_secundario  = None%}
+                        <p>
+                            <b>TÍTULO SECUNDARIO:</b> {{ material.titulo_secundario}}
+                        </p>
+                        {% endif %}
+                        <p>
+                            <b>AUTORES:</b> {% for material in material.autor.all%}
+                            {{ material.autor }} {% if not forloop.last %},{% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>
+                            <b>Existencia:</b> {{ existencia }}
+                        </p>
+                        <table class="responsive-table bordered striped">
+                            <tr>
+                                <td><b>TIPO</b></td>
+                                <td><b>UBICACIÓN</b></td>
+                                <td><b>SIGNATURA TOPOGRÁFICA</b></td>
+                                <td><b>ESTADO</b></td>
+                                <td><b>FECHA DE VENCIMIENTO</b></td>
+                                <td><b>VER PDF</b></td>
+                            </tr> 
+                            {% for ejemplar in  ejemplares %}
+                            <tr>
+                                <td>
+                                    {{ material.tipo_material }}
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    {{ material.signatura }}
+                                </td>
+                                <td>
+                                    {% if jemplar.prestado %}
+                                        Prestado
+                                    {%else%}
+                                        Disponible
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <a href="{%url 'catalogacion_app:ver_pdf' ejemplar.pk %}" > Leer PDF</a>
+                                </td>
+                            </tr>
+                            {% endfor %}   
+                        </table>
+                    </div>
+                    
                 </div>
 
-                <p>
-                	Existencia: {{ existencia }}
-                </p>
-
                 <div>
-                {% for ejemplar in  ejemplares %}
-                	<td>
-                		{{ material.tipo_material }}
-                	</td>
-                	<td>
-                		{{ material.signatura }}
-                	</td>
-                	<td>
-                	 	{% if ejemplar.prestado %}
-                	 	    <p> Prestado </p>
-                	 	{%else%}
-                	 	    <p> Disponible</p>
-                	 	{% endif %}
-                	</td>
-                    <td>
-                        <a href="{%url 'catalogacion_app:ver_pdf' ejemplar.pk %}"> Leer PDF</a>
-                    </td>
-                    <br>
-                    <br>
-                {% endfor %}
+                
                 </div>
 
 

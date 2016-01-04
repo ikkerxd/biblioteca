@@ -14,9 +14,9 @@
 			{{material.titulo}}<br>
             Autor:
             {% for autor in material.autor.all %}
-            	{{ autor }}
-            	{% if not forloop.last %},{% else %}.{% endif %}
+                <a href="{% url 'catalogacion_app:pdf' %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
             {% endfor %}
+
             <br>
             Signatura:
             {{material.signatura}}
