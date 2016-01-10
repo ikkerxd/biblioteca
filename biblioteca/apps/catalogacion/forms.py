@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*- 
 from django import forms
 from .models import TipoMaterial
 TIPO_CHOICES = (
 	 (0,"seleccione una opcion"),
 	 ('titulo',"Titulo"),
 	 ('autor',"Autor"),
-	 ('signatura',"Signatura"),
+	 ('signatura',"Signatura Topográfica"),
 
 	)
 

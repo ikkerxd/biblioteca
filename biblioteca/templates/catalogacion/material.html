@@ -14,7 +14,7 @@
                     </div>
                     <div class="col s12 m8">
                         <p >
-                            <b>TÍTULO: </b>{{ material.titulo}}
+                            <b>TÍTULO: </b>{{ material.titulo}} {{material.titulo_secundario}}
                         </p>
                         {%if  material.titulo_secundario  = None%}
                         <p>
@@ -35,6 +35,7 @@
                                 <td><b>UBICACIÓN</b></td>
                                 <td><b>SIGNATURA TOPOGRÁFICA</b></td>
                                 <td><b>ESTADO</b></td>
+                                <td><b>NUMERO DE COPIA</b></td>
                                 <td><b>FECHA DE VENCIMIENTO</b></td>
                                 <td><b>VER PDF</b></td>
                             </tr> 
@@ -44,19 +45,22 @@
                                     {{ material.tipo_material }}
                                 </td>
                                 <td>
+                                {{ ejemplar.ubicacion}}
                                 </td>
                                 <td>
-                                    {{ material.signatura }}
+                                    {{ ejemplar.signatura }}
                                 </td>
                                 <td>
-                                    {% if jemplar.prestado %}
+                                    {% if ejemplar.prestado %}
                                         Prestado
                                     {%else%}
                                         Disponible
                                     {% endif %}
                                 </td>
                                 <td>
-                                    
+                                    {{ ejemplar.numero_copia}}
+                                </td>
+                                <td>
                                 </td>
                                 <td>
                                     <a href="{%url 'catalogacion_app:ver_pdf' ejemplar.pk %}" > Leer PDF</a>

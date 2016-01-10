@@ -29,6 +29,8 @@ LOCAL_APPS = (
 
 THIRD_PARTY_APPS = (
     'import_export',
+    'django_countries',
+    'pure_pagination',
 
 )
 

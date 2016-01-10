@@ -7,20 +7,16 @@
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
+    
 
 
 		{% for material in materiales %}
 			titulo:
-			{{material.titulo}}<br>
+			{{material.titulo}} {{material.titulo_secundario}}<br>
             Autor:
             {% for autor in material.autor.all %}
-                <a href="{% url 'catalogacion_app:pdf' %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
+                <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
             {% endfor %}
-
-            <br>
-            Signatura:
-            {{material.signatura}}
-            <br>
             ISBN:
             {{material.isbn}}
             <br>
@@ -33,4 +29,21 @@
         {% empty %}
         	<span>No se encontraron resultados</span>
         {% endfor %}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if materiales.has_previous %}
+                    <a href="?page={{ materiales.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                <span class="current">
+                    Pagina {{ materiales.number }} de {{ materiales.paginator.num_pages }}.
+                </span>
+
+                {% if materiales.has_next %}
+                    <a href="?page={{ materiales.next_page_number }}">Siguiente</a>
+                {% endif %}
+            </span>
+        </div>
+
 {% endblock content %}
