@@ -1,0 +1,35 @@
+{% extends "users/panel/panel.html" %}
+
+{% block title %}Prestamo{% endblock title %}
+
+  {% block titulo_nav %}  Prestamo {% endblock titulo_nav %}
+
+{% block contenido_panel %}
+    <div class="container">
+        <div class="row">
+            <h5 class="center-align title-prestamo">
+                <span>Ingrese número de carnet</span>
+            </h5>
+            <div class="card-panel">
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s8">
+                                <i class="mdi-action-picture-in-picture prefix"></i>
+                                <input id="icon_prefix" type="text" class="validate">
+                                <label for="icon_prefix">Número de carnet</label>
+                            </div>
+                            <div class="input-field col s2">
+                                <button class="btn cyan waves-effect waves-light" type="submit" name="action">buscar
+                                    <i class="mdi-action-search left"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock contenido_panel %}

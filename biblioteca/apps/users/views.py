@@ -11,7 +11,7 @@ from .forms import LoginForm
 class LogIn(FormView):
     form_class = LoginForm
     template_name = 'users/login.html'
-    success_url = '/admin'
+    success_url = reverse_lazy('users_app:Panel')
 
     def form_valid(self, form):
         user = authenticate(
@@ -31,3 +31,7 @@ def LogOut(request):
 
 class Index(TemplateView):
     template_name = 'users/index.html'
+
+
+class PanelView(TemplateView):
+    template_name = 'users/panel/panel.html'

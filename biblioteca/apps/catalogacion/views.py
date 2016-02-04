@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from .forms import BusquedaForm
-from wkhtmltopdf.views import PDFTemplateView
+# from wkhtmltopdf.views import PDFTemplateView
 from django.template.loader import render_to_string
 
 from django.template import RequestContext
@@ -67,21 +67,21 @@ class BusquedaView(FormMixin, ListView):
         if tipo == 'titulo':
             if categoria:
                 qset = (
-                    Q(titulo__icontains = query) & Q(tipo_material = categoria) 
+                    Q(titulo__icontains = query) & Q(tipo_material = categoria)
                 )
             else:
                  qset = ( Q(titulo__icontains = query) )
         else:
             if tipo == 'autor':
-                if categoria:  
+                if categoria:
                     qset = (
-                        Q(tipo_material = categoria ) & 
-                       ( Q(autor__nombres__icontains = query) | 
+                        Q(tipo_material = categoria ) &
+                       ( Q(autor__nombres__icontains = query) |
                         Q(autor__apellidos__icontains = query))
                     )
                 else:
                     qset = (
-                        Q(autor__nombres__icontains = query) | 
+                        Q(autor__nombres__icontains = query) |
                         Q(autor__apellidos__icontains = query)
                     )
             else:
@@ -90,12 +90,12 @@ class BusquedaView(FormMixin, ListView):
                 else:
                     if categoria:
                         qset = (
-                            Q(tipo_material=categoria) 
+                            Q(tipo_material=categoria)
                         )
                     else:
                         qset = (
                             Q(titulo__icontains=query) |
-                            Q(autor__nombres__icontains=query) | 
+                            Q(autor__nombres__icontains=query) |
                             Q(autor__apellidos__icontains=query)
                         )
 
@@ -149,7 +149,7 @@ def generar_pdf(html):
     result = StringIO.StringIO()
     pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), result)
     if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf') #mimetype 
+        return HttpResponse(result.getvalue(), content_type='application/pdf') #mimetype
     return HttpResponse('Error al generar el PDF: %s' % cgi.escape(html))
 
 class VerReporteAutor(SingleObjectMixin, View):
@@ -158,7 +158,7 @@ class VerReporteAutor(SingleObjectMixin, View):
 
     def get(self, request, *args, **kwargs):
         fecha = datetime.now() #fecha actual
-        formatofecha = fecha.strftime("%d/%m/%Y") 
+        formatofecha = fecha.strftime("%d/%m/%Y")
         autor = self.get_object()
         materiales = Material.objects.filter(Q(autor__nombres__icontains=autor.nombres),Q(autor__apellidos__icontains=autor.apellidos)).distinct()
         html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
