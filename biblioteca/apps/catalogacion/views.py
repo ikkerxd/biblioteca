@@ -9,14 +9,16 @@ from apps.autores.models import Autor
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-from .forms import BusquedaForm
-from wkhtmltopdf.views import PDFTemplateView
+from .forms import BusquedaForm, RevisarRegistroForm
 from django.template.loader import render_to_string
 
 from django.template import RequestContext
 import cStringIO as StringIO
 import ho.pisa as pisa
 from datetime import datetime
+
+
+from django.utils.formats import get_format
 
 class Index(FormMixin, TemplateView):
     form_class = BusquedaForm
@@ -67,22 +69,22 @@ class BusquedaView(FormMixin, ListView):
         if tipo == 'titulo':
             if categoria:
                 qset = (
-                    Q(titulo__icontains = query) & Q(tipo_material = categoria) 
+                    Q(titulo__unaccent__icontains = query) & Q(tipo_material = categoria) 
                 )
             else:
-                 qset = ( Q(titulo__icontains = query) )
+                 qset = ( Q(titulo__unaccent__icontains = query) )
         else:
             if tipo == 'autor':
                 if categoria:  
                     qset = (
                         Q(tipo_material = categoria ) & 
-                       ( Q(autor__nombres__icontains = query) | 
-                        Q(autor__apellidos__icontains = query))
+                       ( Q(autor__nombres__unaccent__icontains = query) | 
+                        Q(autor__apellidos__unaccent__icontains = query))
                     )
                 else:
                     qset = (
-                        Q(autor__nombres__icontains = query) | 
-                        Q(autor__apellidos__icontains = query)
+                        Q(autor__nombres__unaccent__icontains = query) | 
+                        Q(autor__apellidos__unaccent__icontains = query)
                     )
             else:
                 if tipo == 'signatura':
@@ -94,9 +96,9 @@ class BusquedaView(FormMixin, ListView):
                         )
                     else:
                         qset = (
-                            Q(titulo__icontains=query) |
-                            Q(autor__nombres__icontains=query) | 
-                            Q(autor__apellidos__icontains=query)
+                            Q(titulo__unaccent__icontains=query) |
+                            Q(autor__nombres__unaccent__icontains=query) | 
+                            Q(autor__apellidos__unaccent__icontains=query)
                         )
 
         results = Material.objects.filter(qset).distinct()
@@ -132,6 +134,7 @@ class LeerPDFDoc(SingleObjectMixin, View):
             return response
         pdf.closed
 
+
 class AutorView(SingleObjectMixin, TemplateView):
     template_name = 'catalogacion/detalle_autor.html.html'
     model = Autor
@@ -163,3 +166,69 @@ class VerReporteAutor(SingleObjectMixin, View):
         materiales = Material.objects.filter(Q(autor__nombres__icontains=autor.nombres),Q(autor__apellidos__icontains=autor.apellidos)).distinct()
         html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
         return generar_pdf(html)
+
+class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
+
+    form_class = BusquedaForm
+    #succes_url
+    error = False
+
+    def get_context_data(self, **kwargs):
+        context = super(RevisarRegistroView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        error = False
+        if request.method == 'GET':
+            form2 = RevisarRegistroForm(request.GET)
+            if form2.is_valid():
+                print "entro aqui"
+                #Recuperar valores
+                categoria = request.GET.get('categoria','')
+                categoria =  TipoMaterial.objects.get(id=categoria)
+
+                print categoria
+
+                query =  request.GET.get('descripcion', '')
+
+                fecha_desde = request.GET.get('Mostrar_desde', '')
+                fecha_desde=fecha_desde.split('/')
+                fecha_desde = fecha_desde[2]+"-"+fecha_desde[1]+"-"+fecha_desde[0]
+                
+                fecha_hasta = request.GET.get('Mostrar_hasta', '')
+                fecha_hasta=fecha_hasta.split('/')
+                fecha_hasta = fecha_hasta[2]+"-"+fecha_hasta[1]+"-"+fecha_hasta[0]
+
+                print "desde"
+                print fecha_desde
+                print "hasta"
+                print fecha_hasta
+                #Realizamos la consulta
+                qset = (
+                    Q(tipo_material = categoria ) & 
+                    Q(created__range=[fecha_desde, fecha_hasta]) &
+                    #Q(created__gte=fecha_desde,created__lte=fecha_hasta)&
+                    (Q(titulo__unaccent__icontains=query) |
+                    Q(autor__nombres__unaccent__icontains = query) | 
+                    Q(autor__apellidos__unaccent__icontains = query))
+                )
+                
+                results = Material.objects.filter(qset).distinct()
+
+                print "RESULTADOS"
+                print results
+
+                #datos para el pdf
+                fecha = datetime.now() #fecha actual
+                formatofecha = fecha.strftime("%d/%m/%Y") 
+                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'resultados': results}, context_instance=RequestContext(request))
+                return generar_pdf(html)
+            else: #formulario no valido
+                #form2['categoria'].errors 
+                error = True   
+        else: #formulario no valido
+            error = True
+
+        form2 = RevisarRegistroForm
+        return render_to_response('reporte/revisar_registros.html',{'error': error, 'form2': form2,'form':self.get_form})

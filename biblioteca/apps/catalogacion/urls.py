@@ -26,4 +26,8 @@ urlpatterns = [
         views.VerReporteAutor.as_view(),
         name='verreporte'
     ),
+    url(r'^revisar_registros_del_sistema/$', 
+        views.RevisarRegistroView.as_view(),
+        name='RevisarRegistro'
+    ),
 ]

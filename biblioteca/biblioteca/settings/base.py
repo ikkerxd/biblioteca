@@ -15,7 +15,7 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wkhtmltopdf',
+    'django.contrib.postgres',
 )
 
 LOCAL_APPS = (

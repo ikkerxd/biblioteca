@@ -1,0 +1,26 @@
+{% extends "catalogacion/base_catalogacion.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+
+{% block content %}
+
+    {% include "catalogacion/include/header.html" %}
+
+
+	<form action="/" method="GET">{% csrf_token %}
+
+	    <label>Categoria:</label>
+        {{form2.categoria}}
+        <br>
+        <label>Descripcion:</label>
+		{{ form2.descripcion|escape }}
+		<label>Fecha inicio:</label>
+		{{form2.Mostrar_desde}}
+		<label>Fecha final:</label>
+		{{form2.Mostrar_hasta}}
+		<input type="submit" value="Consultar" />
+	</form>
+
+{% endblock content %}
