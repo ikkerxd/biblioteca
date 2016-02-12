@@ -9,13 +9,16 @@ from apps.autores.models import Autor
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
+
 from .forms import BusquedaForm, RevisarRegistroForm
+
+from .forms import BusquedaForm
 from django.template.loader import render_to_string
 
 from django.template import RequestContext
 import cStringIO as StringIO
 import ho.pisa as pisa
-from datetime import datetime
+from datetime import datetime, date, time
 
 
 from django.utils.formats import get_format
@@ -75,7 +78,7 @@ class BusquedaView(FormMixin, ListView):
                  qset = ( Q(titulo__unaccent__icontains = query) )
         else:
             if tipo == 'autor':
-                if categoria:  
+                if categoria:
                     qset = (
                         Q(tipo_material = categoria ) & 
                        ( Q(autor__nombres__unaccent__icontains = query) | 
@@ -92,7 +95,7 @@ class BusquedaView(FormMixin, ListView):
                 else:
                     if categoria:
                         qset = (
-                            Q(tipo_material=categoria) 
+                            Q(tipo_material=categoria)
                         )
                     else:
                         qset = (
@@ -152,7 +155,7 @@ def generar_pdf(html):
     result = StringIO.StringIO()
     pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), result)
     if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf') #mimetype 
+        return HttpResponse(result.getvalue(), content_type='application/pdf') #mimetype
     return HttpResponse('Error al generar el PDF: %s' % cgi.escape(html))
 
 class VerReporteAutor(SingleObjectMixin, View):
@@ -161,7 +164,7 @@ class VerReporteAutor(SingleObjectMixin, View):
 
     def get(self, request, *args, **kwargs):
         fecha = datetime.now() #fecha actual
-        formatofecha = fecha.strftime("%d/%m/%Y") 
+        formatofecha = fecha.strftime("%d/%m/%Y")
         autor = self.get_object()
         materiales = Material.objects.filter(Q(autor__nombres__icontains=autor.nombres),Q(autor__apellidos__icontains=autor.apellidos)).distinct()
         html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
@@ -173,56 +176,43 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
     #succes_url
     error = False
 
-    def get_context_data(self, **kwargs):
-        context = super(RevisarRegistroView, self).get_context_data(**kwargs)
-        context['form'] = self.get_form()
-        return context
-
     def get(self, request, *args, **kwargs):
         error = False
         if request.method == 'GET':
             form2 = RevisarRegistroForm(request.GET)
             if form2.is_valid():
-                print "entro aqui"
                 #Recuperar valores
                 categoria = request.GET.get('categoria','')
                 categoria =  TipoMaterial.objects.get(id=categoria)
 
-                print categoria
-
                 query =  request.GET.get('descripcion', '')
 
-                fecha_desde = request.GET.get('Mostrar_desde', '')
-                fecha_desde=fecha_desde.split('/')
-                fecha_desde = fecha_desde[2]+"-"+fecha_desde[1]+"-"+fecha_desde[0]
-                
-                fecha_hasta = request.GET.get('Mostrar_hasta', '')
-                fecha_hasta=fecha_hasta.split('/')
-                fecha_hasta = fecha_hasta[2]+"-"+fecha_hasta[1]+"-"+fecha_hasta[0]
+                fecha_desde2 = request.GET.get('Mostrar_desde', '')
+                fecha_desde = datetime.strptime(fecha_desde2 +" 00:00:00", "%d/%m/%Y %H:%M:%S")
 
-                print "desde"
-                print fecha_desde
-                print "hasta"
-                print fecha_hasta
+                fecha_hasta2 = request.GET.get('Mostrar_hasta', '')
+                fecha_hasta = datetime.strptime(fecha_hasta2 +" 23:59:59", "%d/%m/%Y %H:%M:%S")
+                
                 #Realizamos la consulta
                 qset = (
                     Q(tipo_material = categoria ) & 
                     Q(created__range=[fecha_desde, fecha_hasta]) &
-                    #Q(created__gte=fecha_desde,created__lte=fecha_hasta)&
-                    (Q(titulo__unaccent__icontains=query) |
-                    Q(autor__nombres__unaccent__icontains = query) | 
-                    Q(autor__apellidos__unaccent__icontains = query))
+                    (   Q(titulo__unaccent__icontains=query) |
+                        Q(autor__nombres__unaccent__icontains = query) | 
+                        Q(autor__apellidos__unaccent__icontains = query)
+                    )
                 )
-                
-                results = Material.objects.filter(qset).distinct()
 
-                print "RESULTADOS"
+                results = Material.objects.filter(qset).distinct().order_by('created')
                 print results
+                #print "EJEMPLARES"
+                #results =  Ejemplar.objects.select_related().filter(material__in=results)
+                #print results
 
                 #datos para el pdf
                 fecha = datetime.now() #fecha actual
                 formatofecha = fecha.strftime("%d/%m/%Y") 
-                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'resultados': results}, context_instance=RequestContext(request))
+                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'materiales': results}, context_instance=RequestContext(request))
                 return generar_pdf(html)
             else: #formulario no valido
                 #form2['categoria'].errors 
@@ -231,4 +221,4 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
             error = True
 
         form2 = RevisarRegistroForm
-        return render_to_response('reporte/revisar_registros.html',{'error': error, 'form2': form2,'form':self.get_form})
+        return render_to_response('reporte/revisar_registros.html',{'error': error, 'form2': form2})

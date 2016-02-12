@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% load  staticfiles%}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stylepanel.css' %}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block sidenav %}
+    <header>
+        <nav class="top-nav red darken-4">
+            <div class="container">
+              <div class="nav-wrapper">
+                <a href=""></a>
+                <a class="page-title">{% block titulo_nav %}{% endblock titulo_nav %}</a>
+              </div>
+            </div>
+        </nav>
+        <div class="container">
+            <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full">
+              <i class="mdi-navigation-menu"></i>
+            </a>
+        </div>
+        <ul id="nav-mobile" class="side-nav fixed">
+            <li class="logo red darken-4">
+              <div id="logo-container">
+                <div class="row">
+                  <div class="col col-profile s4">
+                    {% if not user.avatar %}
+                      <img src="{% static 'img/usuario.png' %}" alt="{{ user.get_full_name }}" class="circle responsive-img valign">
+                    {% else %}
+                        <img src="{{ user.avatar.url }}" alt="{{ user.get_full_name }}" class="circle responsive-img valign">
+                    {% endif %}
+                  </div>
+                  <div class="col col-profile s8">
+                    <ul id="profile-dropdown" class="dropdown-content">
+                      <li><a href="#"><i class="mdi-action-face-unlock"></i> Perfil</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Salir</a>
+                      </li>
+                    </ul>
+                    <a class="waves-effect waves-light btn-flat white-text dropdown-button profile-btn" data-activates="profile-dropdown">{{ user.first_name }}<i class="mdi-navigation-arrow-drop-down right-profile"></i></a>
+                    <p class="user-roal">admin</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            {% block funciones %}{% endblock funciones %}
+
+        </ul>
+    </header>
+    <main>
+        {% block mensaje %}{% endblock mensaje %}
+        {% block contenido_panel %}{% endblock contenido_panel %}
+
+    </main>
+
+{% endblock sidenav %}
+
+{% block js %}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+{% endblock js %}

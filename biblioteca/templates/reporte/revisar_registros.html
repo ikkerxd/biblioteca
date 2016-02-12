@@ -1,3 +1,12 @@
+{% extends "users/panel/panel.html" %}
+{% load staticfiles %}
+
+{% block title %}Reportes{% endblock title %}
+
+  {% block titulo_nav %}  Reportes {% endblock titulo_nav %}
+
+{% comment %}
+	
 {% extends "catalogacion/base_catalogacion.html" %}
 
 {% load staticfiles %}
@@ -7,9 +16,13 @@
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
+{% endcomment %}
 
 
-	<form action="/" method="GET">{% csrf_token %}
+{% block contenido_panel %}
+
+
+	<form action="" method="GET">{% csrf_token %}
 
 	    <label>Categoria:</label>
         {{form2.categoria}}
@@ -23,4 +36,4 @@
 		<input type="submit" value="Consultar" />
 	</form>
 
-{% endblock content %}
+{% endblock contenido_panel %}

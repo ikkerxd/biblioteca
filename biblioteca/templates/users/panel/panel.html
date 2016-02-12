@@ -1,0 +1,40 @@
+{% extends "users/panel/base_panel.html" %}
+
+{% block title %}panel{% endblock title %}
+
+  {% block titulo_nav %} Panel de Administrador{% endblock titulo_nav %}
+
+    {% block funciones %}
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Circulación</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="{% url 'circulacion_app:lectorPrestamo' %}">Prestamo</a></li>
+                        <li><a href="#">Devolución</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Catalogación</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="#">Catalogación1</a></li>
+                        <li><a href="#">Catalogación2</a></li>
+                        <li><a href="#">Catalogación3</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="bold"><a class="collapsible-header waves-effect waves-teal">Consultas</a>
+              <div class="collapsible-body">
+                    <ul>
+                        <li><a href="{%url 'catalogacion_app:RevisarRegistro' %}">Reporte</a></li>
+                        <li><a href="#">Consulta2</a></li>
+                        <li><a href="#">Consulta3</a></li>
+                        <li><a href="#">Consulta4</a></li>
+                        <li><a href="#">Consulta5</a></li>
+                    </ul>
+              </div>
+            </li>
+        </ul>
+    </li>
+    {% endblock funciones %}
