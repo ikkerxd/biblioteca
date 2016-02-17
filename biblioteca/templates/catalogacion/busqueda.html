@@ -7,8 +7,94 @@
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
-    
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card border-side top-margin">
+                    <div class="card-content">
+                        <div>
+                            <span class="lector-name">Se a encontrado 3 resultado(s) en la busqueda</span>
+                        </div>
+                        <hr>
+                        <article class="row detalle-item">
+                            <div class="col s3">
+                                <img src="{% static 'img/fotodon.jpg'%}" alt="" class="responsive-img">
+                            </div>
+                            <div class="col s8">
+                                <dl class="dl-detalle">
+                                    <dt>Titulo</dt>
+                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
+                                    <dt>Autor</dt>
+                                    <dd>Cesar Acuña</dd>
+                                    <dt>Fecha de publicación</dt>
+                                    <dd>21 de enero del 2016</dd>
+                                    <dt>ISBN</dt>
+                                    <dd>234de554</dd>
+                                </dl>
+                            </div>
+                        </article>
+
+                        <article class="row detalle-item">
+                            <div class="col s3">
+                                <img src="{% static 'img/fotohar.jpg'%}" alt="" class="responsive-img">
+                            </div>
+                            <div class="col s8">
+                                <dl class="dl-detalle">
+                                    <dt>Titulo</dt>
+                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
+                                    <dt>Autor</dt>
+                                    <dd>Cesar Acuña</dd>
+                                    <dt>Fecha de publicación</dt>
+                                    <dd>21 de enero del 2016</dd>
+                                    <dt>ISBN</dt>
+                                    <dd>234de554</dd>
+                                </dl>
+                            </div>
+                        </article>
+
+                        <article class="row detalle-item">
+                            <div class="col s3">
+                                <img src="{% static 'img/fotodon.jpg'%}" alt="" class="responsive-img">
+                            </div>
+                            <div class="col s8">
+                                <dl class="dl-detalle">
+                                    <dt>Titulo</dt>
+                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
+                                    <dt>Autor</dt>
+                                    <dd>Cesar Acuña</dd>
+                                    <dt>Fecha de publicación</dt>
+                                    <dd>21 de enero del 2016</dd>
+                                    <dt>ISBN</dt>
+                                    <dd>234de554</dd>
+                                </dl>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- <section class="card">
+        <div class="card-content">
+            <span class="card-title">
+                <h3>Los resulatado de la busqueda hay 5 concidencia(s)</h3>
+            </span>
+            <article>
+            <div class="col s3">
+                <div class="card-image">
+                    <img src="{% static 'img/fotodon.jpg'%}" alt="">
+                </div>
+            </div>
+            <div class="col s9">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, veniam facilis quas nihil, tenetur nostrum! Similique aliquam, ea, eveniet, totam placeat debitis, ut vitae tenetur quasi inventore esse ipsam atque.</p>
+            </div>
+        </article>
+        </div>
+    </section> -->
 
 		{% for material in materiales %}
 			titulo:

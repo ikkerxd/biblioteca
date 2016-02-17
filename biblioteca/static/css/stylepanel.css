@@ -648,3 +648,24 @@ estlos locales
 .title-prestamo {
     padding: 1em 0;
 }
+
+.border-side {
+    border: 1px dashed;
+    border-left: 7px solid;
+    border-color: #ffa726;
+    transition: background 0.3s, color 0.3s;
+}
+
+.top-margin {
+    margin-top: 2em !important;
+}
+
+.lector-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* label color */
+.input-field label {
+    color: #000;
+}

@@ -16,18 +16,18 @@
 		width: 45%;
 	}
 
-	.webdesigntuts-workshop 
+	.webdesigntuts-workshop
     {
 		height: 100%;
 		position: absolute;
 		text-align: center;
 		width: 100%;
 		margin-top: 0.2%;
-	}	
+	}
 	.webdesigntuts-workshop:before,
 	.webdesigntuts-workshop:after {
 		content: '';
-		display: block;	
+		display: block;
 		height: 1px;
 		left: 50%;
 		margin: 0 0 0 -400px;
@@ -35,11 +35,11 @@
 		width: 75%;
 	}
 	.webdesigntuts-workshop:before {
-		background: #fff;
+		background: transparent;
 		top: 192px;
 	}
 	.webdesigntuts-workshop:after {
-		background: #fafafa;	
+		background: transparent;
 		top: 191px;
 	}
 
@@ -56,7 +56,7 @@
 	}
 
 	.webdesigntuts-workshop input {
-		background: #fff;	
+		background: #fff;
 		border: 1px solid #DDD;
 		border-radius: 5px 0 0 5px;
 		color: #bdbdbd;
@@ -88,7 +88,7 @@
 		outline: none;
 	}
 
-	.webdesigntuts-workshop input:focus::-webkit-input-placeholder { 
+	.webdesigntuts-workshop input:focus::-webkit-input-placeholder {
 		color: #efe;
 	}
 
@@ -119,7 +119,7 @@
 		position: relative;
 		text-shadow: 0 -1px 0 #000;
 		width: 15%;
-	}	
+	}
 
 	.webdesigntuts-workshop button:hover,
 	.webdesigntuts-workshop button:focus {
@@ -154,18 +154,18 @@
 		width: 45%;
 	}
 
-    .webdesigntuts-workshop 
+    .webdesigntuts-workshop
     {
 		height: 100%;
 		position: absolute;
 		text-align: center;
 		width: 100%;
 		margin-top: 3%;
-	}	
+	}
 	.webdesigntuts-workshop:before,
 	.webdesigntuts-workshop:after {
 		content: '';
-		display: block;	
+		display: block;
 		height: 1px;
 		left: 50%;
 		margin: 0 0 0 -400px;
@@ -174,12 +174,12 @@
 	}
 
 	.webdesigntuts-workshop:before {
-		background: #fff;
+		background: transparent;
 		top: 192px;
 	}
 
 	.webdesigntuts-workshop:after {
-		background: #fafafa;	
+		background: transparent;
 		top: 191px;
 	}
 
@@ -196,7 +196,7 @@
 	}
 
 	.webdesigntuts-workshop input {
-		background: #fff;	
+		background: #fff;
 		border: 1px solid #DDD;
 		border-radius: 5px 0 0 5px;
 		color: #bdbdbd;
@@ -228,7 +228,7 @@
 		outline: none;
 	}
 
-	.webdesigntuts-workshop input:focus::-webkit-input-placeholder { 
+	.webdesigntuts-workshop input:focus::-webkit-input-placeholder {
 		color: #efe;
 	}
 
@@ -259,7 +259,7 @@
 		position: relative;
 		text-shadow: 0 -1px 0 #000;
 		width: 15%;
-	}	
+	}
 
 	.webdesigntuts-workshop button:hover,
 	.webdesigntuts-workshop button:focus {
@@ -302,7 +302,7 @@
 	.webdesigntuts-workshop:before,
 	.webdesigntuts-workshop:after {
 		content: '';
-		display: block;	
+		display: block;
 		height: 1px;
 		left: 50%;
 		margin: 0 0 0 -400px;
@@ -311,12 +311,12 @@
 	}
 
 	.webdesigntuts-workshop:before {
-		background: #fff;
+		background: transparent;
 		top: 192px;
 	}
 
 	.webdesigntuts-workshop:after {
-		background: #fafafa;	
+		background: transparent;
 		top: 191px;
 	}
 
@@ -333,7 +333,7 @@
 	}
 
 	.webdesigntuts-workshop input {
-		background: #fff;	
+		background: #fff;
 		border: 1px solid #DDD;
 		border-radius: 5px 0 0 5px;
 		color: #bdbdbd;
@@ -365,7 +365,7 @@
 		outline: none;
 	}
 
-	.webdesigntuts-workshop input:focus::-webkit-input-placeholder { 
+	.webdesigntuts-workshop input:focus::-webkit-input-placeholder {
 		color: #efe;
 	}
 
@@ -396,7 +396,7 @@
 		position: relative;
 		text-shadow: 0 -1px 0 #000;
 		width: 15%;
-	}	
+	}
 
 	.webdesigntuts-workshop button:hover,
 	.webdesigntuts-workshop button:focus {

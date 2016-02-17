@@ -38,7 +38,7 @@
                                 <td><b>NUMERO DE COPIA</b></td>
                                 <td><b>FECHA DE VENCIMIENTO</b></td>
                                 <td><b>VER PDF</b></td>
-                            </tr> 
+                            </tr>
                             {% for ejemplar in  ejemplares %}
                             <tr>
                                 <td>
@@ -66,14 +66,10 @@
                                     <a href="{%url 'catalogacion_app:ver_pdf' ejemplar.pk %}" > Leer PDF</a>
                                 </td>
                             </tr>
-                            {% endfor %}   
+                            {% endfor %}
                         </table>
                     </div>
-                    
-                </div>
 
-                <div>
-                
                 </div>
 
 
