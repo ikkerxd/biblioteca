@@ -7,7 +7,7 @@ from .models import Material, Ejemplar, TipoMaterial
 from apps.autores.models import Autor
 
 from django.db.models import Q
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 
 
 from .forms import BusquedaForm, RevisarRegistroForm
@@ -62,67 +62,81 @@ class BusquedaView(FormMixin, ListView):
         return context
 
     def get(self, request, *args, **kwargs):
+        errors = []
+        form = BusquedaForm(request.GET)
         #Recuperar valores
-        categoria = request.GET.get('categoria','')
-        if categoria:
-            categoria =  TipoMaterial.objects.get(id=categoria)
-        tipo = request.GET.get('tipo','')
-        query = request.GET.get('descripcion', '')
+        if request.method=='GET':
+            if form.is_valid():
+                categoria = request.GET.get('categoria','')
+                categoria =  TipoMaterial.objects.get(id=categoria)
+                tipo = request.GET.get('tipo','')
+                query = request.GET.get('descripcion', '')
 
-        if tipo == 'titulo':
-            if categoria:
-                qset = (
-                    Q(titulo__unaccent__icontains = query) & Q(tipo_material = categoria) 
-                )
-            else:
-                 qset = ( Q(titulo__unaccent__icontains = query) )
-        else:
-            if tipo == 'autor':
-                if categoria:
-                    qset = (
-                        Q(tipo_material = categoria ) & 
-                       ( Q(autor__nombres__unaccent__icontains = query) | 
-                        Q(autor__apellidos__unaccent__icontains = query))
-                    )
-                else:
-                    qset = (
-                        Q(autor__nombres__unaccent__icontains = query) | 
-                        Q(autor__apellidos__unaccent__icontains = query)
-                    )
-            else:
-                if tipo == 'signatura':
-                    qset = ()
-                else:
+                if tipo == 'titulo':
                     if categoria:
                         qset = (
-                            Q(tipo_material=categoria)
+                            Q(titulo__unaccent__icontains = query) & Q(tipo_material = categoria) 
                         )
                     else:
-                        qset = (
-                            Q(titulo__unaccent__icontains=query) |
-                            Q(autor__nombres__unaccent__icontains=query) | 
-                            Q(autor__apellidos__unaccent__icontains=query)
-                        )
+                        qset = ( Q(titulo__unaccent__icontains = query) )
+                else:
+                    if tipo == 'autor':
+                        if categoria:
+                            qset = (
+                                Q(tipo_material = categoria ) & 
+                                ( Q(autor__nombres__unaccent__icontains = query) | 
+                                  Q(autor__apellidos__unaccent__icontains = query))
+                                )
+                        else:
+                            qset = (
+                                Q(autor__nombres__unaccent__icontains = query) | 
+                                Q(autor__apellidos__unaccent__icontains = query)
+                            )
+                    else:
+                        if tipo == 'signatura':
+                            qset = ()
+                        else:
+                            if categoria:
+                                qset = (
+                                    Q(tipo_material=categoria)
+                                )
+                            else:
+                                qset = (
+                                    Q(titulo__unaccent__icontains=query) |
+                                    Q(autor__nombres__unaccent__icontains=query) | 
+                                    Q(autor__apellidos__unaccent__icontains=query)
+                                )
 
-        results = Material.objects.filter(qset).distinct()
+                results = Material.objects.filter(qset).distinct()
+                total = results.count() #numero total de materiales encontrados
+                print results
 
-        paginator = Paginator(results,1) # se indica items por pagina
-        page = request.GET.get('page')
+                paginator = Paginator(results,2) # se indica items por pagina
+                arametros = request.GET.copy()
 
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-        # If page request (9999) is out of range, deliver last page of results.
-        try:
-            materialespag = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            materialespag = paginator.page(paginator.num_pages)
+                parametros = request.GET.copy() 
+                if parametros.has_key('pagina'):
+                    del parametros['pagina']
 
-        return render_to_response('catalogacion/busqueda.html', {'filter': results,
-                                                'materiales': materialespag,
-                                                'form':self.get_form
-                                                }, context_instance=RequestContext(request))
+                page = request.GET.get('pagina')
+                try:
+                    queryset = paginator.page(page)
+                except PageNotAnInteger:
+
+                    queryset = paginator.page(1)
+                except EmptyPage:
+                    queryset = paginator.page(paginator.num_pages)
+
+                context = {
+                    'materiales':queryset,
+                    'parametros':parametros,
+                    'form':self.get_form,
+                    'total':total
+                }
+                return render_to_response('catalogacion/busqueda.html', context, context_instance=RequestContext(request))
+            errors.append('Por favor introduzca una descripcion para la busqueda y seleccione categoria')
+        return render_to_response('catalogacion/busqueda.html', {'errors':errors[0],'form':self.get_form})
+
 #Materialdetail
 class LeerPDFDoc(SingleObjectMixin, View):
 

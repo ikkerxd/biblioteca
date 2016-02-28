@@ -14,69 +14,57 @@
             <div class="col s12">
                 <div class="card border-side top-margin">
                     <div class="card-content">
-                        <div>
-                            <span class="lector-name">Se a encontrado 3 resultado(s) en la busqueda</span>
-                        </div>
+                        {% if total > 0 %}
+                            <div>
+                                <span class="lector-name">Se a encontrado {{ total }} resultado(s) en la busqueda</span>
+                            </div>
+                        {% endif %}
                         <hr>
-                        <article class="row detalle-item">
-                            <div class="col s3">
-                                <img src="{% static 'img/fotodon.jpg'%}" alt="" class="responsive-img">
-                            </div>
-                            <div class="col s8">
-                                <dl class="dl-detalle">
-                                    <dt>Titulo</dt>
-                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
-                                    <dt>Autor</dt>
-                                    <dd>Cesar Acuña</dd>
-                                    <dt>Fecha de publicación</dt>
-                                    <dd>21 de enero del 2016</dd>
-                                    <dt>ISBN</dt>
-                                    <dd>234de554</dd>
-                                </dl>
-                            </div>
-                        </article>
+                        {% for material in materiales %}
+                            <article class="row detalle-item">
+                                <div class="col s3">
+                                    <img src="{{ material.portada.url }}" alt="" class="responsive-img">
+                                </div>
+                                <div class="col s8">
+                                    <dl class="dl-detalle">
+                                        <dt>Titulo</dt>
+                                        <dd>{{material.titulo}} {{material.titulo_secundario}}</dd>
+                                        <dt>Autor</dt>
+                                        <dd>{% for autor in material.autor.all %}
+                                        <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
+                                        {% endfor %}
+                                        </dd>
+                                        <dt>Fecha de publicación</dt>
+                                        <dd>{{material.created}}</dd>
+                                        <dt>ISBN</dt>
+                                        <dd>{{material.isbn}}</dd>
+                                    </dl>
+                                </div>
+                            </article>
+                        {% endfor %}
+                        
 
-                        <article class="row detalle-item">
-                            <div class="col s3">
-                                <img src="{% static 'img/fotohar.jpg'%}" alt="" class="responsive-img">
-                            </div>
-                            <div class="col s8">
-                                <dl class="dl-detalle">
-                                    <dt>Titulo</dt>
-                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
-                                    <dt>Autor</dt>
-                                    <dd>Cesar Acuña</dd>
-                                    <dt>Fecha de publicación</dt>
-                                    <dd>21 de enero del 2016</dd>
-                                    <dt>ISBN</dt>
-                                    <dd>234de554</dd>
-                                </dl>
-                            </div>
-                        </article>
+                        {% if total > 0 %}
+                            <ul class="pagination">
+                                {% if materiales.has_previous %}
+                                    <li class="waves-effect"><a href="?pagina={{ materiales.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-navigation-chevron-left"></i></a></li>
+                                {% endif %}
 
-                        <article class="row detalle-item">
-                            <div class="col s3">
-                                <img src="{% static 'img/fotodon.jpg'%}" alt="" class="responsive-img">
-                            </div>
-                            <div class="col s8">
-                                <dl class="dl-detalle">
-                                    <dt>Titulo</dt>
-                                    <dd>El ingenioso Hidalgo Don Quijote de la Mancha</dd>
-                                    <dt>Autor</dt>
-                                    <dd>Cesar Acuña</dd>
-                                    <dt>Fecha de publicación</dt>
-                                    <dd>21 de enero del 2016</dd>
-                                    <dt>ISBN</dt>
-                                    <dd>234de554</dd>
-                                </dl>
-                            </div>
-                        </article>
-
+                                <span class="current">Pagina {{ materiales.number }} de {{ materiales.paginator.num_pages }}</span>
+                                {% if materiales.has_next %}
+                                    <li class="waves-effect"><a href="?pagina={{ materiales.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-navigation-chevron-right"></i></a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                        
+                        {% if errors %}
+                            {{ errors}}
+                        {% endif %}
                     </div>
                 </div>
-
             </div>
         </div>
+
     </div>
     <!-- <section class="card">
         <div class="card-content">
@@ -96,40 +84,8 @@
         </div>
     </section> -->
 
-		{% for material in materiales %}
-			titulo:
-			{{material.titulo}} {{material.titulo_secundario}}<br>
-            Autor:
-            {% for autor in material.autor.all %}
-                <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
-            {% endfor %}
-            ISBN:
-            {{material.isbn}}
-            <br>
-            Fecha De Publicación:
-            {{material.created}}
-            <br>
-            <a href="{% url 'catalogacion_app:material' material.pk %}">Ver más...</a>
-            <br>
-            <br>
-        {% empty %}
-        	<span>No se encontraron resultados</span>
-        {% endfor %}
 
-        <div class="pagination">
-            <span class="step-links">
-                {% if materiales.has_previous %}
-                    <a href="?page={{ materiales.previous_page_number }}">Anterior</a>
-                {% endif %}
 
-                <span class="current">
-                    Pagina {{ materiales.number }} de {{ materiales.paginator.num_pages }}.
-                </span>
-
-                {% if materiales.has_next %}
-                    <a href="?page={{ materiales.next_page_number }}">Siguiente</a>
-                {% endif %}
-            </span>
-        </div>
+        
 
 {% endblock content %}
