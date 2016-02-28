@@ -21,10 +21,10 @@
                             <b>TÍTULO SECUNDARIO:</b> {{ material.titulo_secundario}}
                         </p>
                         {% endif %}
-                        <p>
-                            <b>AUTORES:</b> {% for material in material.autor.all%}
-                            {{ material.autor }} {% if not forloop.last %},{% else %}.{% endif %}
-                            {% endfor %}
+                        
+                        <p><b>AUTORES:</b> {% for autor in material.autor.all %}
+                                        <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
+                                        {% endfor %}
                         </p>
                         <p>
                             <b>Existencia:</b> {{ existencia }}

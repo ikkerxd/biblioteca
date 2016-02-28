@@ -67,7 +67,7 @@ class BusquedaView(FormMixin, ListView):
         #Recuperar valores
         if request.method=='GET':
             if form.is_valid():
-                categoria = request.GET.get('categoria','')
+                categoria = request.GET.get('categoria')
                 categoria =  TipoMaterial.objects.get(id=categoria)
                 tipo = request.GET.get('tipo','')
                 query = request.GET.get('descripcion', '')
@@ -111,7 +111,7 @@ class BusquedaView(FormMixin, ListView):
                 total = results.count() #numero total de materiales encontrados
                 print results
 
-                paginator = Paginator(results,2) # se indica items por pagina
+                paginator = Paginator(results,1) # se indica items por pagina
                 arametros = request.GET.copy()
 
                 parametros = request.GET.copy() 
@@ -134,7 +134,9 @@ class BusquedaView(FormMixin, ListView):
                     'total':total
                 }
                 return render_to_response('catalogacion/busqueda.html', context, context_instance=RequestContext(request))
-            errors.append('Por favor introduzca una descripcion para la busqueda y seleccione categoria')
+            else:
+                form = BusquedaForm
+                errors.append('Por favor seleccione una categoria y catalogo de biblioteca')
         return render_to_response('catalogacion/busqueda.html', {'errors':errors[0],'form':self.get_form})
 
 #Materialdetail

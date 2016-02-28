@@ -38,21 +38,29 @@
                                         <dd>{{material.created}}</dd>
                                         <dt>ISBN</dt>
                                         <dd>{{material.isbn}}</dd>
+
+                                        <a href="{% url 'catalogacion_app:material' material.pk %}">Ver más... <i class="mdi-av-my-library-books"></i></a>
                                     </dl>
                                 </div>
                             </article>
                         {% endfor %}
-                        
 
                         {% if total > 0 %}
                             <ul class="pagination">
                                 {% if materiales.has_previous %}
-                                    <li class="waves-effect"><a href="?pagina={{ materiales.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-navigation-chevron-left"></i></a></li>
+                                    <li class="waves-effect"><a href="?pagina={{ materiales.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-previous"></i></a></li>
                                 {% endif %}
+                                
+                                {% for pg in materiales.paginator.page_range %}
+                                    {% if materiales.number == pg %}
+                                        <li class="active"><a href="?pagina={{ pg }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{ pg }}</a></li>
+                                    {% else %}
+                                        <li><a href="?pagina={{ pg }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{ pg }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
 
-                                <span class="current">Pagina {{ materiales.number }} de {{ materiales.paginator.num_pages }}</span>
                                 {% if materiales.has_next %}
-                                    <li class="waves-effect"><a href="?pagina={{ materiales.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-navigation-chevron-right"></i></a></li>
+                                    <li class="waves-effect"><a href="?pagina={{ materiales.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-next"></i></a></li>
                                 {% endif %}
                             </ul>
                         {% endif %}
@@ -60,32 +68,12 @@
                         {% if errors %}
                             {{ errors}}
                         {% endif %}
+
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
-    <!-- <section class="card">
-        <div class="card-content">
-            <span class="card-title">
-                <h3>Los resulatado de la busqueda hay 5 concidencia(s)</h3>
-            </span>
-            <article>
-            <div class="col s3">
-                <div class="card-image">
-                    <img src="{% static 'img/fotodon.jpg'%}" alt="">
-                </div>
-            </div>
-            <div class="col s9">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, veniam facilis quas nihil, tenetur nostrum! Similique aliquam, ea, eveniet, totam placeat debitis, ut vitae tenetur quasi inventore esse ipsam atque.</p>
-            </div>
-        </article>
-        </div>
-    </section> -->
-
-
-
-        
 
 {% endblock content %}
