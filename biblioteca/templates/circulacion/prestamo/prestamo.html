@@ -12,20 +12,25 @@
             </h5>
             <div class="card-panel">
                 <div class="row">
-                    <form class="col s12">
+                    <form method="post" class="col s12">{% csrf_token %}
                         <div class="row">
                             <div class="input-field col s8">
                                 <i class="mdi-action-picture-in-picture prefix"></i>
-                                <input id="icon_prefix" type="text" class="validate">
-                                <label for="icon_prefix">Número de carnet</label>
+                                {{ form.lector }}
+                                {{ form.lector.label_tag }}
                             </div>
                             <div class="input-field col s2">
-                                <button class="btn cyan waves-effect waves-light" type="submit" name="action">buscar
+                                <button class="btn cyan waves-effect waves-light" type="submit">buscar
                                     <i class="mdi-action-search left"></i>
                                 </button>
                             </div>
 
                         </div>
+                        {% if form.errors %}
+                            <div class="text-errors">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
                     </form>
                 </div>
             </div>

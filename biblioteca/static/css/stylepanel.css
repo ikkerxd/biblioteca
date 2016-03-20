@@ -669,3 +669,8 @@ estlos locales
 .input-field label {
     color: #000;
 }
+
+.text-errors{
+  color: #f44336;
+  font-size: 0.9rem;
+}

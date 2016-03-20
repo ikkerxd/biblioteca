@@ -31,7 +31,7 @@ class TipoLector(models.Model):
 
 
 class Lector(Persona):
-    Codigo = models.CharField(max_length=30, unique=True)
+    codigo = models.CharField(max_length=30, unique=True)
     carrera = models.ForeignKey(CarreraProfesional, blank=True, null=True)
     dni = models.CharField(max_length=8)
     avatar = models.ImageField(upload_to='imagen_lector', blank=True, null=True)
