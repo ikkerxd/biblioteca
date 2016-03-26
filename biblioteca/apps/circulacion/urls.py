@@ -12,5 +12,14 @@ urlpatterns = [
         views.EjemplarPrestamoView.as_view(),
         name="ejemplarPrestamo"
     ),
-
+    url(
+        r'^panel/imprimir/voucher/prestamo/(?P<pk>\d+)/$',
+        views.VoucherView.as_view(),
+        name='printVoucher'
+    ),
+    url(
+        r'^panel/devolucion/$',
+        views.DevolverView.as_view(),
+        name="devolver"
+    ),
 ]

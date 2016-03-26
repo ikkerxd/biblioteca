@@ -1,0 +1,43 @@
+{% extends "users/panel/panel.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Devolición Item{% endblock title %}
+
+  {% block titulo_nav %}  Devolución Item {% endblock titulo_nav %}
+
+{% block contenido_panel %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col s12 m12">
+
+                <div class="card border-side top-margin">
+                    <div class="card-content">
+                        <div>
+                            <span class="lector-name">Devolver a:</span>
+                        </div>
+                        <div class="row">
+                            <form method="post" class="col s12">{% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s8">
+                                        {{ form.codigo }}
+                                        {{ form.codigo.label_tag }}
+
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <button class="btn orange lighten-1 waves-effect waves-light" type="submit" name="action">Devolver
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock contenido_panel %}
