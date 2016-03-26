@@ -14,13 +14,11 @@
             <div class="col s12">
                 <div class="card border-side top-margin">
                     <div class="card-content">
-                        {% if total > 0 %}
                             <div>
-                                <span class="lector-name">Se a encontrado {{ total }} resultado(s) en la busqueda</span>
+                                <span class="lector-name">Se a encontrado {{ total }} resultado(s) en la búsqueda</span>
                             </div>
-                        {% endif %}
                         <hr>
-                        {% for material in materiales %}
+                        {% for material in materiales.object_list %}
                             <article class="row detalle-item">
                                 <div class="col s3">
                                     <img src="{{ material.portada.url }}" alt="" class="responsive-img">
@@ -46,6 +44,7 @@
                         {% endfor %}
 
                         {% if total > 0 %}
+    
                             <ul class="pagination">
                                 {% if materiales.has_previous %}
                                     <li class="waves-effect"><a href="?pagina={{ materiales.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-previous"></i></a></li>
@@ -63,6 +62,7 @@
                                     <li class="waves-effect"><a href="?pagina={{ materiales.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-next"></i></a></li>
                                 {% endif %}
                             </ul>
+
                         {% endif %}
                         
                         {% if errors %}

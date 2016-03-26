@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from django.views.generic.edit import FormMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import render, render_to_response
@@ -5,10 +6,15 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, View
 from .models import Material, Ejemplar, TipoMaterial
 from apps.autores.models import Autor
+from itertools import chain
 
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 
+
+#pure-pagination
+#from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+#from pure_pagination.mixins import PaginationMixin
 
 from .forms import BusquedaForm, RevisarRegistroForm
 
@@ -73,46 +79,25 @@ class BusquedaView(FormMixin, ListView):
                 query = request.GET.get('descripcion', '')
 
                 if tipo == 'titulo':
-                    if categoria:
-                        qset = (
-                            Q(titulo__unaccent__icontains = query) & Q(tipo_material = categoria) 
-                        )
-                    else:
-                        qset = ( Q(titulo__unaccent__icontains = query) )
+                    results = Material.objects.filter(Q(titulo__unaccent__icontains = query) &
+                                                        Q(tipo_material = categoria)
+                                                      ).distinct()
                 else:
                     if tipo == 'autor':
-                        if categoria:
-                            qset = (
-                                Q(tipo_material = categoria ) & 
-                                ( Q(autor__nombres__unaccent__icontains = query) | 
-                                  Q(autor__apellidos__unaccent__icontains = query))
-                                )
-                        else:
-                            qset = (
-                                Q(autor__nombres__unaccent__icontains = query) | 
-                                Q(autor__apellidos__unaccent__icontains = query)
-                            )
+                        results = Material.objects.filter(Q(tipo_material = categoria ) & 
+                                                          Q(autor__slug__unaccent__icontains = query) 
+                                                         ).distinct()
+                        print "results"
                     else:
                         if tipo == 'signatura':
-                            qset = ()
-                        else:
-                            if categoria:
-                                qset = (
-                                    Q(tipo_material=categoria)
-                                )
-                            else:
-                                qset = (
-                                    Q(titulo__unaccent__icontains=query) |
-                                    Q(autor__nombres__unaccent__icontains=query) | 
-                                    Q(autor__apellidos__unaccent__icontains=query)
-                                )
+                            tempresult = Ejemplar.objects.filter(Q(signatura__icontains= query)).values_list('material', flat=True).distinct()
+                            results = Material.objects.filter(id__in=tempresult)
 
-                results = Material.objects.filter(qset).distinct()
+
                 total = results.count() #numero total de materiales encontrados
                 print results
+                paginator = Paginator(results,3) # se indica items por pagina
 
-                paginator = Paginator(results,1) # se indica items por pagina
-                arametros = request.GET.copy()
 
                 parametros = request.GET.copy() 
                 if parametros.has_key('pagina'):
@@ -125,7 +110,11 @@ class BusquedaView(FormMixin, ListView):
 
                     queryset = paginator.page(1)
                 except EmptyPage:
+
                     queryset = paginator.page(paginator.num_pages)
+
+
+
 
                 context = {
                     'materiales':queryset,
@@ -133,10 +122,10 @@ class BusquedaView(FormMixin, ListView):
                     'form':self.get_form,
                     'total':total
                 }
-                return render_to_response('catalogacion/busqueda.html', context, context_instance=RequestContext(request))
+                return render(request, 'catalogacion/busqueda.html', context)
             else:
                 form = BusquedaForm
-                errors.append('Por favor seleccione una categoria y catalogo de biblioteca')
+                errors.append('Por favor seleccione una categoria y catálogo de biblioteca')
         return render_to_response('catalogacion/busqueda.html', {'errors':errors[0],'form':self.get_form})
 
 #Materialdetail
@@ -214,8 +203,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                     Q(tipo_material = categoria ) & 
                     Q(created__range=[fecha_desde, fecha_hasta]) &
                     (   Q(titulo__unaccent__icontains=query) |
-                        Q(autor__nombres__unaccent__icontains = query) | 
-                        Q(autor__apellidos__unaccent__icontains = query)
+                        Q(autor__slug__unaccent__icontains = query) 
                     )
                 )
 

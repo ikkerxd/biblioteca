@@ -7,7 +7,7 @@ from django.utils.html import escape, conditional_escape
 
 
 TIPO_CHOICES = (
-	 ('Catalogo de Biblioteca', {'label':'Catalogo de Biblioteca', 'disabled selected':True}), 
+	 ('Catalogo de Biblioteca', {'label':'Catálogo de Biblioteca', 'disabled selected':True}), 
 	 ('titulo',"Titulo"),
 	 ('autor',"Autor"),
 	 ('signatura',"Signatura Topográfica"),
