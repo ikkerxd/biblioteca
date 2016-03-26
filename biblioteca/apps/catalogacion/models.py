@@ -17,6 +17,21 @@ class TipoMaterial(models.Model):
         return self.nombre
 
 
+
+
+class Descriptor(models.Model):
+    nombre = models.CharField(max_length=50)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.nombre)
+        super(Descriptor, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.nombre
+
+
 class Material(TimeStampModel):
     portada = models.ImageField(upload_to='portada', blank=True, null=True)
     titulo = models.CharField('Titulo',max_length=200)
@@ -32,6 +47,9 @@ class Material(TimeStampModel):
     pais = CountryField(blank_label='(Seleccione un pais)')
     editorial = models.CharField(max_length=70)
     anio = models.CharField('Año',max_length=20)
+    edicion = models.CharField(max_length=10)
+    descriptores = models.ManyToManyField(Descriptor) #palabras claves
+    contenido = models.TextField() #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
 
@@ -44,21 +62,7 @@ class Material(TimeStampModel):
         super(Material, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.titulo
-
-
-class Descriptor(models.Model):
-    nombre = models.CharField(max_length=50)
-    slug = models.SlugField()
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.nombre)
-        super(Descriptor, self).save(*args, **kwargs)
-
-    def __unicode__(self):
-        return self.nombre
-
+        return "%s %s" % (self.titulo, self.isbn)
 
 class ManagerEjemplar(models.Manager):
 
@@ -83,8 +87,6 @@ class Ejemplar(TimeStampModel):
         'Fuente de adquisición',max_length=60
     ) #compra, donacion
     observacion = models.CharField('Observación', max_length=400)
-    descriptores = models.ManyToManyField(Descriptor) #palabras claves
-    contenido = models.TextField() #indice
     notas = models.CharField(max_length=50) #Nota general: perdido, repuesto
     descripcion_fisica = models.TextField('Descripción Física') #N° de pag, Dimensiones, Otros detalles
     prestado = models.BooleanField(default=False)

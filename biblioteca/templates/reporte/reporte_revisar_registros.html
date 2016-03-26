@@ -48,7 +48,7 @@
     <table style="border:1px solid black;border-collapse:collapse;">
         <tr>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">Nro.</th>
-            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">CODIGO</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">ISBN</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">CATEGORIA</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">TITULO</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">FECHA DE CREACION</th>
@@ -58,7 +58,7 @@
        {% for material in materiales %}
             <tr>
                 <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
-                <th style="border:1px solid black; padding: 2px;">{{material.isbn|add:3}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{material.isbn}}</th>
                 <th style="border:1px solid black; padding: 2px;">{{material.tipo_material|upper}}</th>
                 <th style="border:1px solid black; padding: 2px;">{{material.titulo|capfirst}} {{material.titulo_secundario}}</th>
                 <th style="border:1px solid black; padding: 2px;">{{material.created}}</th>

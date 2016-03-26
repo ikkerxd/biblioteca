@@ -44,25 +44,26 @@
                         {% endfor %}
 
                         {% if total > 0 %}
-    
+                            {% load i18n %}
                             <ul class="pagination">
                                 {% if materiales.has_previous %}
-                                    <li class="waves-effect"><a href="?pagina={{ materiales.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-previous"></i></a></li>
+                                    <li class="waves-effect"><a href="?{{ materiales.previous_page_number.querystring}}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}" class="prev"><i class="mdi-av-skip-previous"></i></a></li>
                                 {% endif %}
-                                
-                                {% for pg in materiales.paginator.page_range %}
-                                    {% if materiales.number == pg %}
-                                        <li class="active"><a href="?pagina={{ pg }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{ pg }}</a></li>
+                                {% for page in materiales.pages %}
+                                    {% if page %}
+                                        {% ifequal page materiales.number %}
+                                            <li class="active"><span class="current page">{{ page }}</span></li>
+                                        {% else %}
+                                             <li><a href="?{{ page.querystring }} {% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}" class="page">{{ page }}</a></li>
+                                        {% endifequal %}
                                     {% else %}
-                                        <li><a href="?pagina={{ pg }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{ pg }}</a></li>
+                                        ...
                                     {% endif %}
                                 {% endfor %}
-
                                 {% if materiales.has_next %}
-                                    <li class="waves-effect"><a href="?pagina={{ materiales.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}"><i class="mdi-av-skip-next"></i></a></li>
+                                     <li class="waves-effect"><a href="?{{ materiales.next_page_number.querystring }} {% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}" class="next"><i class="mdi-av-skip-next"></i></a></li>
                                 {% endif %}
                             </ul>
-
                         {% endif %}
                         
                         {% if errors %}

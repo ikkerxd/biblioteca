@@ -20,11 +20,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='ejemplar',
-            name='descriptores',
-            field=models.ManyToManyField(to='catalogacion.Descriptor'),
-        ),
-        migrations.AddField(
-            model_name='ejemplar',
             name='material',
             field=models.ForeignKey(to='catalogacion.Material'),
         ),

@@ -56,20 +56,6 @@ docs/_build/
 # PyBuilder
 target/
 
-biblioteca/apps/autores/migrations/
-biblioteca/apps/autores/migrations/*
-biblioteca/apps/catalogacion/migrations/
-biblioteca/apps/catalogacion/migrations/*
-biblioteca/apps/circulacion/migrations/
-biblioteca/apps/circulacion/migrations/*
-biblioteca/apps/herencia/migrations/
-biblioteca/apps/herencia/migrations/*
-biblioteca/apps/lector/migrations/
-biblioteca/apps/lector/migrations/*
-biblioteca/apps/users/migrations/
-biblioteca/apps//migrations/*
 
-biblioteca/media/
-biblioteca/media/*
 
 commits.txt

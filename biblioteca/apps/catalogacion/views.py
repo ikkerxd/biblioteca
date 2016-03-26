@@ -9,11 +9,11 @@ from apps.autores.models import Autor
 from itertools import chain
 
 from django.db.models import Q
-from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
+#from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 
 
 #pure-pagination
-#from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 #from pure_pagination.mixins import PaginationMixin
 
 from .forms import BusquedaForm, RevisarRegistroForm
@@ -96,25 +96,20 @@ class BusquedaView(FormMixin, ListView):
 
                 total = results.count() #numero total de materiales encontrados
                 print results
-                paginator = Paginator(results,3) # se indica items por pagina
-
-
                 parametros = request.GET.copy() 
-                if parametros.has_key('pagina'):
-                    del parametros['pagina']
+                if parametros.has_key('page'):
+                    del parametros['page']
 
-                page = request.GET.get('pagina')
                 try:
-                    queryset = paginator.page(page)
+                    page = request.GET.get('page', 1)
                 except PageNotAnInteger:
+                    page = 1
 
-                    queryset = paginator.page(1)
-                except EmptyPage:
+                # Provide Paginator with the request object for complete querystring generation
 
-                    queryset = paginator.page(paginator.num_pages)
+                p = Paginator(results, 1)
 
-
-
+                queryset = p.page(page)
 
                 context = {
                     'materiales':queryset,
