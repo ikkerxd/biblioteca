@@ -13,17 +13,21 @@
                 <div class="card border-side top-margin">
                     <div class="card-content center">
                         <figure>
-                            <img class="responsive-img circle" src="{% static 'img/usuario.png' %}" alt="img">
+                            {% if not lector.avatar %}
+                                <img class="responsive-img circle" src="{% static 'img/usuario.png' %}" alt="img">
+                            {% else %}
+                                <img class="responsive-img circle" src="{{ lector.avatar.url }}" alt="img">
+                            {% endif %}
                         </figure>
                         <div class="lector">
                             <div>
-                                <span class="lector-name">Sairitupac Arones Henrry Joel</span>
+                                <span class="lector-name">{{ lector.apellidos|title }} {{ lector.nombres|title }}</span>
                             </div>
                             <div>
-                                <span>Ingenieria Informatica y de Sistema</span>
+                                <span>{{ lector.carrera|title }}</span>
                             </div>
                             <div>
-                                <span>090229</span>
+                                <span>{{ lector.codigo }}</span>
                             </div>
                         </div>
                     </div>
@@ -33,15 +37,15 @@
                 <div class="card border-side top-margin">
                     <div class="card-content">
                         <div>
-                            <span class="lector-name">Prestado a: Sairitupac Arones Henrry Joel</span>
+                            <span class="lector-name">Prestado a: {{ lector.apellidos|title }} {{ lector.nombres|title }}</span>
                         </div>
                         <hr>
                         <div class="row">
-                            <form class="col s12">
+                            <form method="post" class="col s12">{% csrf_token %}
                             <div class="row">
                                 <div class="input-field col s6">
-                                  <input placeholder="Ingrese codigo de barras" id="first_name" type="text" class="validate">
-                                  <label for="first_name">Codigo de Barras</label>
+                                  {{ form.codigo }}
+                                  {{ form.codigo.label_tag }}
                                 </div>
                                 <div class="input-field col s4">
                                     <button class="btn orange lighten-1 waves-effect waves-light" type="submit" name="action">buscar
@@ -58,23 +62,28 @@
                 <div class="card border-side top-margin">
                     <div class="card-content">
                         <div>
-                            <span class="lector-name">0 - Prestamo(s)</span>
+                            <span class="lector-name">{{ cantidad }} - Prestamo(s)</span>
                         </div>
                         <hr>
                         <div class="row">
                             <table class="bordered striped">
                                 <thead>
                                     <tr>
+                                        <th>Fecha devolución</th>
+                                        <th>Titulo</th>
+                                        <th>Tipo</th>
                                         <th>Signatura</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>21/12/2016</td>
-                                        <td>La vida es bella</td>
-                                        <td>Libro</td>
-                                        <td>398.22 E74y</td>
-                                    </tr>
+                                    {% for prestamo in prestamos %}
+                                        <tr>
+                                            <td>{{ prestamo.fecha_entrega }}</td>
+                                            <td>{{ prestamo.ejemplar.material.titulo }}</td>
+                                            <td>{{ prestamo.ejemplar.material.tipo_material }}</td>
+                                            <td>{{ prestamo.ejemplar.signatura }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

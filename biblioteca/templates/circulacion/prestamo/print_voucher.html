@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style >
+        @page {
+            size: {{ pagesize }};
+            @frame header_frame{
+                -pdf-frame-content: headerContent;
+                /*left: 5pt;
+                top: 20pt;
+                height: 100pt;*/
+                left: 2.5cm;
+                top: 2cm;
+                height: 100pt;
+                }
+
+            @frame content_frame {
+                    left: 2.5cm; width: 400pt; top: 1.5cm; height: 700pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table style="border:0px solid black;border-collapse:collapse;">
+        <tr>
+            <th style="border:0px solid white; padding: 2px; width:90px; text-align:center;"><img src="media/logo/logo_unsaac.jpg" width="90" height="130"></th>
+            <th style="border:0px solid white; padding: 2px;">
+                <p style="font-size: 20px; font-family: Arial; text-align:center;">
+                    vocher de prestamo detalle
+                    <br>
+                    detalle
+                </p>
+            </th>
+        </tr>
+    </table>
+
+    <table style="border:0px solid black;border-collapse:collapse;">
+        <tr>
+            <th style="border:0px solid white; padding: 2px;">
+
+            <pre style="font-size: 12px; font-family: Arial; text-align:left;">
+            numero                     : {{ minombre }}
+            fecha                      : {{ minombre }}
+            cliente                    : {{ minombre }}
+            RUC                        : {{ minombre }}
+            </pre>
+            </th>
+            <th style="border:0px solid white; padding: 2px; width:90px; text-align:center;"><img src="media/{{autor.foto}}" width="90" height="130"></th>
+        </tr>
+    </table>
+
+
+<br>
+<br>
+
+    <table style="border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:60px">Cantidad</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">Descripcion</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">Precio Unit.</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">Importe</th>
+        </tr>
+
+        {% for det in detalle %}
+            <tr>
+                <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:60px">{{ minombre }}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ minombre }}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ minombre }}</th>
+            </tr>
+            <th style="border:1px solid black; padding: 2px;">{{ minombre }}</th>
+        {% endfor %}
+
+    </table>
+
+    <table style="border:0px solid black;border-collapse:collapse;">
+        <tr>
+            <th style="border:0px solid white; padding: 2px;">
+
+                <pre style="font-size: 12px; font-family: Arial; text-align:left;">
+                    subtotal                   : {{ minombre }}
+                    IGV                        : {{ minombre }}
+                    Total                      : {{ minombre }}
+                </pre>
+            </th>
+            <th style="border:0px solid white; padding: 2px; width:90px; text-align:center;"><img src="media/{{autor.foto}}" width="90" height="130"></th>
+        </tr>
+    </table>
+
+</body>
+</html>
