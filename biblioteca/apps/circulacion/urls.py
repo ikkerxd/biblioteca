@@ -17,4 +17,9 @@ urlpatterns = [
         views.VoucherView.as_view(),
         name='printVoucher'
     ),
+    url(
+        r'^panel/devolucion/$',
+        views.DevolverView.as_view(),
+        name="devolver"
+    ),
 ]

@@ -12,7 +12,7 @@ from .models import Prestamo
 
 # Local Import
 from .functions import generar_pdf
-from .forms import LectorPrestamoForm, LibroPrestamoForm
+from .forms import LectorPrestamoForm, LibroPrestamoForm, DevolucionForm
 from datetime import datetime, timedelta
 
 
@@ -32,8 +32,7 @@ class LectorPrestamoView(FormView):
 
 class EjemplarPrestamoView(FormMixin, DetailView):
     '''
-    Relizacino del prestamos si el dia es viernes
-    el mismo se devolvera el viernes
+    Relizacion del prestamos si por dia
     '''
     model = Lector
     template_name = 'circulacion/prestamo/ejemplar.html'
@@ -104,3 +103,10 @@ class VoucherView(SingleObjectMixin, View):
             'circulacion/prestamo/print_voucher.html',
             {'pagesize' : 'A4', 'minombre' : 'hennry joel'}
         )
+
+class DevolverView(FormView):
+    form_class = DevolucionForm
+    template_name = 'circulacion/devolucion/devolucion.html'
+
+    def form_valid(self, form):
+        return super(DevolucionForm, self).form_valid(form)

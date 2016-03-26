@@ -38,3 +38,12 @@ class LibroPrestamoForm(forms.Form):
     #         mensaje = 'el lector no esta registrado'
     #         raise forms.ValidationError(mensaje)
     #     return cleaned_data
+
+
+class DevolucionForm(forms.Form):
+    codigo = forms.CharField(
+        label='codigo de barras',
+        widget=forms.TextInput(
+            attrs={'class': 'validate', 'placeholder': 'Ingrese codigo de barras'}
+        ),
+    )
