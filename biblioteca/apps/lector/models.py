@@ -31,9 +31,10 @@ class TipoLector(models.Model):
 
 
 class Lector(Persona):
-    codigo = models.CharField(max_length=30, unique=True)
+    codigo = models.CharField(max_length=30, unique=True) #codigo alumno/docente
     carrera = models.ForeignKey(CarreraProfesional, blank=True, null=True)
     dni = models.CharField(max_length=8)
+    direccion = models.CharField(max_length=80)
     avatar = models.ImageField(upload_to='imagen_lector', blank=True, null=True)
     estado = models.BooleanField(default=True)
     tipo = models.ForeignKey(TipoLector)

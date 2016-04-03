@@ -126,7 +126,7 @@ class BusquedaView(FormMixin, ListView):
 #Materialdetail
 class LeerPDFDoc(SingleObjectMixin, View):
 
-    model = Ejemplar
+    model = Material
 
     def get(self, request, *args, **kwargs):
         nombre = self.get_object().archivo

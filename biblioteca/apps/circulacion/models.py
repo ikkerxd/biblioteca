@@ -23,3 +23,13 @@ class Devolucion(models.Model):
 
     class Meta:
         verbose_name_plural = 'Devoluciones'
+
+class Semestre(models.Model):
+    nombre = models.CharField(max_length=10) #ejemplo: 2016-1
+    inicio_semestre = models.DateField()
+    fin_semestre = models.DateField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.nombre)
+        super(Semestre, self).save(*args, **kwargs)

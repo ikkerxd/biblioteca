@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Prestamo, Devolucion
+from .models import Prestamo, Devolucion, Semestre
 
 class PrestamoAdmin(admin.ModelAdmin):
     list_display = ['bibliotecario', 'lector', 'ejemplar', 'fecha_entrega']
@@ -13,3 +13,4 @@ class DevolucionAdmin(admin.ModelAdmin):
 
 admin.site.register(Prestamo, PrestamoAdmin)
 admin.site.register(Devolucion, DevolucionAdmin)
+admin.site.register(Semestre)

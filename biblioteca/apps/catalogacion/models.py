@@ -41,15 +41,16 @@ class Material(TimeStampModel):
         blank=True,
         null=True
     )
-    tipo_material = models.ForeignKey(TipoMaterial, blank=True, null=True)
+    tipo_material = models.ForeignKey(TipoMaterial)
     isbn = models.CharField('ISBN', max_length=50, blank=True, null=True)
     autor = models.ManyToManyField(Autor)
-    pais = CountryField(blank_label='(Seleccione un pais)')
-    editorial = models.CharField(max_length=70)
-    anio = models.CharField('Año',max_length=20)
-    edicion = models.CharField(max_length=10)
+    archivo = models.FileField(upload_to='archivos', blank=True, null=True)
+    pais = CountryField(blank_label='(Seleccione un pais)', blank=True, null=True)
+    editorial = models.CharField(max_length=70, blank=True, null=True)
+    anio = models.CharField('Año',max_length=20, blank=True, null=True)
+    edicion = models.CharField(max_length=10,  blank=True, null=True)
     descriptores = models.ManyToManyField(Descriptor) #palabras claves
-    contenido = models.TextField() #indice
+    contenido = models.TextField(blank=True, null=True) #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()
 
@@ -71,24 +72,17 @@ class ManagerEjemplar(models.Manager):
 
 
 class Ejemplar(TimeStampModel):
-    numero_ingreso = models.CharField('Número de ingreso', max_length=50)
-    codigo_barras = models.CharField('Código de barras', max_length=50)
+    numero_ingreso = models.CharField('Número de ingreso', max_length=50,  blank=True, null=True)
+    codigo_barras = models.CharField('Código de barras', max_length=50, blank=True, null=True)
     material = models.ForeignKey(Material)
-    ubicacion = models.CharField('Ubicación', max_length=50)
-    signatura = models.CharField('Signatura topográfica', max_length=60)
-    precio = models.DecimalField(
-        'Precio normal en soles',
-        max_digits=6,
-        decimal_places=2
-    )
-    numero_copia = models.CharField('Número de copia', max_length=20)
-    archivo = models.FileField(upload_to='archivos', blank=True, null=True)
-    fuente_adquisicion = models.CharField(
-        'Fuente de adquisición',max_length=60
-    ) #compra, donacion
-    observacion = models.CharField('Observación', max_length=400)
-    notas = models.CharField(max_length=50) #Nota general: perdido, repuesto
-    descripcion_fisica = models.TextField('Descripción Física') #N° de pag, Dimensiones, Otros detalles
+    ubicacion = models.CharField('Ubicación', max_length=50, blank=True, null=True) #ejem: biblioteca central
+    signatura = models.CharField('Signatura topográfica', max_length=60, blank=True, null=True)
+    precio = models.DecimalField('Precio normal en soles',max_digits=6, decimal_places=2, blank=True, null=True)
+    numero_copia = models.CharField('Número de copia', max_length=20, blank=True, null=True)
+    fuente_adquisicion = models.CharField('Fuente de adquisición',max_length=60) #compra, donacion
+    observacion = models.CharField('Observación', max_length=400, blank=True, null=True)
+    notas = models.CharField(max_length=50, blank=True, null=True) #Nota general: perdido, repuesto
+    descripcion_fisica = models.TextField('Descripción Física', blank=True, null=True) #N° de pag, Dimensiones, Otros detalles
     prestado = models.BooleanField(default=False)
     objects = ManagerEjemplar()
 

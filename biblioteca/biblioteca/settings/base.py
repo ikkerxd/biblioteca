@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 
 LANGUAGE_CODE = 'es-pe'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
@@ -81,7 +81,7 @@ AUTH_USER_MODEL = 'users.User'
 
 
 PAGINATION_SETTINGS = {
-    'PAGE_RANGE_DISPLAYED': 5,
+    'PAGE_RANGE_DISPLAYED': 2,
     'MARGIN_PAGES_DISPLAYED': 2,
 
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,

@@ -29,4 +29,13 @@ class Migration(migrations.Migration):
             ],
             bases=('herencia.timestampmodel',),
         ),
+        migrations.CreateModel(
+            name='Semestre',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('nombre', models.CharField(max_length=10)),
+                ('inicio_semestre', models.DateField()),
+                ('fin_semestre', models.DateField()),
+            ],
+        ),
     ]
