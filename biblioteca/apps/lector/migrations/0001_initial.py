@@ -53,6 +53,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='lector',
             name='tipo',
-            field=models.ForeignKey(to='lector.TipoLector'),
+            field=models.ForeignKey(blank=True, to='lector.TipoLector', null=True),
         ),
     ]

@@ -33,11 +33,11 @@ class TipoLector(models.Model):
 class Lector(Persona):
     codigo = models.CharField(max_length=30, unique=True) #codigo alumno/docente
     carrera = models.ForeignKey(CarreraProfesional, blank=True, null=True)
-    dni = models.CharField(max_length=8)
-    direccion = models.CharField(max_length=80)
+    dni = models.CharField(max_length=8,blank=True, null=True)
+    direccion = models.CharField(max_length=80,blank=True, null=True)
     avatar = models.ImageField(upload_to='imagen_lector', blank=True, null=True)
     estado = models.BooleanField(default=True)
-    tipo = models.ForeignKey(TipoLector)
+    tipo = models.ForeignKey(TipoLector, blank=True, null=True)
     slug = models.SlugField(editable=False)
 
     class Meta:
@@ -45,8 +45,8 @@ class Lector(Persona):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify("%s %s" % (self.nombres, self.apellidos))
+            self.slug = slugify(self.apellidos_y_nombres)
         super(Lector, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return "%s %s" % (self.nombres, self.apellidos)
+        return self.apellidos_y_nombres

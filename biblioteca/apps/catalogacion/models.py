@@ -43,13 +43,13 @@ class Material(TimeStampModel):
     )
     tipo_material = models.ForeignKey(TipoMaterial)
     isbn = models.CharField('ISBN', max_length=50, blank=True, null=True)
-    autor = models.ManyToManyField(Autor)
+    autor = models.ManyToManyField(Autor, blank=True)
     archivo = models.FileField(upload_to='archivos', blank=True, null=True)
     pais = CountryField(blank_label='(Seleccione un pais)', blank=True, null=True)
     editorial = models.CharField(max_length=70, blank=True, null=True)
     anio = models.CharField('Año',max_length=20, blank=True, null=True)
     edicion = models.CharField(max_length=10,  blank=True, null=True)
-    descriptores = models.ManyToManyField(Descriptor) #palabras claves
+    descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
     slug = models.SlugField()

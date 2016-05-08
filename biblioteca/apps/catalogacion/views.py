@@ -61,6 +61,7 @@ class BusquedaView(FormMixin, ListView):
     form_class = BusquedaForm
     model = Material
     model = TipoMaterial
+    model = Ejemplar
 
     def get_context_data(self, **kwargs):
         context = super(BusquedaView, self).get_context_data(**kwargs)
@@ -68,60 +69,81 @@ class BusquedaView(FormMixin, ListView):
         return context
 
     def get(self, request, *args, **kwargs):
-        errors = []
-        form = BusquedaForm(request.GET)
         #Recuperar valores
         if request.method=='GET':
-            if form.is_valid():
-                categoria = request.GET.get('categoria')
+            categoria = request.GET.get('categoria')
+            if (categoria != ""):
                 categoria =  TipoMaterial.objects.get(id=categoria)
-                tipo = request.GET.get('tipo','')
-                query = request.GET.get('descripcion', '')
+            tipo = request.GET.get('tipo','')
+            print "TIPO"
+            print tipo
+            query = request.GET.get('descripcion', '')
 
-                if tipo == 'titulo':
-                    results = Material.objects.filter(Q(titulo__unaccent__icontains = query) &
-                                                        Q(tipo_material = categoria)
-                                                      ).distinct()
-                else:
-                    if tipo == 'autor':
-                        results = Material.objects.filter(Q(tipo_material = categoria ) & 
-                                                          Q(autor__slug__unaccent__icontains = query) 
-                                                         ).distinct()
-                        print "results"
-                    else:
-                        if tipo == 'signatura':
-                            tempresult = Ejemplar.objects.filter(Q(signatura__icontains= query)).values_list('material', flat=True).distinct()
-                            results = Material.objects.filter(id__in=tempresult)
-
-
-                total = results.count() #numero total de materiales encontrados
-                print results
-                parametros = request.GET.copy() 
-                if parametros.has_key('page'):
-                    del parametros['page']
-
-                try:
-                    page = request.GET.get('page', 1)
-                except PageNotAnInteger:
-                    page = 1
-
-                # Provide Paginator with the request object for complete querystring generation
-
-                p = Paginator(results, 1)
-
-                queryset = p.page(page)
-
-                context = {
-                    'materiales':queryset,
-                    'parametros':parametros,
-                    'form':self.get_form,
-                    'total':total
-                }
-                return render(request, 'catalogacion/busqueda.html', context)
+            if((categoria == "") and (tipo == "") and (query == "")):
+                results = Material.objects.all()
             else:
-                form = BusquedaForm
-                errors.append('Por favor seleccione una categoria y catálogo de biblioteca')
-        return render_to_response('catalogacion/busqueda.html', {'errors':errors[0],'form':self.get_form})
+                if((categoria != "") and (tipo == "") and (query == "")):
+                    results = Material.objects.filter(Q(tipo_material = categoria)).distinct()
+                else:
+                    if((categoria != "") and (tipo == "") and (query != "")):
+                        results = Material.objects.filter(Q(tipo_material = categoria) & (Q(titulo__unaccent__icontains = query)|Q(autor__slug__unaccent__icontains = query))).distinct()
+                    else:
+                        if ((categoria == "") and (tipo != "") and (query != "")):
+                            if tipo == 'titulo':
+                                results = Material.objects.filter(Q(titulo__unaccent__icontains = query)).distinct()
+                            else:
+                                if tipo == 'autor':
+                                    results = Material.objects.filter(Q(autor__slug__unaccent__icontains = query)).distinct()
+                                else:
+                                    if tipo == 'signatura':
+                                        print "ENTRO 1"
+                                        tempresult = Ejemplar.objects.filter(Q(signatura__icontains= query)).values_list('material', flat=True).distinct()
+                                        print "results temp"
+                                        print tempresult                                        
+                                        results = Material.objects.filter(id__in=tempresult)
+                                        print "results"
+                                        print results
+                        else:
+                            if ((categoria != "") and (tipo != "") and (query != "")):
+                                if tipo == 'titulo':
+                                    results = Material.objects.filter(Q(titulo__unaccent__icontains = query) &
+                                                                            Q(tipo_material = categoria)
+                                                                          ).distinct()
+                                else:
+                                    if tipo == 'autor':
+                                        results = Material.objects.filter(Q(tipo_material = categoria ) & 
+                                                              Q(autor__slug__unaccent__icontains = query) 
+                                                             ).distinct()
+                                    else:
+                                        if tipo == 'signatura':
+                                            tempresult = Ejemplar.objects.filter(Q(signatura__icontains= query)).values_list('material', flat=True).distinct()
+                                            results = Material.objects.filter(id__in=tempresult)
+                            else:
+                                if ((categoria == "") and (tipo == "") and (query != "")) or ((categoria == "") and (tipo != "") and (query == "")):
+                                    tempresult = Ejemplar.objects.filter(Q(signatura__icontains= query)).values_list('material', flat=True).distinct()
+                                    results = Material.objects.filter(Q(titulo__unaccent__icontains = query)|Q(autor__slug__unaccent__icontains = query)|Q(id__in=tempresult)).distinct()
+        total = results.count() #numero total de materiales encontrados
+        parametros = request.GET.copy() 
+        if parametros.has_key('page'):
+            del parametros['page']
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        # Provide Paginator with the request object for complete querystring generation
+
+        p = Paginator(results, 1) #numero de items por pagina
+
+        queryset = p.page(page)
+
+        context = {
+                'materiales':queryset,
+                'parametros':parametros,
+                'form':self.get_form,
+                'total':total
+        }
+        return render(request, 'catalogacion/busqueda.html', context)
 
 #Materialdetail
 class LeerPDFDoc(SingleObjectMixin, View):
@@ -166,7 +188,7 @@ class VerReporteAutor(SingleObjectMixin, View):
         fecha = datetime.now() #fecha actual
         formatofecha = fecha.strftime("%d/%m/%Y")
         autor = self.get_object()
-        materiales = Material.objects.filter(Q(autor__nombres__icontains=autor.nombres),Q(autor__apellidos__icontains=autor.apellidos)).distinct()
+        materiales = Material.objects.filter(Q(autor__apellidos_y_nombres__icontains=autor)).distinct()
         html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
         return generar_pdf(html)
 
@@ -221,3 +243,5 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
 
         form2 = RevisarRegistroForm
         return render_to_response('reporte/revisar_registros.html',{'error': error, 'form2': form2})
+
+

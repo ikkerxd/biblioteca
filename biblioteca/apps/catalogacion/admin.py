@@ -3,9 +3,9 @@ from .models import TipoMaterial, Material, Descriptor, Ejemplar
 
 
 class MaterialAdmin(admin.ModelAdmin):
-    list_display = ['isbn','titulo','titulo_secundario', 'tipo_material']
+    list_display = ['titulo','isbn','titulo_secundario', 'tipo_material']
     ordering = ['titulo']
-    search_fields = ('isbn','titulo','titulo_secundario', 'tipo_material',)
+    search_fields = ('titulo','isbn','titulo_secundario', 'tipo_material',)
 
 
 class EjemplarAdmin(admin.ModelAdmin):

@@ -18,9 +18,8 @@ SEXO_CHOICES = (
 
 
 class Persona(TimeStampModel):
-    nombres = models.CharField(max_length=60)
-    apellidos = models.CharField(max_length=80)
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
+    apellidos_y_nombres = models.CharField(max_length=160)
+    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
 

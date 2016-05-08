@@ -57,8 +57,8 @@ class Migration(migrations.Migration):
                 ('edicion', models.CharField(max_length=10, null=True, blank=True)),
                 ('contenido', models.TextField(null=True, blank=True)),
                 ('slug', models.SlugField()),
-                ('autor', models.ManyToManyField(to='autores.Autor')),
-                ('descriptores', models.ManyToManyField(to='catalogacion.Descriptor')),
+                ('autor', models.ManyToManyField(to='autores.Autor', blank=True)),
+                ('descriptores', models.ManyToManyField(to='catalogacion.Descriptor', blank=True)),
             ],
             options={
                 'verbose_name_plural': 'Materiales',

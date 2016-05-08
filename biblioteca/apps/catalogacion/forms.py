@@ -38,12 +38,10 @@ class BusquedaForm(forms.Form):
 	categoria = forms.ModelChoiceField(empty_label="Seleccione una categoría",queryset=None)
 	descripcion = forms.CharField(max_length=100,
 		widget=(
-				forms.widgets.TextInput(attrs={'placeholder': 'Introduzca la búsqueda','required': True})
+				forms.widgets.TextInput(attrs={'placeholder': 'Introduzca la búsqueda'})
 				)
 	)
-	#tipo = forms.ChoiceField(choices=TIPO_CHOICES)
 	tipo =forms.ChoiceField(choices=TIPO_CHOICES, widget=SelectWithDisabled())
-	#tipo= forms.ChoiceField(choices=TIPO_CHOICES, widget=(forms.widgets.Select(attrs={'required': True, 'disabled':'Catálogo de Biblioteca'})))
 
 	def __init__(self, *args, **kwargs):
 		super(BusquedaForm,self).__init__(*args, **kwargs)
@@ -53,7 +51,7 @@ class RevisarRegistroForm(forms.Form):
 	categoria = forms.ModelChoiceField(empty_label="Seleccione una categoría", queryset=None)
 	descripcion = forms.CharField(max_length=100,
 		widget=(
-				forms.widgets.TextInput(attrs={'placeholder': 'Introduzca la búsqueda','required': True})
+				forms.widgets.TextInput(attrs={'placeholder': 'Introduzca la búsqueda'})
 				)
 	)
 	Mostrar_desde = forms.DateField(
@@ -70,4 +68,3 @@ class RevisarRegistroForm(forms.Form):
 	def __init__(self, *args, **kwargs):
 		super(RevisarRegistroForm,self).__init__(*args, **kwargs)
 		self.fields['categoria'].queryset = TipoMaterial.objects.all()
-

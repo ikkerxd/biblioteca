@@ -26,8 +26,8 @@ class Autor(Persona):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify("%s %s" % (self.nombres, self.apellidos))
+            self.slug = slugify(self.apellidos_y_nombres)
         super(Autor, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return "%s %s" % (self.nombres, self.apellidos)
+        return self.apellidos_y_nombres

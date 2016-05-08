@@ -22,8 +22,7 @@ class Migration(migrations.Migration):
             name='Persona',
             fields=[
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
-                ('nombres', models.CharField(max_length=60)),
-                ('apellidos', models.CharField(max_length=80)),
+                ('apellidos_y_nombres', models.CharField(max_length=160)),
                 ('sexo', models.CharField(max_length=1, choices=[(b'M', b'masculino'), (b'F', b'femenino')])),
                 ('email', models.EmailField(max_length=254, null=True, blank=True)),
                 ('telefono', models.CharField(max_length=20, null=True, blank=True)),
