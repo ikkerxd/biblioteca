@@ -22,4 +22,9 @@ urlpatterns = [
         views.DevolverView.as_view(),
         name="devolver"
     ),
+    url(
+        r'^panel/devolucion/detalle/(?P<pk>\d+)/$',
+        views.DetalleDevolucionView.as_view(),
+        name="devolverDetalle"
+    ),
 ]

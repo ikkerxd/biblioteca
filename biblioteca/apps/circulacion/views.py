@@ -107,6 +107,19 @@ class VoucherView(SingleObjectMixin, View):
 class DevolverView(FormView):
     form_class = DevolucionForm
     template_name = 'circulacion/devolucion/devolucion.html'
+    success_url = reverse_lazy('circulacion_app:devolverDetalle')
 
     def form_valid(self, form):
-        return super(DevolucionForm, self).form_valid(form)
+        # recuperar codigo del libro
+        codigo = form.cleaned_data["codigo"]
+        # recuperamos el prestamo decuardo al codigo de barras
+        prestamo = Prestamo.objects.get(ejemplar__codigo_barras=codigo)
+        # Cambiamos el estado del prestamo a falso y lo guardamos
+        prestamo.ejemplar.prestado = False
+        prestamo.ejemplar.save()
+        return redirect('circulacion_app:devolverDetalle', pk=prestamo.pk)
+
+
+class DetalleDevolucionView(DetailView):
+    model = Prestamo
+    template_name = 'circulacion/devolucion/detalle_devolucion.html'

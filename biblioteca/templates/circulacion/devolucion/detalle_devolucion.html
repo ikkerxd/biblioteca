@@ -1,0 +1,47 @@
+{% extends "users/panel/panel.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Devolición Item{% endblock title %}
+
+  {% block titulo_nav %}  Devolución Item {% endblock titulo_nav %}
+
+{% block contenido_panel %}
+  <div class="container">
+      <div class="row">
+          <div class="col s12">
+              <div class="card border-side top-margin">
+                  <div class="card-content">
+                      <div>
+                          <span class="lector-name">Devolucion del item con codigo de barra {{ prestamo.ejemplar.codigo_barras }}</span>
+                      </div>
+                      <hr>
+                      <div class="row">
+                          <table class="bordered striped">
+                              <thead>
+                                  <tr>
+                                      <th>Fecha devolución</th>
+                                      <th>Titulo</th>
+                                      <th>Tipo</th>
+                                      <th>Signatura</th>
+                                      <th>Usuario</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                      <tr>
+                                          <td>{{ prestamo.fecha_entrega }}</td>
+                                          <td>{{ prestamo.ejemplar.material.titulo }}</td>
+                                          <td>{{ prestamo.ejemplar.material.tipo_material }}</td>
+                                          <td>{{ prestamo.ejemplar.signatura }}</td>
+                                          <td>{{ prestamo.lector }}</td>
+                                      </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+{% endblock contenido_panel %}

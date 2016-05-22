@@ -28,8 +28,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('persona_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.Persona')),
                 ('codigo', models.CharField(unique=True, max_length=30)),
-                ('dni', models.CharField(max_length=8)),
-                ('direccion', models.CharField(max_length=80)),
+                ('dni', models.CharField(max_length=8, null=True, blank=True)),
+                ('direccion', models.CharField(max_length=80, null=True, blank=True)),
                 ('avatar', models.ImageField(null=True, upload_to=b'imagen_lector', blank=True)),
                 ('estado', models.BooleanField(default=True)),
                 ('slug', models.SlugField(editable=False)),
