@@ -6,10 +6,10 @@ class UserManager(BaseUserManager, models.Manager):
 
     def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
 
-        email = self.normalize_email(email)
         if not email:
             raise ValueError("el email es obligatorio")
-
+            
+        email = self.normalize_email(email) 
         user = self.model(
             username=username,
             email=email,
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager, models.Manager):
             username, email, password, False, False, **extra_fields
         )
 
-    def create_superuser(self, username, email, password=None, **extra_fields):
+    def create_superuser(self, username, email, password, **extra_fields):
         return self._create_user(
             username, email, password, True, True, **extra_fields
         )
@@ -39,11 +39,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('M', 'MASCULINO'),
         ('F', 'FEMENINO'),
     )
-    username = models.CharField('username', max_length=8, unique=True)
-    email = models.EmailField('correo electronico')
+    username = models.CharField('username', max_length=30, unique=True)
+    email = models.EmailField('correo electronico', unique=True)
     first_name = models.CharField('nombres', max_length=50)
     last_name = models.CharField('apellidos', max_length=50)
-    avatar = models.ImageField(upload_to='users')
+    avatar = models.ImageField(upload_to='users',blank=True, null=True )
     address = models.CharField('direccion', max_length=50)
     phone = models.CharField('telefono', max_length=50)
     gender = models.CharField('sexo', max_length=1, choices=GENDER_CHOICES)
