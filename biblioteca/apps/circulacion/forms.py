@@ -2,6 +2,7 @@
 
 from django import forms
 from apps.lector.models import Lector
+from .models import Prestamo
 
 
 class LectorPrestamoForm(forms.Form):
@@ -47,3 +48,17 @@ class DevolucionForm(forms.Form):
             attrs={'class': 'validate', 'placeholder': 'Ingrese codigo de barras'}
         ),
     )
+
+    def clean(self):
+        cleaned_data = super(DevolucionForm, self).clean()
+        codigo = cleaned_data.get('codigo')
+        prestamo = Prestamo.objects.filter(ejemplar__codigo_barras=codigo)
+        if not prestamo.exists():
+            print '1 error'
+            mensaje = 'El ejemplar no existe'
+            raise forms.ValidationError(mensaje)
+        elif not prestamo[0].ejemplar.prestado:
+            print '2 error'
+            mensaje = 'El ejemplar no se encuentra prestado'
+            raise forms.ValidationError(mensaje)
+        return cleaned_data
