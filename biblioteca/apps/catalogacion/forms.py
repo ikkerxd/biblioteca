@@ -47,24 +47,40 @@ class BusquedaForm(forms.Form):
 		super(BusquedaForm,self).__init__(*args, **kwargs)
 		self.fields['categoria'].queryset = TipoMaterial.objects.all()
 
-class RevisarRegistroForm(forms.Form):
-	categoria = forms.ModelChoiceField(empty_label="Seleccione una categoría", queryset=None)
-	descripcion = forms.CharField(max_length=100,
+class RevisarRegistroForm (forms.Form):
+	categoria = forms.ModelChoiceField(empty_label="Seleccione una categoría", queryset=None,required=False,)
+	descripcion = forms.CharField(max_length=100, required=False,
 		widget=(
 				forms.widgets.TextInput(attrs={'placeholder': 'Introduzca la búsqueda'})
 				)
 	)
-	Mostrar_desde = forms.DateField(
+	Mostrar_desde = forms.DateField(required=True,
 		widget=(
-			forms.widgets.DateInput(format="%d/%m/%Y" , attrs={'class':'datepicker'})
+			forms.widgets.DateInput(format="%d/%m/%Y" , attrs={'class':'datepicker' })
 			)
 	)
-	Mostrar_hasta = forms.DateField(
-		widget=(
+	Mostrar_hasta = forms.DateField(required=True,
+	widget=(
 			forms.widgets.DateInput(format="%d/%m/%Y", attrs={'class':'datepicker'})
 		)
 	)
+#	Mostrar_desde = forms.DateField(
+#		widget=forms.DateInput(format="%d/%m/%Y" , attrs={'class':'datepicker' }),)
+#
+#	Mostrar_hasta = forms.DateField(
+#		widget=forms.DateInput(format="%d/%m/%Y", attrs={'class':'datepicker'}),)
+#
 
 	def __init__(self, *args, **kwargs):
 		super(RevisarRegistroForm,self).__init__(*args, **kwargs)
 		self.fields['categoria'].queryset = TipoMaterial.objects.all()
+
+	def clean(self):
+		if (self.cleaned_data.get('Mostrar_desde') >
+            self.cleaned_data.get('Mostrar_hasta')):
+			raise forms.ValidationError(
+                "La fecha de inicio debe ser menor a la fecha final."
+            )
+
+        	return self.cleaned_data
+

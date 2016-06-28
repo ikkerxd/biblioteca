@@ -27,7 +27,7 @@
                                         {% endfor %}
                         </p>
                         <p><b>PDF:</b>
-                            <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}" > Leer PDF</a>
+                            <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}|urlize" > Leer PDF</a>
                         </p>
                         <p>
                             <b>Existencia:</b> {{ existencia }}

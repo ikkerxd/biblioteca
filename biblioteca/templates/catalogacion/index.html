@@ -20,11 +20,14 @@
                           <img class="activator" src="{{ material.portada.url }}" >
                         </div>
                         <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4">{{ material.titulo|truncatewords:"2"|wordwrap:"1"}}<i class="mdi-navigation-more-vert right"></i></span>
+                          <span class="card-title activator grey-text text-darken-4">{{ material.titulo |slice:":16"  }} 
+                          {% if material.titulo|length > 16 %}
+                            ...
+                          {% endif %}<i class="mdi-navigation-more-vert right"></i></span>
                           <p><a href="{% url 'catalogacion_app:material' material.pk %}">Ver más...</a></p>
                         </div>
                         <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4">{{ material.titulo|truncatewords_html:"2"}}<i class="mdi-navigation-close right"></i></span>
+                          <span class="card-title grey-text text-darken-4">{{ material.titulo}}<i class="mdi-navigation-close right"></i></span>
                              {% for autor in material.autor.all %}
                               <p>
                                 {{ autor }}{% if not forloop.last %},{% else %}.{% endif %}

@@ -21,19 +21,46 @@
 
 {% block contenido_panel %}
 
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6">
+          	<div class="card blue-grey darken-1">
+            	<div class="card-panel">
+              	<span class="card-title">Reportes </span>
+            	<div class="card-action">
+					<form  method="GET"> {% csrf_token %}
+					    <label>Categoria:</label>
+				        {{form2.categoria}}
+				        <br>
+				        <label>Descripcion:</label>
+						{{ form2.descripcion|escape }}
+						<label>Fecha inicio:</label>
+						{{form2.Mostrar_desde}}
+						<label>Fecha final:</label>
+						{{form2.Mostrar_hasta}}
+						<!-- <input type="submit" value="Consultar" /> -->
+                        <p>
+					      <input class="with-gap" name="opcion" type="radio" id="test1" value="catalogados" checked />
+					      <label for="test1">Catalogados</label>
+					    </p>
+					    <p>
+					      <input class="with-gap" name="opcion" type="radio" id="test2" value="prestados" />
+					      <label for="test2">Prestados</label>
+					    </p>
 
-	<form action="" method="GET">{% csrf_token %}
+						<button class="btn cyan waves-effect waves-light" type="submit">Consultar
+                                    <i class="mdi-action-search left"></i>
+                        </button>
 
-	    <label>Categoria:</label>
-        {{form2.categoria}}
-        <br>
-        <label>Descripcion:</label>
-		{{ form2.descripcion|escape }}
-		<label>Fecha inicio:</label>
-		{{form2.Mostrar_desde}}
-		<label>Fecha final:</label>
-		{{form2.Mostrar_hasta}}
-		<input type="submit" value="Consultar" />
-	</form>
-
+                        {% if form2.errors %}
+                            <div class="text-errors">
+                                {{ form2.non_field_errors }}
+                            </div>
+                        {% endif %}
+						</form>
+            	</div>
+          	</div>
+        </div>
+    </div>
+      </div>
 {% endblock contenido_panel %}
