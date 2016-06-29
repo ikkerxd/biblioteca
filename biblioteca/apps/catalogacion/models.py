@@ -90,4 +90,5 @@ class Ejemplar(TimeStampModel):
         verbose_name_plural = 'Ejemplares'
 
     def __unicode__(self):
-        return self.material.titulo
+        return "%s %s" % (self.material.titulo, self.codigo_barras)
+        #return self.material.titulo

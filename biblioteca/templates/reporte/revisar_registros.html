@@ -34,9 +34,9 @@
 				        <br>
 				        <label>Descripcion:</label>
 						{{ form2.descripcion|escape }}
-						<label>Fecha inicio:</label>
+						<label>Fecha inicio (*):</label>
 						{{form2.Mostrar_desde}}
-						<label>Fecha final:</label>
+						<label>Fecha final (*):</label>
 						{{form2.Mostrar_hasta}}
 						<!-- <input type="submit" value="Consultar" /> -->
                         <p>
@@ -47,7 +47,7 @@
 					      <input class="with-gap" name="opcion" type="radio" id="test2" value="prestados" />
 					      <label for="test2">Prestados</label>
 					    </p>
-
+					    <label >(*) campos obligatorios</label><br>
 						<button class="btn cyan waves-effect waves-light" type="submit">Consultar
                                     <i class="mdi-action-search left"></i>
                         </button>

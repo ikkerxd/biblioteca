@@ -6,8 +6,6 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, View, FormView
 from .models import Material, Ejemplar, TipoMaterial
 from apps.autores.models import Autor
-from apps.circulacion.models import Prestamo
-from itertools import chain
 
 from django.db.models import Q
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
@@ -19,7 +17,6 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 
 from .forms import BusquedaForm, RevisarRegistroForm
 
-from .forms import BusquedaForm
 from django.template.loader import render_to_string
 
 from django.template import RequestContext
@@ -28,9 +25,6 @@ import ho.pisa as pisa
 from datetime import datetime, date, time
 
 
-from django.utils.formats import get_format
-
-from django.shortcuts import get_list_or_404, get_object_or_404
 
 class Index(FormMixin, TemplateView):
     form_class = BusquedaForm
@@ -207,71 +201,9 @@ class VerReporteAutor(SingleObjectMixin, View):
         html = render_to_string('reporte/reporte_autor.html', {'pagesize':'A4', 'materiales':materiales, 'fecha': formatofecha, 'autor':autor}, context_instance=RequestContext(request))
         return generar_pdf(html)
 
-class RevisarRegistroView2(SingleObjectMixin, FormMixin, TemplateView):
-
-    form_class = BusquedaForm
-    #succes_url
-    error = False
-
-    def form_valid(self, form):
-        codigo = form.cleaned_data['Mostrar_desde']
-        codigo2 = form.cleaned_data['Mostrar_hasta']
-
-    def get(self, request, *args, **kwargs):
-        error = False
-        if request.method == 'GET':
-            form2 = RevisarRegistroForm(request.GET)
-            if form2.is_valid():
-                #Recuperar valores
-                categoria = request.GET.get('categoria','')
-                categoria =  TipoMaterial.objects.get(id=categoria)
-
-                query =  request.GET.get('descripcion', '')
-
-                fecha_desde2 = request.GET.get('Mostrar_desde', '')
-                fecha_desde = datetime.strptime(fecha_desde2 +" 00:00:00", "%d/%m/%Y %H:%M:%S")
-
-                fecha_hasta2 = request.GET.get('Mostrar_hasta', '')
-                fecha_hasta = datetime.strptime(fecha_hasta2 +" 23:59:59", "%d/%m/%Y %H:%M:%S")
-                
-                #Realizamos la consulta
-                qset = (
-                    Q(tipo_material = categoria ) & 
-                    Q(created__range=[fecha_desde, fecha_hasta]) &
-                    (   Q(titulo__unaccent__icontains=query) |
-                        Q(autor__slug__unaccent__icontains = query) 
-                    )
-                )
-
-                results = Material.objects.filter(qset).distinct().order_by('created')
-                print results
-                #print "EJEMPLARES"
-                #results =  Ejemplar.objects.select_related().filter(material__in=results)
-                #print results
-
-                #datos para el pdf
-                fecha = datetime.now() #fecha actual
-                formatofecha = fecha.strftime("%d/%m/%Y") 
-                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'materiales': results}, context_instance=RequestContext(request))
-                return generar_pdf(html)
-            else: #formulario no valido
-                #form2['categoria'].errors 
-                error = True   
-        else: #formulario no valido
-            error = True
-
-        form2 = RevisarRegistroForm
-        return render_to_response('reporte/revisar_registros.html',{'error': error, 'form2': form2})
-
-
-
 class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
 
     form_class = BusquedaForm
-
-    def form_valid(self, form):
-        codigo = form.cleaned_data['Mostrar_desde']
-        codigo2 = form.cleaned_data['Mostrar_hasta']
 
     def get(self, request, *args, **kwargs):
         if request.method == 'GET':
@@ -292,42 +224,26 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                 opcion = request.GET.get('opcion')
 
                 #Realizamos la consulta
+                if opcion == 'prestados':
+                    qset.add(Q(prestado=True), qset.AND)
 
                 if categoria:
                     categoria =  TipoMaterial.objects.get(id=categoria)
-                    qset.add(Q(tipo_material=categoria), qset.AND)
+                    qset.add(Q(material__tipo_material=categoria), qset.AND)
                 if query:
-                    qset.add(Q(titulo__unaccent__icontains=query) | Q(autor__slug__unaccent__icontains = query) , qset.AND)
+                    qset.add(Q(material__titulo__unaccent__icontains=query) | Q(material__autor__slug__unaccent__icontains = query) , qset.AND)
 
                 if (fecha_inicio and fecha_fin):
                     qset.add(Q(created__range=[fecha_inicio, fecha_fin]), qset.AND)
 
-                #if opcion == 'catalogados':
-                #    results = Material.objects.filter(qset).distinct().order_by('created')
-
-                #if opcion == 'prestados':
-                #     qset.add(Q(ejemplar__prestado=True), qset.AND)
-                #if opcion == 'deudores':
-
-                results = Material.objects.filter(qset).distinct().order_by('created')
-
-                #qset = (
-                #    Q(tipo_material = categoria ) & 
-                #    Q(created__range=[fecha_inicio, fecha_fin]) &
-                #    (   Q(titulo__unaccent__icontains=query) |
-                #        Q(autor__slug__unaccent__icontains = query) 
-                #    )
-                #)
+                results = Ejemplar.objects.filter(qset).distinct().order_by('created')
 
                 print results
-                #print "EJEMPLARES"
-                #results =  Ejemplar.objects.select_related().filter(material__in=results)
-                #print results
 
                 #datos para el pdf
                 fecha = datetime.now() #fecha actual
                 formatofecha = fecha.strftime("%d/%m/%Y") 
-                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'materiales': results}, context_instance=RequestContext(request))
+                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'ejemplares': results}, context_instance=RequestContext(request))
                 return generar_pdf(html)
         else: #formulario no valido
             form2 = RevisarRegistroForm(request.GET)

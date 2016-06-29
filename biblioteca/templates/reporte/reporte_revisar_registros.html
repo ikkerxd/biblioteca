@@ -44,24 +44,26 @@
 <br>
 <br>
     
-{% if materiales %}
+{% if ejemplares %}
     <table style="border:1px solid black;border-collapse:collapse;">
         <tr>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">Nro.</th>
-            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">ISBN</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">CATEGORIA</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">ISBN</th>
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">COD. DE BARRAS</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">TITULO</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">FECHA DE CREACION</th>
         </tr>
         <!-- tr:nth-child(even) {background: #CCC}
              tr:nth-child(odd) {background: #FFF}-->
-       {% for material in materiales %}
+       {% for ejemplar in ejemplares %}
             <tr>
                 <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
-                <th style="border:1px solid black; padding: 2px;">{{material.isbn}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{material.tipo_material|upper}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{material.titulo|capfirst}} {{material.titulo_secundario}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{material.created}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.tipo_material|upper}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.isbn}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ejemplar.codigo_barras}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.titulo|capfirst}} {{ejemplar.material.titulo_secundario}}</th>
+                <th style="border:1px solid black; padding: 2px;">{{ejemplar.created}}</th>
             </tr>
         {% endfor %}
     </table>
