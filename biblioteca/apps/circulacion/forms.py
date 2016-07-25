@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
-from apps.lector.models import Lector
 from .models import Prestamo
 
+from apps.lector.models import Lector
+from apps.catalogacion.models import Ejemplar
 
 class LectorPrestamoForm(forms.Form):
     lector = forms.CharField(
@@ -30,15 +31,21 @@ class LibroPrestamoForm(forms.Form):
         ),
     )
 
-    # def clean(self):
-    #     cleaned_data = super(LectorPrestamoForm, self).clean()
-    #     codigo = cleaned_data.get('lector')
-    #
-    #     existe_lector = Lector.objects.filter(codigo=codigo).exists()
-    #     if not existe_lector:
-    #         mensaje = 'el lector no esta registrado'
-    #         raise forms.ValidationError(mensaje)
-    #     return cleaned_data
+    def clean(self):
+        cleaned_data = super(LibroPrestamoForm, self).clean()
+        codigo = cleaned_data.get('codigo')
+        existe_codigo = Ejemplar.objects.filter(codigo_barras=codigo).exists()
+        if not existe_codigo:
+            mensaje = 'el item no esta registrado'
+            raise forms.ValidationError(mensaje)
+        else:
+            ejemplar = Ejemplar.objects.get(codigo_barras=codigo)
+            prestado = ejemplar.prestado
+            print prestado
+            if prestado:
+                mensaje = "El item se encuentra prestado"
+                raise forms.ValidationError(mensaje)
+        return cleaned_data
 
 
 class DevolucionForm(forms.Form):
