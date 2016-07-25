@@ -14,11 +14,12 @@
                     </div>
                     <div class="col s12 m8">
                         <p >
-                            <b>TÍTULO: </b>{{ material.titulo}} {{material.titulo_secundario}}
+                            <b>TÍTULO: </b>{{ material.titulo}} 
                         </p>
-                        {%if  material.titulo_secundario  = None%}
+
+                        {%if  material.titulo_secundario  != "" %}
                         <p>
-                            <b>TÍTULO SECUNDARIO:</b> {{ material.titulo_secundario}}
+                            <b>TÍTULO SECUNDARIO:</b> {{ material.titulo_secundario }}
                         </p>
                         {% endif %}
                         
@@ -26,9 +27,17 @@
                                         <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
                                         {% endfor %}
                         </p>
+                       
+                       {% if not material.archivo %}
+                       <p></p>
+                        {% else %}
                         <p><b>PDF:</b>
-                            <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}|urlize" > Leer PDF</a>
+                            <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}" > Leer PDF</a>
                         </p>
+                        {% endif %}
+
+
+
                         <p>
                             <b>Existencia:</b> {{ existencia }}
                         </p>
