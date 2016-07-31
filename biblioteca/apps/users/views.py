@@ -6,6 +6,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 
 from .forms import LoginForm
+from django.db.models import Q
+from apps.users.models import User
+from django.http import HttpResponseRedirect
+#from django.contrib.auth.models import Group
 
 
 class LogIn(FormView):
@@ -21,9 +25,22 @@ class LogIn(FormView):
         if user is not None:
             if user.is_active:
                 login(self.request, user)
+                #recuperamos el nombre del usuario
+                nombreuser = user.username
+                print "username"
+                print nombreuser
+                consulta = User.objects.filter(Q(username=nombreuser)&Q(groups__name='catalogador'))
+                if consulta:
+                    #si el usuario pertence al grupo catalogador
+                    return redirect('/admin')
+                consulta = User.objects.filter(Q(username=nombreuser)&Q(groups__name='bibliotecario'))
+                if consulta:
+                    #si el usuario pertence al grupo bibliotecario
+                    return super(LogIn, self).form_valid(form)     
+
         return super(LogIn, self).form_valid(form)
-
-
+        
+    
 def LogOut(request):
     logout(request)
     return redirect('/')

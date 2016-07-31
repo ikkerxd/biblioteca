@@ -31,8 +31,8 @@ urlpatterns = [
         name='RevisarRegistro'
     ),
     url(
-        r'^tipo/$',
+        r'^$',
         views.TiposDeMaterialView.as_view(),
         name="tipos"
-    ),
+    )
 ]

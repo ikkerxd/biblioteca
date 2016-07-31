@@ -179,13 +179,11 @@ def generar_pdf(html):
 
 class TiposDeMaterialView(TemplateView):
     model = TipoMaterial
-    template_name = "catalogacion/index.html"
+    template_name = "catalogacion/include/header.html"
 
     def get_context_data(self, **kwargs):
-        context = super(TiposDeMaterial, self).get_context_data(**kwargs)
-        context['tipos'] = TipoMaterial.objects.all()
-        print context
-        print "gggggggggggggg"
+        context = super(TiposDeMaterialView, self).get_context_data(**kwargs)
+        context['tiposmat'] = TipoMaterial.objects.all()
         return context
 
 
