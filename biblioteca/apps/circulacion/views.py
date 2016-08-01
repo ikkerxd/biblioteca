@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, RedirectView
 from django.views.generic.edit import FormView, FormMixin
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
@@ -63,11 +63,118 @@ class EjemplarPrestamoView(FormMixin, DetailView):
     def form_valid(self, form):
         bibliotecario = self.request.user
         lector = self.object
+
+        # Cantidad de prestamos
+        cantidad = Prestamo.objects.filter(lector=lector).count()
         # recuperar codigo del libro
         codigo = form.cleaned_data["codigo"]
-        # recuperarmos el ajemplar
-        ejemplar = Ejemplar.objects.get(codigo_barras=codigo)
-        # recuepramos la fecha de hoy
+
+        if cantidad != 0:
+            return redirect('circulacion_app:confirmarPrestamo', pk=lector.pk, codigo=codigo)
+        else:
+            # recuperarmos el ajemplar
+            ejemplar = Ejemplar.objects.get(codigo_barras=codigo)
+            # recuepramos la fecha de hoy
+            hoy = datetime.now()
+            dia = hoy.isoweekday()
+
+            if dia == 5:
+                # si es viernes se suma 3 dias al la fecha de entrega
+                fecha_entrega = hoy + timedelta(days=3)
+            else:
+                # si el dia es distinto de viernes sol ose suma 1 dia
+                fecha_entrega = hoy + timedelta(days=1)
+
+            # Guardamos el prestamo
+            prestamo = Prestamo(
+                bibliotecario=bibliotecario,
+                lector=lector,
+                ejemplar=ejemplar,
+                fecha_entrega=fecha_entrega
+            )
+            prestamo.save()
+
+            # ponemos el libro como Prestado y guardamos
+            ejemplar.prestado = True
+            ejemplar.save()
+
+            return redirect('circulacion_app:printVoucher', pk=prestamo.pk)
+
+
+
+class ConfirmarPrestamoView(DetailView):
+    '''
+    Confirmar el prestamos si el lector tiene mas de dos prestamos
+    '''
+    model = Lector
+    template_name = 'circulacion/prestamo/confirmacion.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmarPrestamoView, self).get_context_data(**kwargs)
+        # recuperamos el lector y verificamos los libros que tienen prestado
+        lector = self.object
+        codigo_barras = self.kwargs.get("codigo")
+        context['ejemplar'] = Ejemplar.objects.get(codigo_barras=codigo_barras)
+        context['prestamos'] = Prestamo.objects.filter(
+            lector=lector,
+            ejemplar__prestado=True
+        )
+        context['cantidad'] = context['prestamos'].count()
+        return  context
+
+    # def form_valid(self, form):
+    #     bibliotecario = self.request.user
+    #     lector = self.object
+    #
+    #     # Cantidad de prestamos
+    #     cantidad = Prestamo.objects.filter(lector=lector).count()
+    #
+    #     if cantidad != 0:
+    #         pass
+    #     else:
+    #         # recuperar codigo del libro
+    #         codigo = form.cleaned_data["codigo"]
+    #         # recuperarmos el ajemplar
+    #         ejemplar = Ejemplar.objects.get(codigo_barras=codigo)
+    #         # recuepramos la fecha de hoy
+    #         hoy = datetime.now()
+    #         dia = hoy.isoweekday()
+    #
+    #         if dia == 5:
+    #             # si es viernes se suma 3 dias al la fecha de entrega
+    #             fecha_entrega = hoy + timedelta(days=3)
+    #         else:
+    #             # si el dia es distinto de viernes sol ose suma 1 dia
+    #             fecha_entrega = hoy + timedelta(days=1)
+    #
+    #         # Guardamos el prestamo
+    #         prestamo = Prestamo(
+    #             bibliotecario=bibliotecario,
+    #             lector=lector,
+    #             ejemplar=ejemplar,
+    #             fecha_entrega=fecha_entrega
+    #         )
+    #         prestamo.save()
+    #
+    #         # ponemos el libro como Prestado y guardamos
+    #         ejemplar.prestado = True
+    #         ejemplar.save()
+    #
+    #         return redirect('circulacion_app:printVoucher', pk=prestamo.pk)
+
+
+class RegistrarPrestamoView(View):
+
+    def get(self, request, *args, **kwargs):
+        print 'entre a redirectview'
+        print self.args
+        print self.kwargs
+        bibliotecario = self.request.user
+        lector = Lector.objects.get(pk=self.kwargs.get('pk'))
+        print "lectorrrrr"
+        print lector
+        ejemplar = Ejemplar.objects.get(codigo_barras=self.kwargs.get('codigo'))
+
         hoy = datetime.now()
         dia = hoy.isoweekday()
 
@@ -85,6 +192,7 @@ class EjemplarPrestamoView(FormMixin, DetailView):
             ejemplar=ejemplar,
             fecha_entrega=fecha_entrega
         )
+        print "vamo presmo"
         prestamo.save()
 
         # ponemos el libro como Prestado y guardamos
@@ -92,7 +200,6 @@ class EjemplarPrestamoView(FormMixin, DetailView):
         ejemplar.save()
 
         return redirect('circulacion_app:printVoucher', pk=prestamo.pk)
-
 
 class VoucherView(SingleObjectMixin, View):
     model = Prestamo

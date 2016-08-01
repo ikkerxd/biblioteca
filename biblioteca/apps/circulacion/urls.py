@@ -13,6 +13,16 @@ urlpatterns = [
         name="ejemplarPrestamo"
     ),
     url(
+        r'^panel/prestamo/confirmar/(?P<pk>\d+)/(?P<codigo>\d+)/$',
+        views.ConfirmarPrestamoView.as_view(),
+        name="confirmarPrestamo"
+    ),
+    url(
+        r'^panel/prestamo/registrar/(?P<pk>\d+)/(?P<codigo>\d+)/$',
+        views.RegistrarPrestamoView.as_view(),
+        name="registarPrestamo"
+    ),
+    url(
         r'^panel/imprimir/voucher/prestamo/(?P<pk>\d+)/$',
         views.VoucherView.as_view(),
         name='printVoucher'
