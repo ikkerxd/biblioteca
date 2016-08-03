@@ -11,6 +11,7 @@ class Prestamo(TimeStampModel):
     lector = models.ForeignKey(Lector)
     ejemplar = models.ForeignKey(Ejemplar)
     fecha_entrega = models.DateField()
+    devuelto = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s %s" % (str(self.pk), self.lector)

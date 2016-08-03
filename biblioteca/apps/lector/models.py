@@ -39,6 +39,8 @@ class Lector(Persona):
     estado = models.BooleanField(default=True)
     tipo = models.ForeignKey(TipoLector, blank=True, null=True)
     slug = models.SlugField(editable=False)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Lectores'
