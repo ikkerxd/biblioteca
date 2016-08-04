@@ -22,15 +22,17 @@
     </style>
 </head>
 <body>
-<strong style="font-size: 20px; font-family: Arial; text-align:center;">
-                    Vocher de prestamo detalle
-</strong>
+
 <p style="font-size: 15px; font-family: Arial; text-align:center;">
     </br></br> .......................................................... </br>
     FIRMA
 </p>
+<strong style="font-size: 12px; font-family: Arial; text-align:center;">UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO</strong>
+            <p>Lugar:</p>
+            <p>Bibliotecario:</p>
             <pre style="font-size: 12px; font-family: Arial; text-align:left;">
-            <strong>Usuario                           : </strong>{{ prestamo.lector }}
+            <strong>DATOS USUARIO </strong>
+            <strong> Usuario                           : </strong>{{ prestamo.lector }}
             <strong> Codigo                            : </strong>{{ prestamo.lector.codigo }}
             <strong> Carrera/Dependencia    : </strong>{{ prestamo.lector.carrera }}
             <strong> Fecha del Prestamo      : </strong>{{ prestamo.created }}
@@ -39,12 +41,15 @@
 
 
             <pre style="font-size: 12px; font-family: Arial; text-align:left;">
-            <strong>Titulo                               : </strong>{{ prestamo.ejemplar.material.titulo }}
-            <strong> Autor                               : </strong>{{ prestamo.ejemplar.material.autor }}
+            <strong>DATOS BIBLIOGRAFICOS </strong>
+            <strong> Titulo                               : </strong>{{ prestamo.ejemplar.material.titulo }}
+            <strong> Autor                               : </strong>{% for autor in prestamo.ejemplar.material.autor.all %} {{ autor }} {% if not forloop.last %},{% else %}.{% endif %}{% endfor %}
             <strong> Codigo de libro               : </strong>{{ prestamo.ejemplar.signatura }}
             <strong> Codigo de barras            : </strong>{{ prestamo.ejemplar.codigo_barras }}
             <strong> Fecha de devolucion      : </strong>{{ prestamo.fecha_entrega }}
             </pre>
+
+
 
 </body>
 </html>
