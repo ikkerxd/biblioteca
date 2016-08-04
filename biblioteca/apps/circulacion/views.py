@@ -8,12 +8,12 @@ from django.core.urlresolvers import reverse_lazy
 # local model import
 from apps.lector.models import Lector
 from apps.circulacion.models import Ejemplar
-from .models import Prestamo
+from .models import Prestamo, Devolucion
 
 # Local Import
 from .functions import generar_pdf
 from .forms import LectorPrestamoForm, LibroPrestamoForm, DevolucionForm
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 
 class LectorPrestamoView(FormView):
@@ -65,7 +65,7 @@ class EjemplarPrestamoView(FormMixin, DetailView):
         lector = self.object
 
         # Cantidad de prestamos
-        cantidad = Prestamo.objects.filter(lector=lector).count()
+        cantidad = Prestamo.objects.filter(lector=lector, devuelto=False).count()
         # recuperar codigo del libro
         codigo = form.cleaned_data["codigo"]
 
@@ -122,46 +122,6 @@ class ConfirmarPrestamoView(DetailView):
         context['cantidad'] = context['prestamos'].count()
         return  context
 
-    # def form_valid(self, form):
-    #     bibliotecario = self.request.user
-    #     lector = self.object
-    #
-    #     # Cantidad de prestamos
-    #     cantidad = Prestamo.objects.filter(lector=lector).count()
-    #
-    #     if cantidad != 0:
-    #         pass
-    #     else:
-    #         # recuperar codigo del libro
-    #         codigo = form.cleaned_data["codigo"]
-    #         # recuperarmos el ajemplar
-    #         ejemplar = Ejemplar.objects.get(codigo_barras=codigo)
-    #         # recuepramos la fecha de hoy
-    #         hoy = datetime.now()
-    #         dia = hoy.isoweekday()
-    #
-    #         if dia == 5:
-    #             # si es viernes se suma 3 dias al la fecha de entrega
-    #             fecha_entrega = hoy + timedelta(days=3)
-    #         else:
-    #             # si el dia es distinto de viernes sol ose suma 1 dia
-    #             fecha_entrega = hoy + timedelta(days=1)
-    #
-    #         # Guardamos el prestamo
-    #         prestamo = Prestamo(
-    #             bibliotecario=bibliotecario,
-    #             lector=lector,
-    #             ejemplar=ejemplar,
-    #             fecha_entrega=fecha_entrega
-    #         )
-    #         prestamo.save()
-    #
-    #         # ponemos el libro como Prestado y guardamos
-    #         ejemplar.prestado = True
-    #         ejemplar.save()
-    #
-    #         return redirect('circulacion_app:printVoucher', pk=prestamo.pk)
-
 
 class RegistrarPrestamoView(View):
 
@@ -208,7 +168,7 @@ class VoucherView(SingleObjectMixin, View):
         prestamo = self.get_object()
         return generar_pdf(
             'circulacion/prestamo/print_voucher.html',
-            {'pagesize' : 'A4', 'minombre' : 'hennry joel'}
+            {'pagesize' : 'A4', 'prestamo' : prestamo}
         )
 
 class DevolverView(FormView):
@@ -217,13 +177,25 @@ class DevolverView(FormView):
     success_url = reverse_lazy('circulacion_app:devolverDetalle')
 
     def form_valid(self, form):
+        # recuperamos los datos del bibliotecario
+        bibliotecario = self.request.user
         # recuperar codigo del libro
         codigo = form.cleaned_data["codigo"]
+        # recuperamos la hora y fecha actual
+        fecha_devolucion = date.today()
         # recuperamos el prestamo decuardo al codigo de barras
-        prestamo = Prestamo.objects.get(ejemplar__codigo_barras=codigo)
+        prestamo = Prestamo.objects.get(ejemplar__codigo_barras=codigo, devuelto=False)
         # Cambiamos el estado del prestamo a falso y lo guardamos
         prestamo.ejemplar.prestado = False
         prestamo.ejemplar.save()
+        prestamo.devuelto = True
+        prestamo.save()
+        devolucion = Devolucion(
+            prestamo=prestamo,
+            bibliotecario=bibliotecario,
+            fecha_devolucion=fecha_devolucion,
+        )
+        devolucion.save()
         return redirect('circulacion_app:devolverDetalle', pk=prestamo.pk)
 
 

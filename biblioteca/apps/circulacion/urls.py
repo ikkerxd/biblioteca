@@ -8,17 +8,17 @@ urlpatterns = [
         name="lectorPrestamo"
     ),
     url(
-        r'^panel/prestamo/(?P<pk>\d+)$',
+        r'^panel/prestamo/(?P<pk>\d+)/$',
         views.EjemplarPrestamoView.as_view(),
         name="ejemplarPrestamo"
     ),
     url(
-        r'^panel/prestamo/confirmar/(?P<pk>\d+)/(?P<codigo>\d+)/$',
+        r'^panel/prestamo/confirmar/(?P<pk>\d+)/(?P<codigo>[\w-]+)/$',
         views.ConfirmarPrestamoView.as_view(),
         name="confirmarPrestamo"
     ),
     url(
-        r'^panel/prestamo/registrar/(?P<pk>\d+)/(?P<codigo>\d+)/$',
+        r'^panel/prestamo/registrar/(?P<pk>\d+)/(?P<codigo>[\w-]+)/$',
         views.RegistrarPrestamoView.as_view(),
         name="registarPrestamo"
     ),

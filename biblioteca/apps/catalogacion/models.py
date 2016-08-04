@@ -17,11 +17,9 @@ class TipoMaterial(models.Model):
         return self.nombre
 
 
-
-
 class Descriptor(models.Model):
     nombre = models.CharField(max_length=50)
-    slug = models.SlugField()
+    slug = models.SlugField(editable=False)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -52,7 +50,7 @@ class Material(TimeStampModel):
     descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
-    slug = models.SlugField()
+    slug = models.SlugField(editable=False)
 
     class Meta:
         verbose_name_plural = 'Materiales'
