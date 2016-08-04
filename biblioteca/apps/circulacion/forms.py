@@ -6,6 +6,9 @@ from .models import Prestamo
 from apps.lector.models import Lector
 from apps.catalogacion.models import Ejemplar
 
+from datetime import date
+
+
 class LectorPrestamoForm(forms.Form):
     lector = forms.CharField(
         label='número de carnet',
@@ -18,8 +21,19 @@ class LectorPrestamoForm(forms.Form):
 
         existe_lector = Lector.objects.filter(codigo=codigo).exists()
         if not existe_lector:
-            mensaje = 'el lector no esta registrado'
+            mensaje = 'El lector no esta registrado'
             raise forms.ValidationError(mensaje)
+        else:
+            lector = Lector.objects.get(codigo=codigo)
+            if not lector.fecha_inicio or not lector.fecha_fin:
+                mensaje = 'El lector no se encuentra matriculado en el semestre'
+                raise forms.ValidationError(mensaje)
+            hoy = date.today();
+            # verficamos el rango de fechas
+            if not (lector.fecha_inicio < hoy and hoy < lector.fecha_fin):
+                mensaje = 'El carnet del lector a caducado.'
+                raise forms.ValidationError(mensaje)
+
         return cleaned_data
 
 
