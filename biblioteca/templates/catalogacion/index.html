@@ -20,7 +20,7 @@
                           {% if not material.portada %}
                             <img  class="activator" src="{% static 'img/img_libro.jpg' %}" alt="libro">
                           {% else %}
-                            <img src="{{ material.portada.url }}" alt="libro" >
+                            <img class="activator" src="{{ material.portada.url }}" alt="libro" >
                           {% endif %}
                         </div>
                         <div class="card-content">
