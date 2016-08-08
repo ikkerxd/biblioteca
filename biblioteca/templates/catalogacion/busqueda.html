@@ -21,7 +21,11 @@
                         {% for material in materiales.object_list %}
                             <article class="row detalle-item">
                                 <div class="col s3">
-                                    <img src="{{ material.portada.url }}" alt="" class="responsive-img">
+                                {% if not material.portada %}
+                                    <img  class="responsive-img" src="{% static 'img/img_libro.jpg' %}" alt="libro">
+                                {% else %}
+                                    <img src="{{ material.portada.url }}" alt="libro" class="responsive-img" >
+                                {% endif %}
                                 </div>
                                 <div class="col s8">
                                     <dl class="dl-detalle">

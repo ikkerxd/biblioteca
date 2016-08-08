@@ -17,7 +17,11 @@
                 <div class="col s12 m3">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="{{ material.portada.url }}" >
+                          {% if not material.portada %}
+                            <img  class="activator" src="{% static 'img/img_libro.jpg' %}" alt="libro">
+                          {% else %}
+                            <img src="{{ material.portada.url }}" alt="libro" >
+                          {% endif %}
                         </div>
                         <div class="card-content">
                           <span class="card-title activator grey-text text-darken-4">{{ material.titulo |slice:":16"  }} 

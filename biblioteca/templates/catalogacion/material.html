@@ -2,15 +2,20 @@
 
 {% load staticfiles %}
 
-{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+{% block title %}Biblioteca central y especializada unsaac{% endblock title %}
 
 {% block content %}
 
     {% include "catalogacion/include/header.html" %}
                 <div class="material row">
                     <div class="col s12 m4 card-image waves-effect waves-block waves-light">
-                        <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}" >
-                        <img class="imagen-mat" src="{{ material.portada.url }}" alt=""></a>
+                        <!-- <a href="{%url 'catalogacion_app:ver_pdf' material.pk %}" >  -->
+                        {% if not material.portada %}
+                            <img  class="imagen-mat" src="{% static 'img/img_libro.jpg' %}" alt="libro">
+                        {% else %}
+                            <img class="imagen-mat" src="{{ material.portada.url }}" alt="libro" >
+                        {% endif %}
+                        <!-- </a> -->
                     </div>
                     <div class="col s12 m8">
                         <p >

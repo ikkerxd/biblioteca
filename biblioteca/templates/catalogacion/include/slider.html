@@ -1,19 +1,20 @@
+{% load staticfiles %}
 <div class="slider">
   <ul class="slides">
     <li>
-        <img src="http://en.unsaac.edu.pe/images/slider02.jpg">
+        <img src="{% static 'slider/slider_01.jpg' %}">
         <!-- <img src="http://lorempixel.com/580/250/nature/1"> -->
     </li>
     <li>
-        <img src="http://www.charliequispe.org/Bibliotecas/BibliotecaUNSAAC01.jpg">
+        <img src="{% static 'slider/slider_03.jpg' %}" >
          <!-- <img src="http://lorempixel.com/580/250/nature/2"> -->
     </li>
     <li>
-        <img src="http://elbacan.com.pe/wp-content/uploads/2015/06/biblioteca-unsaac3.jpg">
+        <img src="{% static 'slider/slider_01.jpg' %}">
          <!-- <img src="http://lorempixel.com/580/250/nature/3"> -->
     </li>
     <li>
-        <img src="http://www.unsaac.edu.pe/convocatorias/admin/noticias/archivo_noticia/14534019751363813857unsaac-pw.jpg">
+        <img src="{% static 'slider/slider_04.jpg' %}">
          <!-- <img src="http://lorempixel.com/580/250/nature/4"> -->
     </li>
   </ul>
