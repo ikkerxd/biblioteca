@@ -32,8 +32,10 @@
                                         <a href="{% url 'catalogacion_app:verreporte' autor.pk %}">{{ autor }} {% if not forloop.last %},{% else %}.{% endif %}</a>
                                         {% endfor %}
                                         </dd>
+                                        {%if material.editorial != "" or material.anio != "" or material.edicion != "" %}
                                         <dt>Editor</dt>
                                         <dd>{{material.editorial}} {{material.anio}} {{material.edicion}}</dd>
+                                        {% endif %}
                                         <dt>ISBN</dt>
                                         <dd>{{material.isbn}}</dd>
 

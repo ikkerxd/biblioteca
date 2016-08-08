@@ -1,0 +1,58 @@
+{% extends "catalogacion/base_catalogacion.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+
+{% block content %}
+
+    {% include "catalogacion/include/header.html" %}
+    
+    <div class="row">
+      <div class="card">
+        <div class="col s12 m12 l12">
+                <div class="card"> <!-- inicio del card panel -->
+                <br>
+                    <h2 class="flow-text center-align" style="color:#B71C1C"> <b>CONÓZCANOS</b></h2>
+                    <div class="row">
+                      <div class="col s12 m4 l4">
+                        <div class="card-image">
+                          <img src="{% static 'img/imagen_biblio.jpg' %}" alt="biblioteca" >
+                        </div>
+                      </div>
+                      <div class="col s12 m8 l8">
+                        <div class="card-content">
+                          <span class="card-title" style="color:#B71C1C">Quiénes Somos</span>
+                          <div class="light" align="justify">
+                            Somos una combinación orgánica de personas cuyo propósito es ayudar a sus usuarios en el proceso de transformar la información en conocimiento. Asimismo cubrir las necesidades de nuestros estudiantes apoyando sus programas educativos y desarrollo de la investigación.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12 l12">
+                        <div class="card-content">
+                          <span class="card-title" style="color:#B71C1C">Misión</span>
+                          <div class="light" align="justify">
+                            La misión de las Bibliotecas de la UNSAAC es proporcionar a la comunidad universitaria recursos documentales y servicios de información de manera eficiente y oportuna, que permitan apoyar los servicios de enseñanza superior universitaria,  investigación,  difusión y extensión de la cultura.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12 l12">
+                        <div class="card-content">
+                          <span class="card-title" style="color:#B71C1C">Visión</span>
+                          <div class="light" align="justify">
+                            La Visión de las Bibliotecas de la UNSAAC es generar un ambiente propicio para los estudiantes antonianos y proporcionar los recursos bibliográficos, como una estructura de su formación profesional. Así mismo, proporcionar espacios de lectura y estar al frente de las innovaciones tecnológicas que faciliten la accesibilidad, el uso y manejo de los recursos documentales, realizando permanentemente, talleres de capacitación al usuario para el conocimiento y manejo eficiente de los recursos documentales con que cuenta la biblioteca.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+
+
+{% endblock content %}

@@ -18,7 +18,7 @@
 <nav class="red darken-4">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="{%url 'catalogacion_app:Index' %}"  class="brand-logo">biblioteca</a>
+      <a href="{%url 'catalogacion_app:Index' %}"  class="brand-logo">Biblioteca UNSAAC - Cusco</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse">
         <i class="mdi-navigation-menu"></i>
       </a>
@@ -26,27 +26,34 @@
       <ul class="right hide-on-med-and-down">
 
         <li><a href="{%url 'catalogacion_app:Index' %}">Inicio</a></li>
-        <li><a href="#">Misión & Visión</a></li>
-        <li><a href="#">Contactenos</a></li>
         <li>
+          <ul style="background-color:#FFFFFF" id="nosotros" class="dropdown-content">
+            <li><a style="color:#B71C1C;" href="{%url 'catalogacion_app:nosotros' %}">Conózcanos</a></li>
+            <li><a style="color:#B71C1C;" href="{%url 'catalogacion_app:directorio' %}">Directorio</a></li>
+          </ul>
+
+          <a class="dropdown-button valign-wrapper" data-activates="nosotros">Nosotros<i class="mdi-navigation-arrow-drop-down"></i></a>
+        </li>
+        <li><a href="#">Contactenos</a></li>
+        <!--<li>
           <ul id="matricula-dropdown" class="dropdown-content">
           
-            <!--<li><a href="#">tesis</a></li>
+            <li><a href="#">tesis</a></li>
             <li class="divider"></li>
             <li><a href="#">revistas</a></li>
             <li class="divider"></li>
-            <li><a href="#">libros</a></li>-->
+            <li><a href="#">libros</a></li>
              <li><a href="#">{{ tiposmat }}</a></li>
           </ul>
           <a class="dropdown-button valign-wrapper" data-activates="matricula-dropdown">publicaciones<i class="mdi-navigation-arrow-drop-down"></i></a>
-        </li>
+        </li>-->
 
 
       </ul>
 
       <ul class="side-nav" id="mobile-demo">
         <li><a href="{%url 'catalogacion_app:Index' %}">Inicio</a></li>
-        <li><a href="#">Misión & Visión</a></li>
+        <li><a href="{%url 'catalogacion_app:nosotros' %}">Nosotros</a></li>
         <li><a href="#">Contactenos</a></li>
         <li><a href="{%url 'users_app:login' %}">Iniciar Sesión</a></li>
       </ul>

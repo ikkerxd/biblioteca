@@ -37,6 +37,24 @@ class Index(FormMixin, TemplateView):
         context['form'] = self.get_form()
         return context
 
+class NosotrosView(FormMixin, TemplateView):
+    form_class = BusquedaForm
+    template_name = "catalogacion/nosotros.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(NosotrosView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+class DirectorioView(FormMixin, TemplateView):
+    form_class = BusquedaForm
+    template_name = "catalogacion/directorio.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(DirectorioView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
 class MaterialView(FormMixin, DetailView):
     form_class = BusquedaForm
     model = Material

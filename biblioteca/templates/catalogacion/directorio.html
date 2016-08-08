@@ -1,0 +1,459 @@
+{% extends "catalogacion/base_catalogacion.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Bibloteca central y especializada unsaac{% endblock title %}
+
+{% block content %}
+
+    {% include "catalogacion/include/header.html" %}
+    
+    <div class="row">
+      <div class="card">
+        <div class="col s12 m12 l12">
+                <div class="card"> <!-- inicio del card panel -->
+                <br>
+                    <h2 class="flow-text center-align" style="color:#B71C1C"> <b>DIRECTORIO</b></h2>
+                    <div class="row">
+                      <div class="col s12 m4 l4">
+                        <div class="card-image">
+                          <img src="{% static 'img/imagen_directorio.jpg' %}" alt="biblioteca" >
+                        </div>
+                      </div>
+                      <div class="col s12 m8 l8">
+                        <div class="card-content">
+                          <span class="card-title" style="color:#B71C1C">Director de Sistemas de Información</span>
+                          <div class="light" align="justify">
+                            Mgt. José Mauro Pillco Quispe
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12 l12" >
+                        <div class="card-content" >
+                          <span class="card-title" style="color:#B71C1C">Personal de la Unidad de Biblioteca</span>
+                          <div class="col s12 m12 l12 light" align="center">
+                          <table class="responsive-table striped bordered centered" text-align="center">
+                            <thead>
+                              <tr align="center">
+                                  <th align="center">Nombre</th>
+                                  <th >Area</th>
+                              </tr>
+                            </thead>
+<tbody>
+    <tr>
+      <td>
+          Lic. Enrriqueta Llacta Morveli
+      </td>
+      <td>
+          Jefe de la Unidad de Biblioteca
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Blga. Carmen Luz, DIAZ VERA
+      </td>
+      <td>
+          Jefe Administrativo de la Unidad de Biblioteca
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Wellington, VILLAVICENCIO ZANS
+      </td>
+      <td>
+          Coordinador de Recursos Informáticos
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Ing. Karin Junet, PEÑA CANDIA
+      </td>
+      <td>
+        Responsable del Repositorio Digital
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Sra. Dermia, CAMPANA MELENDEZ
+      </td>
+      <td>
+          Coordinadora (e) de Procesos Técnicos
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Gloria, OVIEDO LIGARDA
+      </td>
+      <td>
+          Responsable Sección Deudas
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>
+          Lic. Alfredo, CHAVEZ TAMAYO
+      </td>
+      <td>
+          Personal de Procesos Técnicos
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Lic. Maria Luz Delgado Pacheco
+      </td>
+      <td>
+        Personal de Procesos Técnicos
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Flor de María, ITURBE PAREDES
+      </td>
+      <td>
+          Personal de Procesos Técnicos
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Ing. Timoteo, CALLAPIÑA TAPIA
+      </td>
+      <td>
+        Coordinador de Circulación Turno Mañana
+    </tr>
+    <tr>
+      <td>
+          Lic. Martha, CALDERON TERRAZAS
+      </td>
+      <td>
+          Responsable de la Tesisteca
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Srta. Mercedes, CASTILLO CARLOS
+      </td>
+      <td>
+          Personal de Circulación Turno Mañana
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Ing. Rolando Odón, CHALCO CAHUAYA
+      </td>
+      <td>
+          Personal de Circulación Turno Tarde
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Mgt. Juanita de Dios, CAVERO BACA
+      </td>
+      <td>
+          Responsable de Hemeroteca
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Roberto, VARGAS CONCHOY
+      </td>
+      <td>
+          Personal de Circulación Turno Mañana
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Percy, PUNTACA MACHACA
+      </td>
+      <td>
+          Responsable de Donaciones&nbsp; Turno Tarde
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Jerónimo, HUALLPA QUISPE
+      </td>
+      <td>
+          Responsable de Referencias Turno Mañana
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Ing. Ricardo, MONTOYA SICLLA
+      </td>
+      <td>
+          Personal de Donaciones Turno Tarde
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Dora, PARISACA SUPO
+      </td>
+      <td>
+          Personal de Circulación Turno Mañana
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Braulio, PUENTE DE LA VEGA
+      </td>
+      <td>
+          Coordinador de Circulación Turno Tarde
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Jorge, MOLINA OROSCO
+      </td>
+      <td>
+          Personal de Hemeroteca
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Br. César, QUISPE AGUILAR
+      </td>
+      <td>
+          Responsable de la Sala de estudiantes universitarios con Discapacidad
+      </td>
+    </tr>
+    <tr>
+      <td> Pedro, QUISPE HALANOCCA</td>
+      <td>
+          Personal de Limpieza
+      </td>
+    </tr>
+  </tbody>
+                          </table>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12 l12">
+                        <div class="card-content">
+                          <span class="card-title" style="color:#B71C1C">Personal que labora en las diferentes Bibliotecas Especializadas</span>
+                          <div class="light" align="justify">
+                          <table class="responsive-table striped bordered centered" text-align="center">
+                            <thead>
+                              <tr align="center">
+                                  <th align="center">Nombre</th>
+                                  <th >Area</th>
+                              </tr>
+                            </thead>
+  <tbody>
+    <tr>
+      <td>
+          Sr. Gumercindo Mamani
+      </td>
+      <td>
+          Biblioteca Especializada de Agronomía y Zootecnia
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Br. Daniel, ROCA DONGO
+      </td>
+      <td>
+          Biblioteca Especializada de Arquitectura y Artes Plásticas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Lilia, CORRALES GARCIA
+      </td>
+      <td>
+          Biblioteca Especializada de Administración de Empresas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Fidelia, DE LOS RÍOS CARRASCO
+      </td>
+      <td>
+          Biblioteca Especializada de Turismo
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Josué, CONCHA LOBATÓN
+      </td>
+      <td>
+          Biblioteca Especializada de Biología
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Marcial, VILLALBA DÁVILA
+      </td>
+      <td>
+          Biblioteca Especializada de Ciencias Contables y Financieras
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Marcelina, SUMIRE LÓPEZ
+      </td>
+      <td>
+          Biblioteca Especializada de Matemáticas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Dominga Dogma, VALDIGLESIAS SULLCAHUAMAN
+      </td>
+      <td>
+          Biblioteca Especializada de Química
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Velia, YABAR VIDAL
+      </td>
+      <td>
+          Biblioteca Especializada de Ing. Química
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Nilo TORRES CHULLCA
+      </td>
+      <td>
+          Biblioteca Especializada de Ciencias Sociales
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Marcela, VERA DEL CARPIO
+      </td>
+      <td>
+          Biblioteca Especializada de Ciencias de la Comunicación
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Sr. Luis, QUISPE CHOQUE
+      </td>
+      <td>
+          Biblioteca Especializada de Derecho y Ciencias Políticas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Asist. Soc. María Antonieta, PORTILLO VALLENAS
+      </td>
+      <td>
+          Biblioteca Especializada de Economía
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Jesús, MORA YÚNCAY
+      </td>
+      <td>
+          Biblioteca Especializada de Educación
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Carmen Rosa, LAGOS MOGROVEJO
+      </td>
+      <td>
+          Biblioteca Especializada de Enfermería
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Dilia, ÁNGELES LÓPEZ
+      </td>
+      <td>
+          Biblioteca Especializada de Ingeniería Civil
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Margarita, RÍOS GONZÁLES
+      </td>
+      <td>
+          Biblioteca Especializada de Ingeniería Eléctrica,&nbsp; Electrónica, Mecánica y Minas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Ing. Antero, PALOMINO CANAVAL
+      </td>
+      <td>
+          Biblioteca Especializada de Farmacia y Bioquímica
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Carmen Elizabeth, GOHERING FLOREZ
+      </td>
+      <td>
+          Biblioteca Especializada de Ingeniería Metalúrgica
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Ana María, APARICIO FLOREZ
+      </td>
+      <td>
+          Biblioteca Especializada de Medicina Humana - Odontología
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Lic. Clementina, GUTIÉRREZ VALLEJOS
+      </td>
+      <td>
+          Biblioteca Especializada de Medicina Humana - Odontología
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Toribio, ZAVALA FERNÁNDEZ
+      </td>
+      <td>
+          Biblioteca Especializada de Ingeniería Geológica
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sra. Leonor, RODRÍGUEZ CATACORA
+      </td>
+      <td>
+          Biblioteca Especializada de Ingeniería de Minas
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Sr. Justino, TUPAYACHI MAR
+      </td>
+      <td>
+          Biblioteca Especializada de Informática
+      </td>
+    </tr>
+    <tr>
+      <td>
+          Blgo. Pascual, PACORI GONZÁLES
+      </td>
+      <td>
+          Biblioteca del Herbario Vargas
+      </td>
+    </tr>
+  </tbody>
+</table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+
+
+{% endblock content %}

@@ -8,6 +8,16 @@ urlpatterns = [
         name="Index"
     ),
     url(
+        r'^conozcanos/$',
+        views.NosotrosView.as_view(),
+        name="nosotros"
+    ),
+    url(
+        r'^directorio/$',
+        views.DirectorioView.as_view(),
+        name="directorio"
+    ),
+    url(
         r'^material/(?P<pk>\d+)$',
         views.MaterialView.as_view(),
         name="material"
