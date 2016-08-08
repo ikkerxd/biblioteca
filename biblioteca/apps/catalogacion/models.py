@@ -83,6 +83,7 @@ class Ejemplar(TimeStampModel):
     descripcion_fisica = models.TextField('Descripción Física', blank=True, null=True) #N° de pag, Dimensiones, Otros detalles
     prestado = models.BooleanField(default=False)
     objects = ManagerEjemplar()
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name_plural = 'Ejemplares'

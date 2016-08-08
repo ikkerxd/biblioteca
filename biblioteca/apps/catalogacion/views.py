@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, View, FormView
 from .models import Material, Ejemplar, TipoMaterial
 from apps.autores.models import Autor
+from apps.circulacion.models import Prestamo
 
 from django.db.models import Q
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
@@ -226,6 +227,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
             form2 = RevisarRegistroForm(request.GET)
             if form2.is_valid():
                 qset = Q()
+                qset2 = Q()
                 #Recuperar valores
                 categoria = request.GET.get('categoria','')
 
@@ -241,25 +243,36 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
 
                 #Realizamos la consulta
                 if opcion == 'prestados':
-                    qset.add(Q(prestado=True), qset.AND)
+                    #qset.add(Q(prestado=True), qset.AND)
+                    if categoria:
+                        categoria =  TipoMaterial.objects.get(id=categoria)
+                        qset2.add(Q(ejemplar__material__tipo_material=categoria), qset2.AND)
+                    if query:
+                        qset2.add(Q(ejemplar__material__titulo__unaccent__icontains=query) | Q(ejemplar__material__autor__slug__unaccent__icontains = query) , qset2.AND)
 
-                if categoria:
-                    categoria =  TipoMaterial.objects.get(id=categoria)
-                    qset.add(Q(material__tipo_material=categoria), qset.AND)
-                if query:
-                    qset.add(Q(material__titulo__unaccent__icontains=query) | Q(material__autor__slug__unaccent__icontains = query) , qset.AND)
+                    if (fecha_inicio and fecha_fin):
+                        qset2.add(Q(created__range=[fecha_inicio, fecha_fin]), qset2.AND)
+                    
+                    consulta = Prestamo.objects.filter(qset2).distinct().order_by('created')
+                else:
+                    if categoria:
+                        categoria =  TipoMaterial.objects.get(id=categoria)
+                        qset.add(Q(material__tipo_material=categoria), qset.AND)
+                    if query:
+                        qset.add(Q(material__titulo__unaccent__icontains=query) | Q(material__autor__slug__unaccent__icontains = query) , qset.AND)
 
-                if (fecha_inicio and fecha_fin):
-                    qset.add(Q(created__range=[fecha_inicio, fecha_fin]), qset.AND)
+                    if (fecha_inicio and fecha_fin):
+                        qset.add(Q(created__range=[fecha_inicio, fecha_fin]), qset.AND)
 
-                results = Ejemplar.objects.filter(qset).distinct().order_by('created')
+                    consulta = Ejemplar.objects.filter(qset).distinct().order_by('created')
 
+                results = consulta
                 print results
 
                 #datos para el pdf
                 fecha = datetime.now() #fecha actual
                 formatofecha = fecha.strftime("%d/%m/%Y") 
-                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'ejemplares': results}, context_instance=RequestContext(request))
+                html = render_to_string('reporte/reporte_revisar_registros.html', {'pagesize':'A4', 'fecha': formatofecha, 'resultado': results,'opcion':opcion}, context_instance=RequestContext(request))
                 return generar_pdf(html)
         else: #formulario no valido
             form2 = RevisarRegistroForm(request.GET)

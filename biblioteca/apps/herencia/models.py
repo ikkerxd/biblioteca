@@ -4,8 +4,8 @@ from django.db import models
 
 
 class TimeStampModel(models.Model):
-    created = models.DateTimeField(auto_now=True)
-    modified = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class meta:
         abstract = True

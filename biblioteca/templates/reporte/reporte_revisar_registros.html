@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>reporte</title>
     <style >
         @page {
             size: {{pagesize}};
@@ -32,7 +33,7 @@
 <body>
     <table style="border:0px solid black;border-collapse:collapse;">
         <tr>
-            <th style="border:0px solid white; padding: 2px; width:90px; text-align:center;"><img src="media/logos/logo_unsaac.jpg" width="90" alt="imagen unsaac" width="90" height="130"></th>
+            <th style="border:0px solid white; padding: 2px; width:90px; text-align:center;"><img src="static/logo/logo_unsaac.jpg" width="90" alt="imagen unsaac" width="90" height="130"></th>
             <th style="border:0px solid white; padding: 2px;"> <p style="font-size: 25px; font-family: Arial; text-align:center;">UNIVERSIDAD NACIONAL DE <br>SAN ANTONIO ABAD DEL CUSCO</p></th>
         </tr> 
     </table>
@@ -44,7 +45,7 @@
 <br>
 <br>
     
-{% if ejemplares %}
+{% if resultado %}
     <table style="border:1px solid black;border-collapse:collapse;">
         <tr>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">Nro.</th>
@@ -52,20 +53,44 @@
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">ISBN</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">COD. DE BARRAS</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">TITULO</th>
+            {% if opcion == 'prestados' %}
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">FECHA DE PRESTAMO</th>
+            {% else %}
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">FECHA DE CREACION</th>
+            {% endif %}
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">BIBLIOTECARIO</th>
+            {% if opcion == 'prestados' %}
+            <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">LECTOR</th>
+            {% endif %}
         </tr>
         <!-- tr:nth-child(even) {background: #CCC}
              tr:nth-child(odd) {background: #FFF}-->
-       {% for ejemplar in ejemplares %}
-            <tr>
-                <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
-                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.tipo_material|upper}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.isbn}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{ejemplar.codigo_barras}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.titulo|capfirst}} {{ejemplar.material.titulo_secundario}}</th>
-                <th style="border:1px solid black; padding: 2px;">{{ejemplar.created}}</th>
-            </tr>
-        {% endfor %}
+        {% if opcion == 'prestados' %}
+            {% for prestamo in resultado %}
+                <tr>
+                    <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.tipo_material|upper}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.isbn}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.codigo_barras}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.titulo|capfirst}} {{prestamo.ejemplar.material.titulo_secundario}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.created}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.bibliotecario}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{prestamo.lector.codigo}}</th>
+                </tr>
+            {% endfor %}
+        {% else %}
+           {% for ejemplar in resultado %}
+                <tr>
+                    <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.tipo_material|upper}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.isbn}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.codigo_barras}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.material.titulo|capfirst}} {{ejemplar.material.titulo_secundario}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.created}}</th>
+                    <th style="border:1px solid black; padding: 2px;">{{ejemplar.usuario}}</th>
+                </tr>
+            {% endfor %}
+        {% endif %}       
     </table>
 {% else %}
     <span>No se encontraron resultados</span>
