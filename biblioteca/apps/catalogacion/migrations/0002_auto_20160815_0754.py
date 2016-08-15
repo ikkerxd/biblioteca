@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='material',
             name='usuario',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(editable=False, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='ejemplar',
@@ -26,6 +26,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ejemplar',
             name='usuario',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(editable=False, to=settings.AUTH_USER_MODEL),
         ),
     ]

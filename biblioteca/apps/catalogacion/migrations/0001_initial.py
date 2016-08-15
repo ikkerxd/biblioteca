@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('signatura', models.CharField(max_length=60, null=True, verbose_name=b'Signatura topogr\xc3\xa1fica', blank=True)),
                 ('precio', models.DecimalField(null=True, verbose_name=b'Precio normal en soles', max_digits=6, decimal_places=2, blank=True)),
                 ('numero_copia', models.CharField(max_length=20, null=True, verbose_name=b'N\xc3\xbamero de copia', blank=True)),
-                ('fuente_adquisicion', models.CharField(max_length=60, verbose_name=b'Fuente de adquisici\xc3\xb3n')),
+                ('fuente_adquisicion', models.CharField(blank=True, max_length=60, null=True, verbose_name=b'Fuente de adquisici\xc3\xb3n', choices=[(b'Compra', b'Compra'), (b'Donacion', b'Donacion'), (b'Otro', b'Otro')])),
                 ('observacion', models.CharField(max_length=400, null=True, verbose_name=b'Observaci\xc3\xb3n', blank=True)),
                 ('notas', models.CharField(max_length=50, null=True, blank=True)),
                 ('descripcion_fisica', models.TextField(null=True, verbose_name=b'Descripci\xc3\xb3n F\xc3\xadsica', blank=True)),

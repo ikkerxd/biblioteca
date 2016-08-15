@@ -11,14 +11,14 @@ class Migration(migrations.Migration):
         ('lector', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('circulacion', '0001_initial'),
-        ('catalogacion', '0002_auto_20160815_0651'),
+        ('catalogacion', '0002_auto_20160815_0754'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='prestamo',
             name='bibliotecario',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(editable=False, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='prestamo',
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='devolucion',
             name='bibliotecario',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(editable=False, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='devolucion',
