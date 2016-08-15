@@ -7,7 +7,7 @@ from apps.catalogacion.models import Ejemplar
 
 
 class Prestamo(TimeStampModel):
-    bibliotecario = models.ForeignKey(settings.AUTH_USER_MODEL)
+    bibliotecario = models.ForeignKey(settings.AUTH_USER_MODEL , editable=False)
     lector = models.ForeignKey(Lector)
     ejemplar = models.ForeignKey(Ejemplar)
     fecha_entrega = models.DateField()
@@ -19,7 +19,7 @@ class Prestamo(TimeStampModel):
 
 class Devolucion(models.Model):
     prestamo = models.ForeignKey(Prestamo)
-    bibliotecario = models.ForeignKey(settings.AUTH_USER_MODEL)
+    bibliotecario = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
     fecha_devolucion = models.DateField()
 
     class Meta:

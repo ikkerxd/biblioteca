@@ -68,6 +68,11 @@ class ManagerEjemplar(models.Manager):
     def ejemplar_material(self, material):
         return self.filter(material=material).distinct()
 
+ADQUISICION_CHOICES = (
+    ('Compra', 'Compra'),
+    ('Donacion', 'Donacion'),
+    ('Otro', 'Otro'),
+)
 
 class Ejemplar(TimeStampModel):
     numero_ingreso = models.CharField('Número de ingreso', max_length=50,  blank=True, null=True)
@@ -77,7 +82,7 @@ class Ejemplar(TimeStampModel):
     signatura = models.CharField('Signatura topográfica', max_length=60, blank=True, null=True)
     precio = models.DecimalField('Precio normal en soles',max_digits=6, decimal_places=2, blank=True, null=True)
     numero_copia = models.CharField('Número de copia', max_length=20, blank=True, null=True)
-    fuente_adquisicion = models.CharField('Fuente de adquisición',max_length=60) #compra, donacion
+    fuente_adquisicion = models.CharField('Fuente de adquisición',max_length=60, choices=ADQUISICION_CHOICES, null=True, blank=True) #compra, donacion
     observacion = models.CharField('Observación', max_length=400, blank=True, null=True)
     notas = models.CharField(max_length=50, blank=True, null=True) #Nota general: perdido, repuesto
     descripcion_fisica = models.TextField('Descripción Física', blank=True, null=True) #N° de pag, Dimensiones, Otros detalles
