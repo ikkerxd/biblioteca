@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from apps.herencia.models import TimeStampModel
-from apps.lector.models import Lector
+from apps.lector.models import Lector, Biblioteca
 from apps.catalogacion.models import Ejemplar
 
 
@@ -12,6 +12,7 @@ class Prestamo(TimeStampModel):
     ejemplar = models.ForeignKey(Ejemplar)
     fecha_entrega = models.DateField()
     devuelto = models.BooleanField(default=False)
+    biblioteca = models.ForeignKey(Biblioteca, blank=True, null=True)
 
     def __unicode__(self):
         return "%s %s" % (str(self.pk), self.lector)
@@ -24,6 +25,7 @@ class Devolucion(models.Model):
 
     class Meta:
         verbose_name_plural = 'Devoluciones'
+
 
 class Semestre(models.Model):
     nombre = models.CharField(max_length=10) #ejemplo: 2016-1

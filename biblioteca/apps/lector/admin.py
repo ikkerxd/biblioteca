@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CarreraProfesional, TipoLector, Lector
+from .models import CarreraProfesional, TipoLector, Lector, Biblioteca
 from import_export.admin import ImportExportModelAdmin
 from .resource import LectorResource
 # Register your models here.

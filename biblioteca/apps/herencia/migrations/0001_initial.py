@@ -14,8 +14,8 @@ class Migration(migrations.Migration):
             name='TimeStampModel',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('created', models.DateTimeField(auto_now=True)),
-                ('modified', models.DateTimeField(auto_now_add=True)),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('modified', models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(

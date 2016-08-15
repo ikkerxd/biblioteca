@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
         ('lector', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('circulacion', '0001_initial'),
-        ('catalogacion', '0002_auto_20160605_2133'),
+        ('catalogacion', '0002_auto_20160815_0651'),
     ]
 
     operations = [

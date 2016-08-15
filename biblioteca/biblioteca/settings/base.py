@@ -24,6 +24,7 @@ LOCAL_APPS = (
     'apps.circulacion',
     'apps.autores',
     'apps.herencia',
+    'apps.profiles',
     'apps.users',
 )
 

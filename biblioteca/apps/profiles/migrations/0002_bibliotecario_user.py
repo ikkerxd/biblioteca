@@ -9,18 +9,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('catalogacion', '0001_initial'),
+        ('profiles', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='material',
-            name='usuario',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='ejemplar',
-            name='material',
-            field=models.ForeignKey(to='catalogacion.Material'),
+            model_name='bibliotecario',
+            name='user',
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
         ),
     ]

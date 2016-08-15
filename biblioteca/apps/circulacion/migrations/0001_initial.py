@@ -7,6 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('lector', '0001_initial'),
         ('herencia', '0001_initial'),
     ]
 
@@ -26,6 +27,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
                 ('fecha_entrega', models.DateField()),
+                ('devuelto', models.BooleanField(default=False)),
+                ('biblioteca', models.ForeignKey(blank=True, to='lector.Biblioteca', null=True)),
             ],
             bases=('herencia.timestampmodel',),
         ),

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('nombre', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('slug', models.SlugField(editable=False)),
             ],
         ),
         migrations.CreateModel(
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('anio', models.CharField(max_length=20, null=True, verbose_name=b'A\xc3\xb1o', blank=True)),
                 ('edicion', models.CharField(max_length=10, null=True, blank=True)),
                 ('contenido', models.TextField(null=True, blank=True)),
-                ('slug', models.SlugField()),
+                ('slug', models.SlugField(editable=False)),
                 ('autor', models.ManyToManyField(to='autores.Autor', blank=True)),
                 ('descriptores', models.ManyToManyField(to='catalogacion.Descriptor', blank=True)),
             ],

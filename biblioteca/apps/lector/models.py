@@ -3,6 +3,16 @@ from django.template.defaultfilters import slugify
 from apps.herencia.models import Persona
 
 
+class Biblioteca(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = 'Bibliotecas'
+
+    def __unicode__(self):
+        return self.nombre
+
+
 class CarreraProfesional(models.Model):
     codigo = models.CharField(max_length=2, unique=True)
     nombre = models.CharField(max_length=50)
