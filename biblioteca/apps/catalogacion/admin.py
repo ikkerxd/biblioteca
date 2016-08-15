@@ -3,17 +3,27 @@ from .models import TipoMaterial, Material, Descriptor, Ejemplar
 
 
 class MaterialAdmin(admin.ModelAdmin):
-    list_display = ['titulo','isbn','titulo_secundario', 'tipo_material']
+    list_display = ['titulo','isbn','titulo_secundario', 'tipo_material','usuario']
     ordering = ['titulo']
-    search_fields = ('titulo','isbn','titulo_secundario', 'tipo_material',)
+    search_fields = ('titulo','isbn','titulo_secundario', 'tipo_material','usuario',)
+
+    def save_model(self, request, obj, form, change):
+        obj.usuario = request.user
+        obj.save()
 
 
 class EjemplarAdmin(admin.ModelAdmin):
-    list_display = ['numero_ingreso', 'signatura', 'codigo_barras', 'material']
+    list_display = ['numero_ingreso', 'signatura', 'codigo_barras', 'material','usuario']
     ordering = ['material']
-    search_fields = ('numero_ingreso', 'signatura', 'codigo_barras','material',)
+    search_fields = ('numero_ingreso', 'signatura', 'codigo_barras','material','usuario',)
+
+    def save_model(self, request, obj, form, change):
+        obj.usuario = request.user
+        obj.save()
+
 
 admin.site.register(TipoMaterial)
 admin.site.register(Material, MaterialAdmin)
 admin.site.register(Ejemplar, EjemplarAdmin)
 admin.site.register(Descriptor)
+

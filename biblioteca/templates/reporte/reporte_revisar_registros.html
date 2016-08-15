@@ -46,7 +46,7 @@
 <br>
     
 {% if resultado %}
-    <table style="border:1px solid black;border-collapse:collapse;">
+    <table style="border:1px solid black;border-collapse:collapse;" >
         <tr>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">Nro.</th>
             <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D">CATEGORIA</th>
@@ -70,7 +70,7 @@
                 <tr>
                     <th style="border:1px solid black; padding: 2px; background-color:#AF8D8D; width:20px">{{ forloop.counter }}</th>
                     <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.tipo_material|upper}}</th>
-                    <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.isbn}}</th>
+                    <th style="border:1px solid black; padding: px;">{{prestamo.ejemplar.material.isbn}}</th>
                     <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.codigo_barras}}</th>
                     <th style="border:1px solid black; padding: 2px;">{{prestamo.ejemplar.material.titulo|capfirst}} {{prestamo.ejemplar.material.titulo_secundario}}</th>
                     <th style="border:1px solid black; padding: 2px;">{{prestamo.created}}</th>
