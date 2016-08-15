@@ -49,7 +49,7 @@ class Material(TimeStampModel):
     edicion = models.CharField(max_length=10,  blank=True, null=True)
     descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL,editable=False)
     slug = models.SlugField(editable=False)
 
     class Meta:
@@ -83,7 +83,8 @@ class Ejemplar(TimeStampModel):
     descripcion_fisica = models.TextField('Descripción Física', blank=True, null=True) #N° de pag, Dimensiones, Otros detalles
     prestado = models.BooleanField(default=False)
     objects = ManagerEjemplar()
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL,editable=False)
+    #user = models.ForeignKey(User,editable=False)
 
     class Meta:
         verbose_name_plural = 'Ejemplares'

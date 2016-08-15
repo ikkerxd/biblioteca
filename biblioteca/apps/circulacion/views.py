@@ -202,3 +202,7 @@ class DevolverView(FormView):
 class DetalleDevolucionView(DetailView):
     model = Prestamo
     template_name = 'circulacion/devolucion/detalle_devolucion.html'
+
+
+
+
