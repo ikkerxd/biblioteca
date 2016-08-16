@@ -25,8 +25,6 @@ import cStringIO as StringIO
 import ho.pisa as pisa
 from datetime import datetime, date, time
 
-
-
 class Index(FormMixin, TemplateView):
     form_class = BusquedaForm
     model = Material
