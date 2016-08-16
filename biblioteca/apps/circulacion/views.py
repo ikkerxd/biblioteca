@@ -46,7 +46,8 @@ class EjemplarPrestamoView(FormMixin, DetailView):
         lector = self.object
         context['prestamos'] = Prestamo.objects.filter(
             lector=lector,
-            ejemplar__prestado=True
+            ejemplar__prestado=True,
+            devuelto=False
         )
         context['cantidad'] = context['prestamos'].count()
         return  context
@@ -202,7 +203,3 @@ class DevolverView(FormView):
 class DetalleDevolucionView(DetailView):
     model = Prestamo
     template_name = 'circulacion/devolucion/detalle_devolucion.html'
-
-
-
-
