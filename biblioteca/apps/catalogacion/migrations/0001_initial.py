@@ -27,7 +27,6 @@ class Migration(migrations.Migration):
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
                 ('numero_ingreso', models.CharField(max_length=50, null=True, verbose_name=b'N\xc3\xbamero de ingreso', blank=True)),
                 ('codigo_barras', models.CharField(max_length=50, null=True, verbose_name=b'C\xc3\xb3digo de barras', blank=True)),
-                ('ubicacion', models.CharField(max_length=50, null=True, verbose_name=b'Ubicaci\xc3\xb3n', blank=True)),
                 ('signatura', models.CharField(max_length=60, null=True, verbose_name=b'Signatura topogr\xc3\xa1fica', blank=True)),
                 ('precio', models.DecimalField(null=True, verbose_name=b'Precio normal en soles', max_digits=6, decimal_places=2, blank=True)),
                 ('numero_copia', models.CharField(max_length=20, null=True, verbose_name=b'N\xc3\xbamero de copia', blank=True)),

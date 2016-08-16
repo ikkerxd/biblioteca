@@ -5,6 +5,7 @@ from django.conf import settings
 
 from apps.herencia.models import TimeStampModel
 from apps.autores.models import Autor
+from apps.lector.models import Biblioteca
 from django_countries.fields import CountryField
 
 class TipoMaterial(models.Model):
@@ -40,7 +41,7 @@ class Material(TimeStampModel):
         null=True
     )
     tipo_material = models.ForeignKey(TipoMaterial)
-    isbn = models.CharField('ISBN', max_length=50, blank=True, null=True)
+    isbn = models.CharField('ISBN', max_length=50, blank=True, null=True,unique=True)
     autor = models.ManyToManyField(Autor, blank=True)
     archivo = models.FileField(upload_to='archivos', blank=True, null=True)
     pais = CountryField(blank_label='(Seleccione un pais)', blank=True, null=True)
@@ -49,7 +50,7 @@ class Material(TimeStampModel):
     edicion = models.CharField(max_length=10,  blank=True, null=True)
     descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL,editable=False)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
     slug = models.SlugField(editable=False)
 
     class Meta:
@@ -76,9 +77,10 @@ ADQUISICION_CHOICES = (
 
 class Ejemplar(TimeStampModel):
     numero_ingreso = models.CharField('Número de ingreso', max_length=50,  blank=True, null=True)
-    codigo_barras = models.CharField('Código de barras', max_length=50, blank=True, null=True)
+    codigo_barras = models.CharField('Código de barras', max_length=50, blank=True, null=True,unique=True)
     material = models.ForeignKey(Material)
-    ubicacion = models.CharField('Ubicación', max_length=50, blank=True, null=True) #ejem: biblioteca central
+    #ubicacion = models.CharField('Ubicación', max_length=50, blank=True, null=True) #ejem: biblioteca central
+    ubicacion = models.ForeignKey(Biblioteca,blank=True, null=True)
     signatura = models.CharField('Signatura topográfica', max_length=60, blank=True, null=True)
     precio = models.DecimalField('Precio normal en soles',max_digits=6, decimal_places=2, blank=True, null=True)
     numero_copia = models.CharField('Número de copia', max_length=20, blank=True, null=True)
@@ -88,7 +90,7 @@ class Ejemplar(TimeStampModel):
     descripcion_fisica = models.TextField('Descripción Física', blank=True, null=True) #N° de pag, Dimensiones, Otros detalles
     prestado = models.BooleanField(default=False)
     objects = ManagerEjemplar()
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL,editable=False)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
     #user = models.ForeignKey(User,editable=False)
 
     class Meta:
