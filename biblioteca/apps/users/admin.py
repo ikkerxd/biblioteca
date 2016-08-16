@@ -17,5 +17,7 @@ class UserAdmin(UserAdmin):
 										'user_permissions')}),
 
 		)
+	search_fields = ('username__unaccent','email__unaccent','last_name__unaccent','first_name__unaccent')
+	
 admin.site.register(User, UserAdmin)
 
