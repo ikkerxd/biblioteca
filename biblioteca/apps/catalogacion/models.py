@@ -33,7 +33,7 @@ class Descriptor(models.Model):
 
 class Material(TimeStampModel):
     portada = models.ImageField('Portada (Imagen)', upload_to='portada', blank=True, null=True)
-    titulo = models.CharField('Titulo',max_length=200)
+    titulo = models.CharField('Titulo',max_length=400)
     titulo_secundario = models.CharField(
         'Título secundario',
         max_length=200,
@@ -51,7 +51,7 @@ class Material(TimeStampModel):
     descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
-    slug = models.SlugField(editable=False)
+    slug = models.SlugField(max_length=400,editable=False)
 
     class Meta:
         verbose_name_plural = 'Materiales'

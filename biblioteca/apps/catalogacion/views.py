@@ -147,7 +147,7 @@ class BusquedaView(FormMixin, ListView):
 
         # Provide Paginator with the request object for complete querystring generation
 
-        p = Paginator(results, 1) #numero de items por pagina
+        p = Paginator(results, 10) #numero de items por pagina
 
         queryset = p.page(page)
 
@@ -221,6 +221,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
     form_class = BusquedaForm
 
     def get(self, request, *args, **kwargs):
+        usuario = self.request.user
         if request.method == 'GET':
             form2 = RevisarRegistroForm(request.GET)
             if form2.is_valid():
@@ -274,6 +275,6 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                 return generar_pdf(html)
         else: #formulario no valido
             form2 = RevisarRegistroForm(request.GET)
-        return render_to_response('reporte/revisar_registros.html',{'form2': form2})
+        return render_to_response('reporte/revisar_registros.html',{'form2': form2,'user':usuario})
 
 

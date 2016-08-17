@@ -6,14 +6,16 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.core.urlresolvers import reverse_lazy
 
 # local model import
-from apps.lector.models import Lector
+from apps.lector.models import Lector,TipoLector
 from apps.circulacion.models import Ejemplar
 from .models import Prestamo, Devolucion
 
 # Local Import
 from .functions import generar_pdf
-from .forms import LectorPrestamoForm, LibroPrestamoForm, DevolucionForm
+from .forms import LectorPrestamoForm, LibroPrestamoForm, DevolucionForm,DeudoresForm
 from datetime import date, datetime, timedelta
+
+from django.db.models import Q
 
 
 class LectorPrestamoView(FormView):
@@ -203,3 +205,34 @@ class DevolverView(FormView):
 class DetalleDevolucionView(DetailView):
     model = Prestamo
     template_name = 'circulacion/devolucion/detalle_devolucion.html'
+
+from django.shortcuts import render, render_to_response
+
+class ReporteDeudoresView(SingleObjectMixin, FormMixin, TemplateView):
+
+    form_class = DeudoresForm
+
+    def get(self, request, *args, **kwargs):
+        usuario = self.request.user
+        if request.method == 'GET':
+            form2 = DeudoresForm(request.GET)
+            if form2.is_valid():
+                #Recuperar valores
+                hoy = datetime.now()
+                categoria = request.GET.get('tipo_lector','')
+                print categoria
+                if categoria:
+                    categoria =  TipoLector.objects.get(id=categoria)
+                
+                results = Prestamo.objects.filter(Q(fecha_entrega__lte=hoy), Q(devuelto=False), Q(lector__tipo=categoria))
+                
+                print results
+
+                #datos para el pdf
+                fecha = datetime.now() #fecha actual
+                formatofecha = fecha.strftime("%d/%m/%Y") 
+                return generar_pdf('reporte/reporte_deudores.html', {'pagesize':'A4', 'fecha': formatofecha, 'resultado': results, 'tipo': categoria})
+            else: #formulario no valido
+                form2 = DeudoresForm(request.GET)
+
+        return render_to_response('reporte/form_deudores.html',{'form2': form2, 'user':usuario})
