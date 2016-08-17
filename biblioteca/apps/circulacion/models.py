@@ -12,7 +12,8 @@ class Prestamo(TimeStampModel):
     ejemplar = models.ForeignKey(Ejemplar)
     fecha_entrega = models.DateField()
     devuelto = models.BooleanField(default=False)
-    biblioteca = models.ForeignKey(Biblioteca, blank=True, null=True)
+    #la ubicacion lo obtendremos de la ubicacion del ejemplar
+    #biblioteca = models.ForeignKey(Biblioteca, blank=True, null=True)
 
     def __unicode__(self):
         return "%s %s" % (str(self.pk), self.lector)

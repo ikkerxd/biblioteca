@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.core.urlresolvers import reverse_lazy
 
 # local model import
-from apps.lector.models import Lector,TipoLector
+from apps.lector.models import Lector,TipoLector,Biblioteca
 from apps.circulacion.models import Ejemplar
 from .models import Prestamo, Devolucion
 
@@ -16,6 +16,7 @@ from .forms import LectorPrestamoForm, LibroPrestamoForm, DevolucionForm,Deudore
 from datetime import date, datetime, timedelta
 
 from django.db.models import Q
+from django.shortcuts import render_to_response
 
 
 class LectorPrestamoView(FormView):
@@ -153,7 +154,7 @@ class RegistrarPrestamoView(View):
             bibliotecario=bibliotecario,
             lector=lector,
             ejemplar=ejemplar,
-            fecha_entrega=fecha_entrega
+            fecha_entrega=fecha_entrega,
         )
         print "vamo presmo"
         prestamo.save()
@@ -206,7 +207,6 @@ class DetalleDevolucionView(DetailView):
     model = Prestamo
     template_name = 'circulacion/devolucion/detalle_devolucion.html'
 
-from django.shortcuts import render, render_to_response
 
 class ReporteDeudoresView(SingleObjectMixin, FormMixin, TemplateView):
 
@@ -217,14 +217,21 @@ class ReporteDeudoresView(SingleObjectMixin, FormMixin, TemplateView):
         if request.method == 'GET':
             form2 = DeudoresForm(request.GET)
             if form2.is_valid():
+                qset = Q()
                 #Recuperar valores
                 hoy = datetime.now()
                 categoria = request.GET.get('tipo_lector','')
-                print categoria
+                biblioteca = request.GET.get('biblioteca','')
+                qset.add(Q(devuelto=False), qset.AND)
+                qset.add(Q(fecha_entrega__lte=hoy), qset.AND)
                 if categoria:
-                    categoria =  TipoLector.objects.get(id=categoria)
+                    categoria = TipoLector.objects.get(id=categoria)
+                    qset.add(Q(lector__tipo=categoria), qset.AND)
+                if biblioteca:
+                    biblioteca = Biblioteca.objects.get(id=biblioteca)
+                    qset.add(Q(ejemplar__ubicacion=biblioteca), qset.AND)
                 
-                results = Prestamo.objects.filter(Q(fecha_entrega__lte=hoy), Q(devuelto=False), Q(lector__tipo=categoria))
+                results = Prestamo.objects.filter(qset).distinct().order_by('lector__apellidos_y_nombres')
                 
                 print results
 

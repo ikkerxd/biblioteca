@@ -252,7 +252,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                     if (fecha_inicio and fecha_fin):
                         qset2.add(Q(created__range=[fecha_inicio, fecha_fin]), qset2.AND)
                     
-                    consulta = Prestamo.objects.filter(qset2).distinct().order_by('created')
+                    consulta = Prestamo.objects.filter(qset2).distinct().order_by('ejemplar__ubicacion')
                 else:
                     if categoria:
                         categoria =  TipoMaterial.objects.get(id=categoria)
@@ -263,7 +263,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                     if (fecha_inicio and fecha_fin):
                         qset.add(Q(created__range=[fecha_inicio, fecha_fin]), qset.AND)
 
-                    consulta = Ejemplar.objects.filter(qset).distinct().order_by('created')
+                    consulta = Ejemplar.objects.filter(qset).distinct().order_by('ubicacion')
 
                 results = consulta
                 print results

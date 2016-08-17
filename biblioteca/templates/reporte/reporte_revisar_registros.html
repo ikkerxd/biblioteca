@@ -82,7 +82,6 @@
         <tr>
             <th>Nro.</th>
             <th>CATEGORIA</th>
-            <th colspan="2">ISBN</th>
             <th colspan="2">COD. DE BARRAS</th>
             <th colspan="2">TITULO</th>
             {% if opcion == 'prestados' %}
@@ -94,6 +93,7 @@
             {% if opcion == 'prestados' %}
             <th >LECTOR</th>
             {% endif %}
+            <th colspan="2">BIBLIOTECA</th>
         </tr>
         <!-- tr:nth-child(even) {background: #CCC}
              tr:nth-child(odd) {background: #FFF}-->
@@ -102,12 +102,12 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{prestamo.ejemplar.material.tipo_material|upper}}</td>
-                    <td colspan="2">{{prestamo.ejemplar.material.isbn}}</td>
                     <td colspan="2">{{prestamo.ejemplar.codigo_barras}}</td>
                     <td colspan="2">{{prestamo.ejemplar.material.titulo|capfirst}} {{prestamo.ejemplar.material.titulo_secundario}}</td>
                     <td>{{prestamo.created}}</td>
                     <td colspan="2">{{prestamo.bibliotecario.get_full_name}}</td>
                     <td>{{prestamo.lector.codigo}}</td>
+                    <td colspan="2">{{prestamo.ejemplar.ubicacion}}</td>
                 </tr>
             {% endfor %}
         {% else %}
@@ -115,11 +115,11 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ejemplar.material.tipo_material|upper}}</td>
-                    <td colspan="2">{{ejemplar.material.isbn}}</td>
                     <td colspan="2">{{ejemplar.codigo_barras}}</td>
                     <td colspan="2">{{ejemplar.material.titulo|capfirst}} {{ejemplar.material.titulo_secundario}}</td>
                     <td>{{ejemplar.created}}</td>
                     <td colspan="2">{{ejemplar.usuario.get_full_name}}</td>
+                    <td colspan="2">{{ejemplar.ubicacion}}</td>
                 </tr>
             {% endfor %}
         {% endif %}       
