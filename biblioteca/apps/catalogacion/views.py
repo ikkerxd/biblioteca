@@ -68,6 +68,7 @@ class MaterialView(FormMixin, DetailView):
         material = self.object
         context['ejemplares'] = Ejemplar.objects.ejemplar_material(material)
         context['existencia'] = context['ejemplares'].count
+        context['prestamos'] = Prestamo.objects.all().order_by('-created')
         context['form'] = self.get_form()
         return context
 

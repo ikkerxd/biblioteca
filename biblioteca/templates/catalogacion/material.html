@@ -41,8 +41,6 @@
                         </p>
                         {% endif %}
 
-
-
                         <p>
                             <b>Existencia:</b> {{ existencia }}
                         </p>
@@ -77,7 +75,13 @@
                                     {{ ejemplar.numero_copia}}
                                 </td>
                                 <td>
-
+                                {% if ejemplar.prestado %}
+                                    {% for prestamo in prestamos  %}
+                                        {% if ejemplar.codigo_barras == prestamo.ejemplar.codigo_barras and prestamo.devuelto == False %}
+                                            {{prestamo.fecha_entrega}}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 </td>
 
                             </tr>
