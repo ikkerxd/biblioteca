@@ -7,6 +7,7 @@
     {% block funciones %}
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
+            {% if user.is_superuser %}
             <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Administrador</a>
                 <div class="collapsible-body">
                     <ul>
@@ -14,7 +15,7 @@
                     </ul>
                 </div>
             </li>
-
+            {% endif %}
 
             <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Circulación</a>
                 <div class="collapsible-body">
