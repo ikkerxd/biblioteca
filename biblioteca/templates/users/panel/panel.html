@@ -15,15 +15,8 @@
                     </ul>
                 </div>
             </li>
-            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Catalogación</a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#">Catalogación1</a></li>
-                        <li><a href="#">Catalogación2</a></li>
-                        <li><a href="#">Catalogación3</a></li>
-                    </ul>
-                </div>
-            </li>
+
+            {% if user.is_superuser %}
             <li class="bold"><a class="collapsible-header waves-effect waves-teal">Consultas</a>
               <div class="collapsible-body">
                     <ul>
@@ -35,6 +28,8 @@
                     </ul>
               </div>
             </li>
+
+            {% endif %}
         </ul>
     </li>
     {% endblock funciones %}

@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('timestampmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='herencia.TimeStampModel')),
                 ('numero_ingreso', models.CharField(max_length=50, null=True, verbose_name=b'N\xc3\xbamero de ingreso', blank=True)),
-                ('codigo_barras', models.CharField(max_length=50, null=True, verbose_name=b'C\xc3\xb3digo de barras', blank=True)),
+                ('codigo_barras', models.CharField(max_length=50, unique=True, null=True, verbose_name=b'C\xc3\xb3digo de barras', blank=True)),
                 ('signatura', models.CharField(max_length=60, null=True, verbose_name=b'Signatura topogr\xc3\xa1fica', blank=True)),
                 ('precio', models.DecimalField(null=True, verbose_name=b'Precio normal en soles', max_digits=6, decimal_places=2, blank=True)),
                 ('numero_copia', models.CharField(max_length=20, null=True, verbose_name=b'N\xc3\xbamero de copia', blank=True)),
@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
                 ('portada', models.ImageField(null=True, upload_to=b'portada', blank=True)),
                 ('titulo', models.CharField(max_length=200, verbose_name=b'Titulo')),
                 ('titulo_secundario', models.CharField(max_length=200, null=True, verbose_name=b'T\xc3\xadtulo secundario', blank=True)),
-                ('isbn', models.CharField(max_length=50, null=True, verbose_name=b'ISBN', blank=True)),
+                ('isbn', models.CharField(max_length=50, unique=True, null=True, verbose_name=b'ISBN', blank=True)),
                 ('archivo', models.FileField(null=True, upload_to=b'archivos', blank=True)),
                 ('pais', django_countries.fields.CountryField(blank=True, max_length=2, null=True)),
                 ('editorial', models.CharField(max_length=70, null=True, blank=True)),
