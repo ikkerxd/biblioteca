@@ -38,7 +38,10 @@
                                         </dd>
                                         {%if material.editorial != "" or material.anio != "" or material.edicion != "" %}
                                         <dt>Editor</dt>
-                                        <dd>{{material.editorial}} {{material.anio}} {{material.edicion}}</dd>
+                                        <dd>{{material.editorial}} {{material.anio}} 
+                                        {% if  material.edicion %}
+                                            {{material.edicion}} edición
+                                        {% endif %}</dd>
                                         {% endif %}
                                         <dt>ISBN</dt>
                                         <dd>{{material.isbn}}</dd>

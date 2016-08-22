@@ -18,6 +18,11 @@ urlpatterns = [
         name="directorio"
     ),
     url(
+        r'^contactenos/$',
+        views.ContactenosView.as_view(),
+        name="contactenos"
+    ),
+    url(
         r'^material/(?P<pk>\d+)$',
         views.MaterialView.as_view(),
         name="material"

@@ -54,6 +54,15 @@ class DirectorioView(FormMixin, TemplateView):
         context['form'] = self.get_form()
         return context
 
+class ContactenosView(FormMixin, TemplateView):
+    form_class = BusquedaForm
+    template_name = "catalogacion/contactenos.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactenosView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
 class MaterialView(FormMixin, DetailView):
     form_class = BusquedaForm
     model = Material
