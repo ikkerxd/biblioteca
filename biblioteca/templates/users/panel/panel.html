@@ -7,6 +7,15 @@
     {% block funciones %}
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Administrador</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="/admin">Ir al administrador</a></li>
+                    </ul>
+                </div>
+            </li>
+
+
             <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Circulación</a>
                 <div class="collapsible-body">
                     <ul>
@@ -17,19 +26,16 @@
             </li>
 
             {% if user.is_superuser %}
-            <li class="bold"><a class="collapsible-header waves-effect waves-teal">Consultas</a>
+            <li class="bold"><a class="collapsible-header waves-effect waves-teal"> Realizar Consultas</a>
               <div class="collapsible-body">
                     <ul>
                         <li><a href="{%url 'catalogacion_app:RevisarRegistro' %}">Reporte</a></li>
-                        <li><a href="#">Consulta2</a></li>
-                        <li><a href="#">Consulta3</a></li>
-                        <li><a href="#">Consulta4</a></li>
-                        <li><a href="#">Consulta5</a></li>
+                        <li><a href="{%url 'circulacion_app:reporteDeudores' %}">Deudores</a></li>
                     </ul>
               </div>
             </li>
-
             {% endif %}
+
         </ul>
     </li>
     {% endblock funciones %}

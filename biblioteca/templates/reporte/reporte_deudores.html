@@ -29,8 +29,9 @@
             }
         }
 
-        table {  
-        -pdf-keep-in-frame-mode: shrink;   
+
+
+        table {     
             font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
             font-size: 12px; 
             width: 100%; 
@@ -44,7 +45,7 @@
             width: auto;   
             background: #AF8D8D;
             border-top: 2px solid #AF8D8D;    
-            border-bottom: 2px solid #fff; 
+            border-bottom: 1px solid #fff; 
             color: white; 
         }
         td {    
@@ -55,6 +56,7 @@
             border-top: 1px solid transparent; 
             float: left;
         }
+
     </style>
 </head>
 <body>
@@ -69,65 +71,42 @@
 <div id="footerContent" align="center">
     Página: <pdf:pagenumber>
 </div>
-
-<div>
-    <keepinframe>
+    
 {% if resultado %}
-    {% if opcion == 'prestados' %}
-        <h2 align="center">LISTA DE ITEMS PRESTADOS</h2>
-    {% else %}
-         <h2 align="center">LISTA DE ITEMS CATALOGADOS</h2>
-    {% endif %}
-    <table width="100%">
-        <tr>
-            <th>Nro.</th>
-            <th>CATEGORIA</th>
-            <th colspan="2">COD. DE BARRAS</th>
-            <th colspan="2">TITULO</th>
-            {% if opcion == 'prestados' %}
-            <th>FECHA DE PRESTAMO</th>
-            {% else %}
-            <th>FECHA DE CREACION</th>
-            {% endif %}
-            <th colspan="2">BIBLIOTECARIO</th>
-            {% if opcion == 'prestados' %}
-            <th >LECTOR</th>
-            {% endif %}
-            <th colspan="2">BIBLIOTECA</th>
-        </tr>
+    <h2 align="center">LISTA DE {{tipo |upper}}S DEUDORES DE LIBROS</h2>
+
+    <table>
+            <tr>
+                <th>Nro.</th>
+                <th>CODIGO</th>
+                <th colspan="2">NOMBRES</th>
+                <th colspan="2">COD. DE BARRAS</th>
+                <th colspan="2">TITULO</th>
+                <th >FECHA DE PRESTAMO</th>
+                <th colspan="2">BIBLIOTECA</th>
+            </tr>
         <!-- tr:nth-child(even) {background: #CCC}
              tr:nth-child(odd) {background: #FFF}-->
-        {% if opcion == 'prestados' %}
-            {% for prestamo in resultado %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{prestamo.ejemplar.material.tipo_material|upper}}</td>
-                    <td colspan="2">{{prestamo.ejemplar.codigo_barras}}</td>
-                    <td colspan="2">{{prestamo.ejemplar.material.titulo|capfirst}} {{prestamo.ejemplar.material.titulo_secundario}}</td>
-                    <td>{{prestamo.created}}</td>
-                    <td colspan="2">{{prestamo.bibliotecario.get_full_name}}</td>
-                    <td>{{prestamo.lector.codigo}}</td>
-                    <td colspan="2">{{prestamo.ejemplar.ubicacion}}</td>
-                </tr>
-            {% endfor %}
-        {% else %}
-           {% for ejemplar in resultado %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ejemplar.material.tipo_material|upper}}</td>
-                    <td colspan="2">{{ejemplar.codigo_barras}}</td>
-                    <td colspan="2">{{ejemplar.material.titulo|capfirst}} {{ejemplar.material.titulo_secundario}}</td>
-                    <td>{{ejemplar.created}}</td>
-                    <td colspan="2">{{ejemplar.usuario.get_full_name}}</td>
-                    <td colspan="2">{{ejemplar.ubicacion}}</td>
-                </tr>
-            {% endfor %}
-        {% endif %}       
+     
+        {% for prestamo in resultado %}
+            <tr>
+                <td> <p>{{ forloop.counter }}</p></td>
+                <td> <p>{{prestamo.lector.codigo}}</td>
+                <td colspan="2"> <p>{{prestamo.lector}}</p></td>
+                <td colspan="2"> <p>{{prestamo.ejemplar.codigo_barras}}</p></td>
+                <td colspan="2"> <p>{{prestamo.ejemplar.material.titulo|capfirst}} {{prestamo.ejemplar.material.titulo_secundario}}</p></td>
+                <td> <p>{{prestamo.created}}</p></td>
+                <td colspan="2"> <p>{{prestamo.ejemplar.ubicacion}}</p></td>
+            </tr>
+        {% endfor %} 
+
     </table>
+    <br>
+    <p align="justify">Los {{tipo |upper}} (s) que esten en la Lista tienen que Apersonarse a la Biblioteca Central a la Brevedad Posible, para regularizar la Devolución del Libro Correspondiente al Prestamo Solicitado.</p>
+    <p>La Direccion.</p>
 {% else %}
     <span>No se encontraron resultados</span>
 {% endif %}
-    </keepinframe>
-</div>
+
 </body>
 </html>

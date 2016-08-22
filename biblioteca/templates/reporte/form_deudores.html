@@ -1,0 +1,40 @@
+{% extends "users/panel/panel.html" %}
+{% load staticfiles %}
+
+{% block title %}Reportes{% endblock title %}
+
+  {% block titulo_nav %}  Reportes {% endblock titulo_nav %}
+
+{% block contenido_panel %}
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6">
+          	<div class="card blue-grey darken-1">
+            	<div class="card-panel">
+              	<span class="card-title">Reporte de Deudores </span>
+            	<div class="card-action">
+					<form  method="GET"> {% csrf_token %}
+					    <label>Tipo de lector (*) :</label>
+				        {{form2.tipo_lector}}
+				        <br>
+              <label>Biblioteca :</label>
+                {{form2.biblioteca}}
+                <br>
+					    <label >(*) campos obligatorios</label><br>
+						<button class="btn cyan waves-effect waves-light" type="submit">Consultar
+                                    <i class="mdi-action-search left"></i>
+                        </button>
+
+                        {% if form2.errors %}
+                            <div class="text-errors">
+                                {{ form2.non_field_errors }}
+                            </div>
+                        {% endif %}
+						</form>
+            	</div>
+          	</div>
+        </div>
+    </div>
+      </div>
+{% endblock contenido_panel %}

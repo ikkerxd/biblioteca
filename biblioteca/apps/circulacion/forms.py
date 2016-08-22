@@ -3,7 +3,7 @@
 from django import forms
 from .models import Prestamo
 
-from apps.lector.models import Lector
+from apps.lector.models import Lector,TipoLector,Biblioteca
 from apps.catalogacion.models import Ejemplar
 
 from datetime import date
@@ -83,3 +83,12 @@ class DevolucionForm(forms.Form):
             mensaje = 'El ejemplar no se encuentra prestado'
             raise forms.ValidationError(mensaje)
         return cleaned_data
+
+class DeudoresForm(forms.Form):
+    tipo_lector = forms.ModelChoiceField(empty_label="(Seleccione tipo de lector)",queryset=None)
+    biblioteca = forms.ModelChoiceField(empty_label="(todos)",queryset=None,required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(DeudoresForm,self).__init__(*args, **kwargs)
+        self.fields['tipo_lector'].queryset = TipoLector.objects.all().order_by('nombre')
+        self.fields['biblioteca'].queryset = Biblioteca.objects.all().order_by('nombre')

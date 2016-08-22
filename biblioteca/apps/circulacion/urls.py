@@ -37,4 +37,9 @@ urlpatterns = [
         views.DetalleDevolucionView.as_view(),
         name="devolverDetalle"
     ),
+    url(
+        r'^deudores/$',
+        views.ReporteDeudoresView.as_view(),
+        name="reporteDeudores"
+    ),
 ]

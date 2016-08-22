@@ -42,5 +42,5 @@ class DevolucionAdmin(admin.ModelAdmin):
 
 admin.site.register(Prestamo, PrestamoAdmin)
 admin.site.register(Devolucion, DevolucionAdmin)
-admin.site.register(Semestre)
+#admin.site.register(Semestre)
 admin.site.register(Biblioteca)

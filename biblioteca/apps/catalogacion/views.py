@@ -25,8 +25,6 @@ import cStringIO as StringIO
 import ho.pisa as pisa
 from datetime import datetime, date, time
 
-
-
 class Index(FormMixin, TemplateView):
     form_class = BusquedaForm
     model = Material
@@ -56,6 +54,15 @@ class DirectorioView(FormMixin, TemplateView):
         context['form'] = self.get_form()
         return context
 
+class ContactenosView(FormMixin, TemplateView):
+    form_class = BusquedaForm
+    template_name = "catalogacion/contactenos.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactenosView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
 class MaterialView(FormMixin, DetailView):
     form_class = BusquedaForm
     model = Material
@@ -70,6 +77,7 @@ class MaterialView(FormMixin, DetailView):
         material = self.object
         context['ejemplares'] = Ejemplar.objects.ejemplar_material(material)
         context['existencia'] = context['ejemplares'].count
+        context['prestamos'] = Prestamo.objects.all().order_by('-created')
         context['form'] = self.get_form()
         return context
 
@@ -149,7 +157,7 @@ class BusquedaView(FormMixin, ListView):
 
         # Provide Paginator with the request object for complete querystring generation
 
-        p = Paginator(results, 1) #numero de items por pagina
+        p = Paginator(results, 10) #numero de items por pagina
 
         queryset = p.page(page)
 
@@ -223,6 +231,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
     form_class = BusquedaForm
 
     def get(self, request, *args, **kwargs):
+        usuario = self.request.user
         if request.method == 'GET':
             form2 = RevisarRegistroForm(request.GET)
             if form2.is_valid():
@@ -253,7 +262,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                     if (fecha_inicio and fecha_fin):
                         qset2.add(Q(created__range=[fecha_inicio, fecha_fin]), qset2.AND)
                     
-                    consulta = Prestamo.objects.filter(qset2).distinct().order_by('created')
+                    consulta = Prestamo.objects.filter(qset2).distinct().order_by('ejemplar__ubicacion')
                 else:
                     if categoria:
                         categoria =  TipoMaterial.objects.get(id=categoria)
@@ -264,7 +273,7 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                     if (fecha_inicio and fecha_fin):
                         qset.add(Q(created__range=[fecha_inicio, fecha_fin]), qset.AND)
 
-                    consulta = Ejemplar.objects.filter(qset).distinct().order_by('created')
+                    consulta = Ejemplar.objects.filter(qset).distinct().order_by('ubicacion')
 
                 results = consulta
                 print results
@@ -276,6 +285,6 @@ class RevisarRegistroView(SingleObjectMixin, FormMixin, TemplateView):
                 return generar_pdf(html)
         else: #formulario no valido
             form2 = RevisarRegistroForm(request.GET)
-        return render_to_response('reporte/revisar_registros.html',{'form2': form2})
+        return render_to_response('reporte/revisar_registros.html',{'form2': form2,'user':usuario})
 
 

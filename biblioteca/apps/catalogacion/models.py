@@ -32,8 +32,8 @@ class Descriptor(models.Model):
 
 
 class Material(TimeStampModel):
-    portada = models.ImageField(upload_to='portada', blank=True, null=True)
-    titulo = models.CharField('Titulo',max_length=200)
+    portada = models.ImageField('Portada (Imagen)', upload_to='portada', blank=True, null=True)
+    titulo = models.CharField('Titulo',max_length=400)
     titulo_secundario = models.CharField(
         'Título secundario',
         max_length=200,
@@ -44,14 +44,14 @@ class Material(TimeStampModel):
     isbn = models.CharField('ISBN', max_length=50, blank=True, null=True,unique=True)
     autor = models.ManyToManyField(Autor, blank=True)
     archivo = models.FileField(upload_to='archivos', blank=True, null=True)
-    pais = CountryField(blank_label='(Seleccione un pais)', blank=True, null=True)
+    pais = CountryField(blank_label='(Seleccione un Pais de Edicion)', blank=True, null=True)
     editorial = models.CharField(max_length=70, blank=True, null=True)
     anio = models.CharField('Año',max_length=20, blank=True, null=True)
     edicion = models.CharField(max_length=10,  blank=True, null=True)
     descriptores = models.ManyToManyField(Descriptor, blank=True) #palabras claves
     contenido = models.TextField(blank=True, null=True) #indice
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False)
-    slug = models.SlugField(editable=False)
+    slug = models.SlugField(max_length=400,editable=False)
 
     class Meta:
         verbose_name_plural = 'Materiales'
